@@ -15,7 +15,7 @@ module.exports = {
     "@nuxtjs/eslint-config-typescript",
     "@vercel/style-guide/eslint/node",
     "@vercel/style-guide/eslint/browser",
-    "turbo",
+    "eslint-config-turbo",
   ].map(require.resolve),
   parserOptions: {
     sourceType: "module",
