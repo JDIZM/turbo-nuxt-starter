@@ -1,0 +1,7 @@
+services:
+  nuxt:
+    build:
+      context: ./
+      dockerfile: docker/nuxt
+    ports:
+      - ${HTTP_PORT:-3000}:3000

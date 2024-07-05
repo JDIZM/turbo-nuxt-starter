@@ -1,0 +1,47 @@
+FROM node:20-alpine AS base
+
+ENV PNPM_VERSION=9.1.4
+
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm@$PNPM_VERSION turbo
+
+# Builder stage
+FROM base AS builder
+
+WORKDIR /app
+
+COPY . .
+
+# Generate a partial monorepo with a pruned lockfile for a target workspace
+RUN pnpx turbo prune nuxt --docker
+
+# Installer stage
+FROM base AS installer
+
+WORKDIR /app
+
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile
+
+COPY --from=builder /app/out/full/ .
+
+RUN pnpx turbo build --filter=nuxt
+
+# Runner stage
+FROM base AS runner
+
+WORKDIR /app
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nuxt
+USER nuxt
+
+EXPOSE 3000
+
+COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/node_modules ./apps/nuxt/node_modules
+COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/.output ./apps/nuxt/.output
+COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/package.json ./apps/nuxt/package.json
+
+CMD ["node", "apps/nuxt/.output/server/index.mjs"]
