@@ -41,9 +41,10 @@
 
 <script lang="ts" setup>
   import "./o-header.css"
-  import MyButton from "@/src/atoms/a-button.vue"
+  import type { User } from "@/types/user"
+  import MyButton from "../atoms/a-button.vue"
 
-  defineProps<{ user: { name: string } | null }>()
+  defineProps<{ user: User | null }>()
 
   defineEmits<{
     (event: "createAccount"): void

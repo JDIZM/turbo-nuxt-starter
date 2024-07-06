@@ -56,9 +56,10 @@
 <script lang="ts" setup>
   import "./p-page.css"
   import { ref } from "vue"
-  import MyHeader from "@/src/organisms/o-header.vue"
+  import type { User } from "@/types/user"
+  import MyHeader from "../organisms/o-header.vue"
 
-  const user = ref<{ name: string } | null>(null)
+  const user = ref<User | null>(null)
 
   const onLogin = () => {
     user.value = { name: "Jane Doe" }

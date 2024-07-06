@@ -1,5 +1,5 @@
-import Card from "./src/card.vue"
-import Gradient from "./src/gradient.vue"
-import Page from "./src/page.vue"
+import Card from "./card.vue"
+import Gradient from "./gradient.vue"
+import Page from "./page.vue"
 
 export { Card, Gradient, Page }
