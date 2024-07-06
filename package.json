@@ -6,7 +6,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,vue}\"",
-    "test:unit": "turbo run test:unit"
+    "test:unit": "turbo run test:unit",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

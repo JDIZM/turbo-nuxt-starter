@@ -13,8 +13,10 @@
     },
     "test:unit": {
       "dependsOn": ["^test:unit"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["coverage/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
     }
   }
 }
