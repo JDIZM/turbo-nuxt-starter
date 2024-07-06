@@ -1,3 +1,3 @@
-import PPage from "./p-page.vue"
+import Page from "./page.vue"
 
-export { PPage }
+export { Page }

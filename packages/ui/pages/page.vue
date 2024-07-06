@@ -54,10 +54,10 @@
 </template>
 
 <script lang="ts" setup>
-  import "./p-page.css"
+  import "./page.css"
   import { ref } from "vue"
   import type { User } from "@/types/user"
-  import MyHeader from "../organisms/o-header.vue"
+  import MyHeader from "../organisms/header.vue"
 
   const user = ref<User | null>(null)
 

@@ -40,9 +40,9 @@
 </template>
 
 <script lang="ts" setup>
-  import "./o-header.css"
+  import "./header.css"
   import type { User } from "@/types/user"
-  import MyButton from "../atoms/a-button.vue"
+  import MyButton from "../atoms/button.vue"
 
   defineProps<{ user: User | null }>()
 

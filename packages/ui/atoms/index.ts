@@ -1,4 +1,4 @@
-import AButton from "./a-button.vue"
-import ASeparator from "./a-separator.vue"
+import Button from "./button.vue"
+import Separator from "./separator.vue"
 
-export { AButton, ASeparator }
+export { Button, Separator }

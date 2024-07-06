@@ -1,3 +1,3 @@
-import OHeader from "./o-header.vue"
+import Header from "./header.vue"
 
-export { OHeader }
+export { Header }
