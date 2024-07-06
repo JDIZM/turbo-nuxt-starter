@@ -1,0 +1,36 @@
+name: Nuxt CI
+
+on:
+  push:
+    paths: ["apps/nuxt/**"]
+    branches:
+      - main
+  pull_request:
+    paths: ["apps/nuxt/**"]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["18", "20"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - uses: volta-cli/action@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: pnpm install --strict-peer-dependencies
+
+      - run: pnpm run lint
+      - run: pnpm run format
+      - run: pnpm run typecheck
+      - run: pnpm run build
+      - run: pnpm run test
