@@ -1,14 +1,13 @@
 {
-  "name": "storybook-vue",
+  "name": "storybook",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,vue}\""
   },
   "dependencies": {
     "ui": "workspace:*",
@@ -24,15 +23,21 @@
     "@storybook/vue3": "^8.1.5",
     "@storybook/vue3-vite": "^8.1.5",
     "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
     "storybook": "^8.1.5",
+    "tailwindcss": "^3.4.4",
+    "tailwind-config": "workspace:*",
     "typescript": "~5.3.3",
     "vite": "^5.2.0",
     "vue-tsc": "^2.0.6",
     "@rushstack/eslint-patch": "^1.7.2",
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^20.11.24",
+    "prettier": "^3.2.5",
     "eslint": "^8.57.0",
     "eslint-config-custom": "workspace:*",
+    "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vue": "^9.22.0",
     "npm-run-all2": "^6.1.2",
     "tsconfig": "workspace:*"

@@ -54,20 +54,19 @@
 </template>
 
 <script lang="ts" setup>
-import './page.css';
-import MyHeader from './Header.vue';
+  import "./p-page.css"
+  import { ref } from "vue"
+  import MyHeader from "@/src/organisms/o-header.vue"
 
-import { ref } from 'vue';
+  const user = ref<{ name: string } | null>(null)
 
-const user = ref<{ name: string } | null>(null);
-
-const onLogin = () => {
-  user.value = { name: 'Jane Doe' };
-};
-const onLogout = () => {
-  user.value = null;
-};
-const onCreateAccount = () => {
-  user.value = { name: 'Jane Doe' };
-};
+  const onLogin = () => {
+    user.value = { name: "Jane Doe" }
+  }
+  const onLogout = () => {
+    user.value = null
+  }
+  const onCreateAccount = () => {
+    user.value = { name: "Jane Doe" }
+  }
 </script>

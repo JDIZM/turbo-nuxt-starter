@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 3000",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p typecheck \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,vue}\""
   },
   "dependencies": {
     "ui": "workspace:*",
@@ -26,6 +27,7 @@
     "tsconfig": "workspace:*",
     "typescript": "~5.3.3",
     "vite": "^5.1.4",
-    "vue-tsc": "^2.0.4"
+    "vue-tsc": "^2.0.4",
+    "prettier": "^3.2.5"
   }
 }
