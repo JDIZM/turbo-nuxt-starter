@@ -5,5 +5,9 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt", // https://pinia.vuejs.org/ssr/nuxt.html
     "@nuxt/image" // https://image.nuxt.com
-  ]
+  ],
+  image: {
+    format: ["webp"],
+    quality: 80
+  }
 })
