@@ -1,0 +1,17 @@
+{
+  "name": "nitro",
+  "private": true,
+  "scripts": {
+    "build": "nitro build",
+    "dev": "nitro dev",
+    "prepare": "nitro prepare",
+    "preview": "node .output/server/index.mjs",
+    "typecheck": "tsc typecheck",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "nitropack": "latest",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*"
+  }
+}
