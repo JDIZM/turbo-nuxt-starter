@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "ui": "workspace:*",
     "vue": "^3.4.21"
   },
   "devDependencies": {
@@ -24,8 +25,16 @@
     "@storybook/vue3-vite": "^8.1.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "storybook": "^8.1.5",
-    "typescript": "^5.2.2",
+    "typescript": "~5.3.3",
     "vite": "^5.2.0",
-    "vue-tsc": "^2.0.6"
+    "vue-tsc": "^2.0.6",
+    "@rushstack/eslint-patch": "^1.7.2",
+    "@tsconfig/node18": "^18.2.2",
+    "@types/node": "^20.11.24",
+    "eslint": "^8.57.0",
+    "eslint-config-custom": "workspace:*",
+    "eslint-plugin-vue": "^9.22.0",
+    "npm-run-all2": "^6.1.2",
+    "tsconfig": "workspace:*"
   }
 }
