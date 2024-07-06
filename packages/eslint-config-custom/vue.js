@@ -1,6 +1,6 @@
-const { resolve } = require("node:path");
+const { resolve } = require("node:path")
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const project = resolve(process.cwd(), "tsconfig.json")
 
 /*
  * This is a custom ESLint configuration for use with
@@ -12,25 +12,24 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
-  extends: [
-    "@vercel/style-guide/eslint/browser",
-    "@vue/eslint-config-typescript",
-  ].map(require.resolve),
+  extends: ["@vercel/style-guide/eslint/browser", "@vue/eslint-config-typescript"].map(
+    require.resolve
+  ),
   parserOptions: {
-    ecmaVersion: "latest",
+    ecmaVersion: "latest"
   },
   settings: {
     "import/resolver": {
       typescript: {
-        project,
-      },
-    },
+        project
+      }
+    }
   },
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js"],
 
   rules: {
     "import/no-default-export": "off",
-    "vue/multi-word-component-names": "off",
+    "vue/multi-word-component-names": "off"
     // add specific rules configurations here
-  },
-};
+  }
+}

@@ -1,6 +1,6 @@
-const { resolve } = require("node:path");
+const { resolve } = require("node:path")
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const project = resolve(process.cwd(), "tsconfig.json")
 
 /*
  * This is a custom ESLint configuration for use with
@@ -15,23 +15,23 @@ module.exports = {
     "@nuxtjs/eslint-config-typescript",
     "@vercel/style-guide/eslint/node",
     "@vercel/style-guide/eslint/browser",
-    "eslint-config-turbo",
+    "eslint-config-turbo"
   ].map(require.resolve),
   parserOptions: {
-    sourceType: "module",
+    sourceType: "module"
   },
   settings: {
     "import/resolver": {
       typescript: {
-        project,
-      },
-    },
+        project
+      }
+    }
   },
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.cjs", "nuxt.config.ts"],
   rules: {
     "comma-dangle": "off",
     semi: "off",
-    "no-undef": "off",
+    "no-undef": "off"
     // add specific rules configurations here
-  },
-};
+  }
+}
