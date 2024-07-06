@@ -32,6 +32,10 @@ RUN pnpx turbo build --filter=nuxt
 # Runner stage
 FROM base AS runner
 
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV HOST 0.0.0.0
+
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
