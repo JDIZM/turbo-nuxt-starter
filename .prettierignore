@@ -1,3 +1,4 @@
 *.d.ts
 renovate.json
 *-lock.*
+storybook-static
