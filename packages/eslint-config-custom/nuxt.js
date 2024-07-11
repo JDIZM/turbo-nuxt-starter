@@ -12,7 +12,7 @@ const project = resolve(process.cwd(), "tsconfig.json")
  */
 module.exports = {
   extends: [
-    "@nuxtjs/eslint-config-typescript",
+    "@nuxt/eslint-config",
     "@vercel/style-guide/eslint/node",
     "@vercel/style-guide/eslint/browser",
     "eslint-config-turbo"

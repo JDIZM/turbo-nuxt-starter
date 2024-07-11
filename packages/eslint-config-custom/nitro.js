@@ -1,5 +1,5 @@
-const { resolve } = require("node:path");
-const project = resolve(process.cwd(), "tsconfig.json");
+const { resolve } = require("node:path")
+const project = resolve(process.cwd(), "tsconfig.json")
 
 /*
  * This is a custom ESLint configuration for use with
@@ -11,20 +11,20 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 module.exports = {
   extends: [
-    "@nuxtjs/eslint-config-typescript",
+    "@nuxt/eslint-config",
     "@vercel/style-guide/eslint/node",
     "@vercel/style-guide/eslint/browser",
-    "eslint-config-turbo",
+    "eslint-config-turbo"
   ].map(require.resolve),
   parserOptions: {
-    sourceType: "module",
+    sourceType: "module"
   },
   settings: {
     "import/resolver": {
       typescript: {
-        project,
-      },
-    },
+        project
+      }
+    }
   },
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.cjs", "nitro.config.ts"],
   rules: {
@@ -32,7 +32,7 @@ module.exports = {
     semi: "off",
     "no-undef": "off",
     "import/no-default-export": "off",
-    "eslint-comments/require-description": "off",
+    "eslint-comments/require-description": "off"
     // add specific rules configurations here
-  },
-};
+  }
+}

@@ -30,13 +30,7 @@ module.exports = {
   rules: {
     "import/no-default-export": "off",
     "vue/multi-word-component-names": "off",
-    "eslint-comments/require-description": "off"
-    // "unicorn/filename-case": [
-    //   "error",
-    //   {
-    //     case: "kebabCase"
-    //   }
-    // ]
-    // add specific rules configurations here
+    "eslint-comments/require-description": "off",
+    "unicorn/filename-case": "error"
   }
 }
