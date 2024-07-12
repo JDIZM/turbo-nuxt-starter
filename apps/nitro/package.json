@@ -6,12 +6,14 @@
     "dev": "nitro dev",
     "prepare": "nitro prepare",
     "preview": "node .output/server/index.mjs",
-    "typecheck": "tsc typecheck",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint ."
   },
   "devDependencies": {
-    "nitropack": "latest",
     "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "nitropack": "latest",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.5.3",
+    "vitest": "^1.6.0"
   }
 }
