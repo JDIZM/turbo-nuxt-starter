@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "format:check": "prettier --check \"**/*.{js,ts,tsx,md,vue}\"",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,vue}\"",
     "test:unit": "turbo run test:unit",
     "typecheck": "turbo run typecheck"
