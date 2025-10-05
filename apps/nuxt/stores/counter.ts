@@ -1,7 +1,7 @@
-import { ref, computed } from "vue"
-import { defineStore } from "pinia"
+import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore("counter", () => {
+export const useCounterStore = defineStore('counter', () => {
   // This store syntax uses the setup stores format
   // https://pinia.vuejs.org/core-concepts/#Setup-Stores
 

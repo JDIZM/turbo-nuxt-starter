@@ -1,3 +1,3 @@
-import Page from "./page.vue"
+import Page from './page.vue'
 
 export { Page }

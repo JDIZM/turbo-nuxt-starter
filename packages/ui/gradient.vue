@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  const props = withDefaults(
-    defineProps<{
-      small?: boolean
-      conic?: boolean
-      class?: string
-    }>(),
-    {}
-  )
+const props = withDefaults(
+  defineProps<{
+    small?: boolean
+    conic?: boolean
+    class?: string
+  }>(),
+  {}
+)
 </script>
 
 <template>

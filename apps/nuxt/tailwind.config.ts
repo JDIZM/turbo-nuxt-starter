@@ -1,8 +1,8 @@
-import type { Config } from "tailwindcss"
-import sharedConfig from "tailwind-config"
+import type { Config } from 'tailwindcss'
+import sharedConfig from 'tailwind-config'
 
-const config: Pick<Config, "content" | "presets"> = {
-  content: ["../../packages/ui/**/*.vue"],
+const config: Pick<Config, 'content' | 'presets'> = {
+  content: ['../../packages/ui/**/*.vue'],
   presets: [sharedConfig]
 }
 

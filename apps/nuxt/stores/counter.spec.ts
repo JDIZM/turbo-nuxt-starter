@@ -1,8 +1,8 @@
-import { setActivePinia, createPinia } from "pinia"
-import { describe, it, expect, beforeEach } from "vitest"
-import { useCounterStore } from "./counter"
+import { setActivePinia, createPinia } from 'pinia'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { useCounterStore } from './counter'
 
-describe("Counter Store", () => {
+describe('Counter Store', () => {
   beforeEach(() => {
     // creates a fresh pinia and makes it active
     // so it's automatically picked up by any useStore() call
@@ -10,14 +10,14 @@ describe("Counter Store", () => {
     setActivePinia(createPinia())
   })
 
-  it("increments", () => {
+  it('increments', () => {
     const counter = useCounterStore()
     expect(counter.count).toBe(0)
     counter.increment()
     expect(counter.count).toBe(1)
   })
 
-  it("increments by amount", () => {
+  it('increments by amount', () => {
     const counter = useCounterStore()
     counter.increment(10)
     expect(counter.count).toBe(10)
