@@ -1,0 +1,31 @@
+{
+  "name": "docus",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --extends docus --port 3003",
+    "build": "nuxt build --extends docus",
+    "generate": "nuxt generate --extends docus",
+    "preview": "nuxt preview --extends docus",
+    "postinstall": "nuxt prepare --extends docus",
+    "prepare": "nuxt prepare --extends docus",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint ."
+  },
+  "dependencies": {
+    "docus": "latest",
+    "nuxt": "^4.1.2",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^0.5.7",
+    "eslint": "^9.15.0",
+    "eslint-config-custom": "workspace:*",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@9.1.4",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
