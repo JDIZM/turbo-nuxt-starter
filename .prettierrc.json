@@ -2,9 +2,9 @@
   "$schema": "https://json.schemastore.org/prettierrc",
   "semi": false,
   "tabWidth": 2,
-  "singleQuote": false,
+  "singleQuote": true,
   "printWidth": 100,
   "trailingComma": "none",
-  "vueIndentScriptAndStyle": true,
+  "vueIndentScriptAndStyle": false,
   "plugins": ["prettier-plugin-tailwindcss"]
 }
