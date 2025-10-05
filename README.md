@@ -1,13 +1,124 @@
-# Turborepo VueJS/NuxtJS starter
+# Turbo Nuxt Starter - Turborepo + Nuxt 4 + Vue 3 Monorepo
 
-This is an official starter Turborepo.
+A production-ready **Turborepo monorepo starter** template for building modern full-stack applications with **Nuxt 4**, **Vue 3**, Express/Nitro APIs, and PostgreSQL. Perfect for developers looking for a comprehensive **TypeScript monorepo** with component libraries, documentation, and production-grade infrastructure.
 
-## Using this example
+## 🚀 Features
 
-Run the following command:
+### Full-Stack Monorepo Architecture
 
-```sh
-npx create-turbo@latest -e with-vue-nuxt
+- **Turborepo** - Intelligent build system with caching and parallel execution
+- **Multiple Apps** - Nuxt 4 frontend, Express API, Nitro server, Storybook, and Docus documentation
+- **Workspace Packages** - Shared UI components, type definitions, utilities, and database schemas
+- **pnpm 10** - Fast, disk-efficient package manager with built-in security features
+
+### Frontend Excellence
+
+- **Nuxt 4 + Vue 3** - Modern SSR framework with Composition API
+- **Tailwind CSS + DaisyUI** - Utility-first styling with pre-built components
+- **Pinia** - Type-safe state management
+- **Storybook** - Component-driven development with isolated testing
+- **TypeScript** - Full type safety across the entire stack
+
+### Backend Flexibility
+
+- **Express API** - Production-ready REST API with middleware, auth, and OpenAPI docs
+- **Nitro Server** - Modern server framework with edge deployment support
+- **PostgreSQL + Drizzle ORM** - Type-safe database with migrations and seed data
+- **Zod Validation** - Runtime schema validation with auto-generated TypeScript types
+
+### Production-Ready Infrastructure
+
+- **Docker Support** - Multi-stage builds with BuildKit caching
+- **Corepack** - Automatic package manager version management
+- **Security** - Lifecycle script protection, minimum release age, rate limiting
+- **Structured Logging** - Pino logger for request tracking and debugging
+- **API Documentation** - Auto-generated OpenAPI/Swagger documentation
+- **Database Tools** - Drizzle Kit migrations, PostgreSQL + pgAdmin containers
+
+### Developer Experience
+
+- **Docus Documentation** - Beautiful docs site powered by Nuxt Content
+- **Hot Module Replacement** - Fast development with instant updates
+- **Shared TypeScript Configs** - Consistent tsconfig across all packages
+- **ESLint + Prettier** - Code quality and formatting enforcement
+- **CI/CD Ready** - GitHub Actions workflows with prepare commands
+
+## Why This Starter?
+
+### 🎯 Comprehensive Yet Flexible
+
+Unlike minimal starters, this template provides **production-grade infrastructure** out of the box while remaining flexible enough to remove what you don't need. Choose between Express or Nitro for your API, use Storybook for component development, and deploy with Docker.
+
+### 🔒 Security-First Approach
+
+Built with **pnpm 10's latest security features** including lifecycle script protection and minimum release age settings. These features became critical after major npm supply chain attacks in 2025.
+
+### 📦 True Monorepo Architecture
+
+Leverages **Turborepo** for intelligent caching and parallel task execution. Shared packages (ui, helpers, api-types, db-schema, logger) demonstrate real-world monorepo patterns used in production applications.
+
+### 🚀 Modern Tech Stack
+
+- **Nuxt 4.1+** - Latest stable with Vue 3.5+ and Vite 6
+- **TypeScript 5.7+** - Strict mode with comprehensive type safety
+- **pnpm 10** - Fastest package manager with built-in security
+- **Node 20+ LTS** - Future-proof with long-term support
+
+### 📚 Documentation-Driven
+
+Includes **Docus** (powered by Nuxt 4 + Nuxt Content) for beautiful, searchable documentation. Markdown-based content with Vue component support makes it easy to maintain comprehensive docs alongside your code.
+
+### 🎨 Component Library Ready
+
+**Storybook integration** with pre-built UI components (Button, Input, Card, Modal, Alert, Badge) demonstrates component-driven development patterns. Perfect for design systems and reusable components.
+
+### 🗄️ Database-Ready
+
+PostgreSQL + Drizzle ORM setup with migrations, seeds, and type-safe queries. Docker Compose configuration includes pgAdmin for database management.
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** 20+ (LTS) - [Download](https://nodejs.org/)
+- **Corepack** - Package manager version manager (included with Node.js 16+)
+- **Docker** (for database) - [Get Docker](https://docs.docker.com/get-docker/)
+
+Enable Corepack if not already enabled:
+
+```bash
+corepack enable
+```
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/turbo-nuxt-starter.git
+cd turbo-nuxt-starter
+
+# Install dependencies
+pnpm install
+
+# Rebuild native modules (required for Docus/better-sqlite3)
+pnpm rebuild better-sqlite3
+
+# Copy environment variables
+cp .env.example .env
+
+# Start PostgreSQL with Docker
+docker-compose up -d postgres
+
+# Run database migrations
+cd packages/db-schema
+pnpm migrate:push
+
+# (Optional) Seed database with test data
+pnpm tsx src/seed.ts
+
+# Return to root and start all apps
+cd ../..
+pnpm dev
 ```
 
 ## What's inside?
@@ -16,11 +127,16 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Nuxt](https://nuxt.com/) app
-- `web`: another [Vue3](https://vuejs.org/) app
-- `ui`: a stub Vue component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `@nuxt/eslint-config` and `@vue/eslint-config-typescript`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- **`nuxt`** - [Nuxt 3](https://nuxt.com/) frontend application (port 3001)
+- **`api`** - [Express.js](https://expressjs.com/) API server with TypeScript (port 3002)
+- **`nitro`** - [Nitro](https://nitro.unjs.io/) server example
+- **`storybook`** - [Storybook](https://storybook.js.org/) for component development
+- **`vite`** - [Vite](https://vitejs.dev/) + Vue 3 application
+- **`docus`** - [Docus](https://docus.dev/) documentation site (port 3003)
+- **`ui`** - Shared Vue component library with Tailwind CSS
+- **`eslint-config-custom`** - ESLint configurations for different environments
+- **`tsconfig`** - Shared TypeScript configurations
+- **`tailwind-config`** - Shared Tailwind CSS configuration
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -32,23 +148,116 @@ This Turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
+## Development
+
+### Start All Services
+
+Run all applications simultaneously:
+
+```bash
+pnpm dev
+```
+
+This starts:
+
+- Nuxt app at `http://localhost:3001`
+- Express API at `http://localhost:3002`
+- Other apps on their respective ports
+
+### Individual Services
+
+Start specific services:
+
+```bash
+# Start only the API server
+pnpm dev:api
+
+# Start only the Nuxt frontend
+pnpm dev:web
+
+# Start Storybook
+pnpm --filter storybook storybook
+```
+
 ### Build
 
-To build all apps and packages, run the following command:
+Build all applications and packages:
 
-```
-cd my-turborepo
+```bash
 pnpm build
 ```
 
-### Develop
+### API Endpoints
 
-To develop all apps and packages, run the following command:
+The Express API provides these endpoints:
+
+- `GET /health` - Health check
+- `GET /api` - API information
+- `GET /api/users` - Example users endpoint
+
+Test the API:
+
+```bash
+curl http://localhost:3002/health
+curl http://localhost:3002/api/users
+```
+
+## Project Structure
 
 ```
-cd my-turborepo
-pnpm dev
+turbo-nuxt-starter/
+├── apps/
+│   ├── api/                 # Express.js API server
+│   │   ├── src/
+│   │   │   ├── routes/      # API routes
+│   │   │   └── server.ts    # Main server file
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── nuxt/               # Nuxt 3 frontend
+│   ├── nitro/              # Nitro server example
+│   ├── storybook/          # Component development
+│   └── vite/               # Vite + Vue 3 app
+├── packages/
+│   ├── ui/                 # Shared Vue components
+│   ├── eslint-config-custom/ # ESLint configurations
+│   ├── tsconfig/           # TypeScript configurations
+│   └── tailwind-config/    # Tailwind CSS config
+├── package.json            # Root workspace config
+└── turbo.json             # Turborepo configuration
 ```
+
+## Environment Configuration
+
+### API Environment Variables
+
+Copy `.env.example` to `.env` in the API directory:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+```
+
+Configure as needed:
+
+- `PORT` - API server port (default: 3002)
+- `NODE_ENV` - Environment (development/production)
+- `CORS_ORIGIN` - CORS allowed origin
+
+## Adding New Features
+
+### New API Routes
+
+1. Create route file in `apps/api/src/routes/`
+2. Export router and import in `apps/api/src/routes/index.ts`
+
+### New UI Components
+
+1. Add component to `packages/ui/`
+2. Export from `packages/ui/index.ts`
+3. Use in any app: `import { MyComponent } from 'ui'`
+
+### Shared Types
+
+Add TypeScript types to `packages/ui/types/` for cross-package usage.
 
 ### Remote Caching
 
@@ -69,6 +278,78 @@ Next, you can link your Turborepo to your Remote Cache by running the following 
 npx turbo link
 ```
 
+## CI/CD Setup
+
+### TypeScript Configuration Generation
+
+Nuxt and Nitro apps generate their TypeScript configurations at prepare time:
+
+- `apps/nuxt/.nuxt/tsconfig.json` - Generated by `nuxt prepare`
+- `apps/nitro/.nitro/tsconfig.json` - Generated by `nitro prepare`
+- `apps/docus/.nuxt/tsconfig.json` - Generated by `nuxt prepare --extends docus`
+
+**Local Development:**
+
+- These are generated automatically via `postinstall` scripts when you run `pnpm install`
+- No manual action required
+
+**CI/CD Pipelines:**
+
+- If you skip postinstall scripts (common practice with `--ignore-scripts`), you must run `turbo prepare` before typechecking
+- This ensures all `.nuxt` and `.nitro` directories are generated with proper TypeScript configurations
+
+### Example GitHub Actions Workflow
+
+```yaml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.1.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # Install dependencies (skip postinstall for speed)
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      # Rebuild native modules
+      - run: pnpm rebuild better-sqlite3
+
+      # Generate TypeScript configs for Nuxt/Nitro
+      - run: turbo prepare
+
+      # Run quality checks
+      - run: turbo lint:check
+      - run: turbo typecheck
+      - run: turbo test:unit
+      - run: turbo build
+```
+
+### Manual Prepare Command
+
+If you need to manually regenerate TypeScript configurations:
+
+```bash
+# Regenerate all configs
+turbo prepare
+
+# Or for a specific app
+pnpm --filter nuxt prepare
+pnpm --filter nitro prepare
+pnpm --filter docus prepare
+```
+
 ## Useful Links
 
 Learn more about the power of Turborepo:
@@ -79,3 +360,101 @@ Learn more about the power of Turborepo:
 - [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
 - [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
 - [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+## Troubleshooting
+
+### TypeScript Configuration Not Found
+
+If `pnpm typecheck` fails with errors about missing TypeScript configurations or cannot find auto-imported functions (`useHead`, `defineNuxtConfig`, etc.):
+
+**Cause:** The `.nuxt` and `.nitro` directories haven't been generated yet.
+
+**Solution:**
+
+```bash
+# Regenerate TypeScript configurations
+turbo prepare
+
+# Then run typecheck again
+pnpm typecheck
+```
+
+This is especially common in CI/CD environments when using `pnpm install --ignore-scripts`. See the [CI/CD Setup](#cicd-setup) section for more details.
+
+### better-sqlite3 Bindings Error
+
+If you encounter an error like `Could not locate the bindings file` when running the Docus app, it means the native module `better-sqlite3` needs to be rebuilt for your system.
+
+**Error example:**
+
+```
+Error: Could not locate the bindings file. Tried:
+→ /path/to/node_modules/better-sqlite3/build/better_sqlite3.node
+```
+
+**Solution:**
+
+```bash
+# Rebuild the native module
+pnpm rebuild better-sqlite3
+```
+
+This is required because `better-sqlite3` is a native Node.js addon that must be compiled for your specific:
+
+- Node.js version (e.g., Node 22.17.0)
+- Operating system (macOS, Linux, Windows)
+- CPU architecture (arm64, x64)
+
+The rebuild command will compile the module correctly for your environment.
+
+## Security Features (pnpm 10)
+
+This starter uses **pnpm 10** with enhanced security features to protect against supply chain attacks.
+
+### Lifecycle Script Protection
+
+**By default, lifecycle scripts from dependencies are disabled.** This prevents malicious packages from executing arbitrary code during installation.
+
+Only explicitly allowed packages can run lifecycle scripts, configured in `pnpm-workspace.yaml`:
+
+```yaml
+onlyBuiltDependencies:
+  - better-sqlite3 # Native module requiring compilation
+  - esbuild # Build tool needing platform binaries
+```
+
+If you need to allow additional packages to run lifecycle scripts, add them to this list.
+
+### Minimum Release Age
+
+**New package versions are delayed by 24 hours before installation** to give the community time to identify malicious releases.
+
+```yaml
+minimumReleaseAge: 1440 # 24 hours in minutes
+```
+
+This setting is configured in `pnpm-workspace.yaml` and helps protect against:
+
+- Compromised maintainer accounts
+- Malicious package updates
+- Supply chain injection attacks
+
+**Note:** This only affects newly published versions. Existing versions install immediately.
+
+### Package Manager Version Management
+
+Corepack automatically manages the pnpm version based on the `packageManager` field in `package.json`:
+
+```json
+{
+  "packageManager": "pnpm@10.17.1"
+}
+```
+
+This ensures everyone on your team uses the same pnpm version, eliminating "works on my machine" issues.
+
+### Learn More
+
+- [pnpm Supply Chain Security](https://pnpm.io/supply-chain-security)
+- [pnpm 10 Release Notes](https://pnpm.io/blog/releases/10.16)
+- [Corepack Documentation](https://nodejs.org/api/corepack.html)
