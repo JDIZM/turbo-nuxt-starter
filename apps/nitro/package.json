@@ -1,15 +1,19 @@
 {
   "name": "nitro",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
+    "postinstall": "nitro prepare",
     "prepare": "nitro prepare",
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint . --fix",
+    "lint:check": "eslint ."
   },
   "devDependencies": {
+    "eslint": "^9.0.0",
     "eslint-config-custom": "workspace:*",
     "nitropack": "latest",
     "tsconfig": "workspace:*",
