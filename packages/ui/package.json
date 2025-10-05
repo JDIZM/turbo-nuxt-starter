@@ -2,19 +2,28 @@
   "name": "ui",
   "version": "0.0.0",
   "private": true,
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles": "./src/styles/tailwind.css"
+  },
   "scripts": {
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --fix",
+    "lint:check": "eslint ."
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.22"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.0.0",
     "eslint-config-custom": "workspace:*",
+    "postcss": "^8.4.49",
+    "tailwind-config": "workspace:*",
+    "tailwindcss": "^3.4.1",
     "tsconfig": "workspace:*",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-vue": "^9.22.0",
     "vue": "^3.4.21"
   }
 }

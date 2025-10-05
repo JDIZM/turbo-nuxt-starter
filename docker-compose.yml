@@ -1,9 +1,44 @@
 services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: turbo-nuxt-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-starter_db}
+      POSTGRES_USER: ${POSTGRES_USER:-starter}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-starter_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-starter}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # Nuxt Frontend
   nuxt:
     build:
       context: ./
       dockerfile: docker/nuxt
       args:
         - NODE_ENV=${NODE_ENV:-production}
+    container_name: turbo-nuxt-app
     ports:
-      - ${HTTP_PORT:-3000}:3000
+      - "${NUXT_PORT:-3001}:3000"
+    environment:
+      - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-http://localhost:4000}
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
