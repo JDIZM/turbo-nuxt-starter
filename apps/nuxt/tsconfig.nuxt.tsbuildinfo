@@ -1,0 +1,1 @@
+{"root":["./.nuxt/nuxt.d.ts","./app.vue","./eslint.config.js","./nuxt.config.ts","./tailwind.config.ts","./vitest.config.ts","./stores/counter.spec.ts","./stores/counter.ts","./tests/setup.ts","./.nuxt/nuxt.node.d.ts"],"version":"5.9.3"}
