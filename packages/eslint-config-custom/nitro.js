@@ -1,5 +1,5 @@
-const { resolve } = require('node:path')
-const project = resolve(process.cwd(), 'tsconfig.json')
+const { resolve } = require("node:path")
+const project = resolve(process.cwd(), "tsconfig.json")
 
 /*
  * This is a custom ESLint configuration for use with
@@ -11,28 +11,28 @@ const project = resolve(process.cwd(), 'tsconfig.json')
  */
 module.exports = {
   extends: [
-    '@nuxt/eslint-config',
-    '@vercel/style-guide/eslint/node',
-    '@vercel/style-guide/eslint/browser',
-    'eslint-config-turbo'
+    "@nuxt/eslint-config",
+    "@vercel/style-guide/eslint/node",
+    "@vercel/style-guide/eslint/browser",
+    "eslint-config-turbo"
   ].map(require.resolve),
   parserOptions: {
-    sourceType: 'module'
+    sourceType: "module"
   },
   settings: {
-    'import/resolver': {
+    "import/resolver": {
       typescript: {
         project
       }
     }
   },
-  ignorePatterns: ['node_modules/', 'dist/', '.eslintrc.cjs', 'nitro.config.ts'],
+  ignorePatterns: ["node_modules/", "dist/", ".eslintrc.cjs", "nitro.config.ts"],
   rules: {
-    'comma-dangle': 'off',
-    semi: 'off',
-    'no-undef': 'off',
-    'import/no-default-export': 'off',
-    'eslint-comments/require-description': 'off'
+    "comma-dangle": "off",
+    semi: "off",
+    "no-undef": "off",
+    "import/no-default-export": "off",
+    "eslint-comments/require-description": "off"
     // add specific rules configurations here
   }
 }

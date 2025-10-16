@@ -1,5 +1,5 @@
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
-import prettier from 'eslint-config-prettier'
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat"
+import prettier from "eslint-config-prettier"
 
 export default createConfigForNuxt({
   features: {
@@ -7,12 +7,12 @@ export default createConfigForNuxt({
     stylistic: false
   },
   dirs: {
-    src: ['./src']
+    src: ["./src"]
   }
 }).append(prettier, {
-  ignores: ['node_modules/', 'dist/', '.nuxt/', '.output/'],
+  ignores: ["node_modules/", "dist/", ".nuxt/", ".output/"],
   rules: {
-    'vue/multi-word-component-names': 'off',
-    'vue/no-multiple-template-root': 'off'
+    "vue/multi-word-component-names": "off",
+    "vue/no-multiple-template-root": "off"
   }
 })
