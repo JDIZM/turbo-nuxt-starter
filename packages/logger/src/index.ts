@@ -1,9 +1,9 @@
-import pino, { type Logger, type LoggerOptions } from 'pino'
+import pino, { type Logger, type LoggerOptions } from "pino"
 
 /**
  * Log levels
  */
-export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+export type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal"
 
 /**
  * Logger configuration
@@ -20,13 +20,12 @@ export interface LoggerConfig {
  */
 function getPrettyTransport() {
   return {
-    target: 'pino-pretty',
+    target: "pino-pretty",
     options: {
       colorize: true,
-      translateTime: 'HH:MM:ss Z',
-      ignore: 'pid,hostname',
-      singleLine: false,
-      messageFormat: '{levelLabel} - {msg}'
+      translateTime: "yyyy-mm-dd HH:MM:ss Z",
+      ignore: "pid,hostname",
+      singleLine: false
     }
   }
 }
@@ -36,8 +35,8 @@ function getPrettyTransport() {
  */
 export function createLogger(config: LoggerConfig = {}): Logger {
   const {
-    level = 'info',
-    pretty = process.env.NODE_ENV !== 'production',
+    level = "info",
+    pretty = process.env.NODE_ENV !== "production",
     name,
     redact = []
   } = config
@@ -46,8 +45,8 @@ export function createLogger(config: LoggerConfig = {}): Logger {
     level,
     name,
     redact: {
-      paths: ['password', 'token', 'accessToken', 'refreshToken', 'authorization', ...redact],
-      censor: '[REDACTED]'
+      paths: ["password", "token", "accessToken", "refreshToken", "authorization", ...redact],
+      censor: "[REDACTED]"
     },
     serializers: {
       req: pino.stdSerializers.req,
@@ -68,12 +67,12 @@ export function createLogger(config: LoggerConfig = {}): Logger {
  * Default logger instance
  */
 export const logger = createLogger({
-  name: 'app',
-  level: (process.env.LOG_LEVEL as LogLevel) || 'info',
-  pretty: process.env.NODE_ENV !== 'production'
+  name: "app",
+  level: (process.env.LOG_LEVEL as LogLevel) || "info",
+  pretty: process.env.NODE_ENV !== "production"
 })
 
 /**
  * Export Pino types for convenience
  */
-export type { Logger } from 'pino'
+export type { Logger } from "pino"
