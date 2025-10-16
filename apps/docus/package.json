@@ -14,6 +14,9 @@
     "lint:check": "eslint ."
   },
   "dependencies": {
+    "@iconify-json/lucide": "^1.2.18",
+    "@iconify-json/simple-icons": "^1.2.53",
+    "@nuxt/icon": "^1.8.1",
     "docus": "latest",
     "nuxt": "^4.1.2",
     "vue": "^3.5.22"
@@ -22,9 +25,10 @@
     "@nuxt/eslint": "^0.5.7",
     "eslint": "^9.15.0",
     "eslint-config-custom": "workspace:*",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.24.6"
   },
-  "packageManager": "pnpm@9.1.4",
   "engines": {
     "node": ">=20.0.0"
   }

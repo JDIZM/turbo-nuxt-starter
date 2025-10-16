@@ -1,3 +1,3 @@
-import config from 'eslint-config-custom/nuxt'
+import config from "eslint-config-custom/nuxt"
 
 export default config
