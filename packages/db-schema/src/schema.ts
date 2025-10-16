@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, timestamp, text } from "drizzle-orm/pg-core"
+import { pgTable, uuid, timestamp, text } from "drizzle-orm/pg-core"
 import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 import { z } from "zod"
 
@@ -18,7 +18,7 @@ export const accounts = pgTable("accounts", {
  * Zod schemas for validation
  */
 export const insertAccountSchema = createInsertSchema(accounts, {
-  email: z.string().email(),
+  email: z.email(),
   fullName: z.string().min(1).max(255)
 })
 
