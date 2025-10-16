@@ -90,11 +90,11 @@ Example:
 
 ```typescript
 // src/routes/posts.ts
-import { Router } from 'express'
+import { Router } from "express"
 
 const postsRouter = Router()
 
-postsRouter.get('/', (req, res) => {
+postsRouter.get("/", (req, res) => {
   res.json({ posts: [] })
 })
 
@@ -103,7 +103,7 @@ export { postsRouter }
 
 ```typescript
 // src/routes/index.ts
-import { postsRouter } from './posts'
+import { postsRouter } from "./posts"
 
-router.use('/posts', postsRouter)
+router.use("/posts", postsRouter)
 ```

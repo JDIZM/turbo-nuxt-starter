@@ -1,19 +1,21 @@
 services:
   # PostgreSQL Database
+  # NOTE: When using Supabase local (recommended), you don't need this service
+  # Supabase CLI provides its own PostgreSQL instance on port 54322
   postgres:
     image: postgres:16-alpine
     container_name: turbo-nuxt-postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-starter_db}
-      POSTGRES_USER: ${POSTGRES_USER:-starter}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-starter_password}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_PORT:-54322}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-starter}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
