@@ -1,3 +1,3 @@
-import config from 'eslint-config-custom/vue'
+import config from "eslint-config-custom/vue"
 
 export default config

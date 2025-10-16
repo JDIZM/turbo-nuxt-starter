@@ -25,11 +25,11 @@ pnpm install
 
 ```vue
 <script setup lang="ts">
-import { Button, Input, Card, Badge, Modal, Alert, Spinner } from 'ui'
-import { ref } from 'vue'
+import { Button, Input, Card, Badge, Modal, Alert, Spinner } from "ui"
+import { ref } from "vue"
 
 const isModalOpen = ref(false)
-const inputValue = ref('')
+const inputValue = ref("")
 </script>
 
 <template>
@@ -57,7 +57,7 @@ const inputValue = ref('')
 In your app's entry point or component, import the Tailwind CSS:
 
 ```typescript
-import 'ui/styles'
+import "ui/styles"
 ```
 
 ### Configure Tailwind
@@ -65,13 +65,13 @@ import 'ui/styles'
 Make sure your app's `tailwind.config.ts` includes the UI package in the content array:
 
 ```typescript
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
-    './components/**/*.{vue,js,ts}',
-    './pages/**/*.{vue,js,ts}',
-    './node_modules/ui/**/*.{vue,js,ts}' // Include UI package
+    "./components/**/*.{vue,js,ts}",
+    "./pages/**/*.{vue,js,ts}",
+    "./node_modules/ui/**/*.{vue,js,ts}" // Include UI package
   ],
   theme: {
     extend: {}
@@ -264,7 +264,7 @@ pnpm lint
 All components are fully typed with TypeScript. Props interfaces are exported for use in your applications.
 
 ```typescript
-import type { ButtonProps, InputProps } from 'ui'
+import type { ButtonProps, InputProps } from "ui"
 ```
 
 ## Legacy Components

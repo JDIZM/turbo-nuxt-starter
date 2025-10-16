@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
-import { computed } from 'vue'
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from "@headlessui/vue"
+import { computed } from "vue"
 
 export interface ModalProps {
   /**
@@ -14,7 +14,7 @@ export interface ModalProps {
   /**
    * Modal size
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  size?: "sm" | "md" | "lg" | "xl" | "full"
   /**
    * Show close button
    */
@@ -23,29 +23,29 @@ export interface ModalProps {
 
 const props = withDefaults(defineProps<ModalProps>(), {
   open: false,
-  size: 'md',
+  size: "md",
   showClose: true
 })
 
 const emit = defineEmits<{
-  'update:open': [value: boolean]
+  "update:open": [value: boolean]
   close: []
 }>()
 
 const sizeClasses = computed(() => {
   const sizes = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    full: 'max-w-full mx-4'
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
+    full: "max-w-full mx-4"
   }
   return sizes[props.size]
 })
 
 const closeModal = () => {
-  emit('update:open', false)
-  emit('close')
+  emit("update:open", false)
+  emit("close")
 }
 </script>
 

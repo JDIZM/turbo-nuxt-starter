@@ -17,12 +17,10 @@
     "@headlessui/vue": "^1.7.22"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
+    "@tailwindcss/vite": "^4.1.14",
     "eslint": "^9.0.0",
     "eslint-config-custom": "workspace:*",
-    "postcss": "^8.4.49",
-    "tailwind-config": "workspace:*",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4.1.14",
     "tsconfig": "workspace:*",
     "vue": "^3.4.21"
   }
