@@ -28,6 +28,7 @@
     "zod": "^4.0.10"
   },
   "devDependencies": {
+    "@types/node": "^20.11.24",
     "@types/pg": "^8.11.6",
     "drizzle-kit": "^0.31.0",
     "eslint": "^9.0.0",

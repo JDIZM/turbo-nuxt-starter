@@ -1,93 +1,35 @@
-import { pgTable, uuid, varchar, timestamp, text, boolean } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { z } from 'zod'
+import { pgTable, uuid, varchar, timestamp, text } from "drizzle-orm/pg-core"
+import { createInsertSchema, createSelectSchema } from "drizzle-zod"
+import { z } from "zod"
 
 /**
- * Users table
+ * Accounts table
+ * Note: Passwords are handled by Supabase Auth, not stored in this table
+ * UUID must match the Supabase Auth user ID
  */
-export const users = pgTable('users', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  name: varchar('name', { length: 255 }).notNull(),
-  password: varchar('password', { length: 255 }).notNull(),
-  avatar: text('avatar'),
-  emailVerified: boolean('email_verified').default(false).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+export const accounts = pgTable("accounts", {
+  uuid: uuid("uuid").primaryKey(),
+  email: text("email").unique().notNull(),
+  fullName: text("full_name").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
 })
-
-/**
- * User relations
- */
-export const usersRelations = relations(users, ({ many }) => ({
-  workspaces: many(workspaces)
-}))
-
-/**
- * Workspaces table
- */
-export const workspaces = pgTable('workspaces', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
-  slug: varchar('slug', { length: 255 }).notNull().unique(),
-  description: text('description'),
-  ownerId: uuid('owner_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
-})
-
-/**
- * Workspace relations
- */
-export const workspacesRelations = relations(workspaces, ({ one }) => ({
-  owner: one(users, {
-    fields: [workspaces.ownerId],
-    references: [users.id]
-  })
-}))
 
 /**
  * Zod schemas for validation
  */
-
-// User schemas
-export const insertUserSchema = createInsertSchema(users, {
+export const insertAccountSchema = createInsertSchema(accounts, {
   email: z.string().email(),
-  name: z.string().min(1).max(255),
-  password: z.string().min(8).max(100),
-  avatar: z.string().url().optional()
+  fullName: z.string().min(1).max(255)
 })
 
-export const selectUserSchema = createSelectSchema(users)
+export const selectAccountSchema = createSelectSchema(accounts)
 
-export const updateUserSchema = insertUserSchema.partial().omit({ id: true, createdAt: true })
-
-// Workspace schemas
-export const insertWorkspaceSchema = createInsertSchema(workspaces, {
-  name: z.string().min(1).max(255),
-  slug: z
-    .string()
-    .min(1)
-    .max(255)
-    .regex(/^[a-z0-9-]+$/),
-  description: z.string().optional(),
-  ownerId: z.string().uuid()
-})
-
-export const selectWorkspaceSchema = createSelectSchema(workspaces)
-
-export const updateWorkspaceSchema = insertWorkspaceSchema
+export const updateAccountSchema = insertAccountSchema
   .partial()
-  .omit({ id: true, createdAt: true, ownerId: true })
+  .omit({ uuid: true, createdAt: true })
 
 /**
  * TypeScript types
  */
-export type User = typeof users.$inferSelect
-export type NewUser = typeof users.$inferInsert
-
-export type Workspace = typeof workspaces.$inferSelect
-export type NewWorkspace = typeof workspaces.$inferInsert
+export type Account = typeof accounts.$inferSelect
+export type NewAccount = typeof accounts.$inferInsert

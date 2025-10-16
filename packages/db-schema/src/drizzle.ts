@@ -1,6 +1,6 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
-import pg from 'pg'
-import * as schema from './schema.ts'
+import { drizzle } from "drizzle-orm/node-postgres"
+import pg from "pg"
+import * as schema from "./schema.ts"
 
 const { Pool } = pg
 
@@ -12,7 +12,7 @@ export function createDbConnection(connectionString?: string) {
     connectionString:
       connectionString ||
       process.env.DATABASE_URL ||
-      'postgresql://starter:starter_password@localhost:5432/starter_db',
+      "postgresql://starter:starter_password@localhost:5432/starter_db",
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000
