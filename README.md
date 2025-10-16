@@ -112,13 +112,120 @@ docker-compose up -d postgres
 # Run database migrations
 cd packages/db-schema
 pnpm migrate:push
-
-# (Optional) Seed database with test data
-pnpm tsx src/seed.ts
-
-# Return to root and start all apps
 cd ../..
+
+# Start all apps
 pnpm dev
+```
+
+## 🔐 Supabase Local Development
+
+This starter includes **Supabase authentication** with local Docker development. No cloud account needed for development!
+
+### Setup Supabase CLI
+
+```bash
+# Install Supabase CLI
+npm install -g supabase
+
+# Initialize Supabase (creates supabase/ directory)
+supabase init
+
+# Start local Supabase stack (PostgreSQL, Auth, Storage, etc.)
+supabase start
+```
+
+### Configure Environment
+
+After `supabase start`, copy the displayed credentials to your `.env` file:
+
+```bash
+# Supabase Local Development
+SUPABASE_URL=http://localhost:54321
+SUPABASE_ANON_KEY=<your-anon-key-from-supabase-start-output>
+SUPABASE_AUTH_JWT_SECRET=<your-jwt-secret-from-supabase-start-output>
+
+# Database (Supabase local uses port 54322, not 5432)
+DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres
+POSTGRES_HOST=localhost
+POSTGRES_PORT=54322
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+```
+
+### Run Database Migrations
+
+```bash
+cd packages/db-schema
+pnpm migrate:push
+```
+
+### Seed Test Accounts (Optional)
+
+```bash
+cd apps/api
+pnpm seed
+```
+
+This creates 3 test accounts in Supabase Auth + database:
+
+- alice@example.com / password123
+- bob@example.com / password123
+- charlie@example.com / password123
+
+### Access Supabase Studio
+
+Supabase Studio (web UI) runs at **http://localhost:54323**
+
+Manage users, view database, test Auth, and more!
+
+### Authentication Flow
+
+1. **Sign up a user** (creates Supabase Auth user + account record):
+
+```bash
+curl -X POST http://localhost:3002/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@example.com","password":"password123","fullName":"Alice Johnson"}'
+```
+
+2. **Sign in** (returns JWT access token):
+
+```bash
+curl -X POST http://localhost:3002/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alice@example.com","password":"password123"}'
+```
+
+3. **Access protected endpoints** (use JWT token):
+
+```bash
+curl http://localhost:3002/api/me \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+### How Auth Works
+
+- **Supabase Auth** handles passwords, JWT tokens, sessions
+- **Express API** verifies JWT tokens with `isAuthenticated` middleware
+- **Account UUID** matches Supabase Auth user ID (synced on signup)
+- **Protected routes** require `Authorization: Bearer <token>` header
+
+### Useful Commands
+
+```bash
+# Check Supabase services status
+supabase status
+
+# Stop all services
+supabase stop
+
+# Reset database (WARNING: deletes all data)
+supabase db reset
+
+# Generate migration from schema changes
+supabase db diff -f migration_name
 ```
 
 ## What's inside?
@@ -318,7 +425,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       # Install dependencies (skip postinstall for speed)
       - run: pnpm install --frozen-lockfile --ignore-scripts
