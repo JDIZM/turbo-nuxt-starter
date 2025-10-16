@@ -19,6 +19,7 @@
     "zod": "^4.0.10"
   },
   "devDependencies": {
+    "@types/node": "^20.11.24",
     "eslint": "^9.0.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
