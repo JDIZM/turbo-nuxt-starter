@@ -21,37 +21,37 @@ export type HttpStatusCode = (typeof HttpStatusCode)[keyof typeof HttpStatusCode
  */
 export const ErrorCode = {
   // 400 errors
-  BAD_REQUEST: 'BAD_REQUEST',
-  INVALID_INPUT: 'INVALID_INPUT',
-  VALIDATION_FAILED: 'VALIDATION_FAILED',
-  MISSING_PARAMETER: 'MISSING_PARAMETER',
+  BAD_REQUEST: "BAD_REQUEST",
+  INVALID_INPUT: "INVALID_INPUT",
+  VALIDATION_FAILED: "VALIDATION_FAILED",
+  MISSING_PARAMETER: "MISSING_PARAMETER",
 
   // 401 errors
-  UNAUTHORIZED: 'UNAUTHORIZED',
-  INVALID_TOKEN: 'INVALID_TOKEN',
+  UNAUTHORIZED: "UNAUTHORIZED",
+  INVALID_TOKEN: "INVALID_TOKEN",
 
   // 403 errors
-  FORBIDDEN: 'FORBIDDEN',
-  INSUFFICIENT_PERMISSIONS: 'INSUFFICIENT_PERMISSIONS',
+  FORBIDDEN: "FORBIDDEN",
+  INSUFFICIENT_PERMISSIONS: "INSUFFICIENT_PERMISSIONS",
 
   // 404 errors
-  NOT_FOUND: 'NOT_FOUND',
+  NOT_FOUND: "NOT_FOUND",
 
   // 409 errors
-  CONFLICT: 'CONFLICT',
+  CONFLICT: "CONFLICT",
 
   // 422 errors
-  UNPROCESSABLE_ENTITY: 'UNPROCESSABLE_ENTITY',
+  UNPROCESSABLE_ENTITY: "UNPROCESSABLE_ENTITY",
 
   // 429 errors
-  TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
+  TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
 
   // 500 errors
-  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
-  DATABASE_ERROR: 'DATABASE_ERROR',
+  INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
+  DATABASE_ERROR: "DATABASE_ERROR",
 
   // Unknown
-  UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+  UNKNOWN_ERROR: "UNKNOWN_ERROR"
 } as const
 
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode]
@@ -60,18 +60,18 @@ export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode]
  * Custom HTTP Error class with status codes and error codes
  */
 export class HttpError extends Error {
-  public readonly statusCode: HttpStatusCode
-  public readonly code: ErrorCode
+  public readonly code: HttpStatusCode
+  public readonly error: ErrorCode
 
-  constructor(statusCode: HttpStatusCode, message: string, code?: ErrorCode) {
+  constructor(code: HttpStatusCode, message: string, error?: ErrorCode) {
     super(message)
-    this.statusCode = statusCode
-    this.code = code || this.getDefaultCode(statusCode)
-    this.name = 'HttpError'
+    this.code = code
+    this.error = error || this.getDefaultCode(code)
+    this.name = "HttpError"
   }
 
-  private getDefaultCode(statusCode: HttpStatusCode): ErrorCode {
-    switch (statusCode) {
+  private getDefaultCode(code: HttpStatusCode): ErrorCode {
+    switch (code) {
       case HttpStatusCode.BAD_REQUEST:
         return ErrorCode.BAD_REQUEST
       case HttpStatusCode.UNAUTHORIZED:
@@ -93,10 +93,10 @@ export class HttpError extends Error {
     }
   }
 
-  public toResponse(): { statusCode: HttpStatusCode; code: ErrorCode; message: string } {
+  public toResponse(): { code: HttpStatusCode; error: ErrorCode; message: string } {
     return {
-      statusCode: this.statusCode,
       code: this.code,
+      error: this.error,
       message: this.message
     }
   }
@@ -107,11 +107,11 @@ export class HttpError extends Error {
  */
 export const HttpErrors = {
   // 400 Bad Request
-  BadRequest: (message = 'Bad Request') =>
+  BadRequest: (message = "Bad Request") =>
     new HttpError(HttpStatusCode.BAD_REQUEST, message, ErrorCode.BAD_REQUEST),
-  InvalidInput: (message = 'Invalid input provided') =>
+  InvalidInput: (message = "Invalid input provided") =>
     new HttpError(HttpStatusCode.BAD_REQUEST, message, ErrorCode.INVALID_INPUT),
-  ValidationFailed: (message = 'Validation failed') =>
+  ValidationFailed: (message = "Validation failed") =>
     new HttpError(HttpStatusCode.BAD_REQUEST, message, ErrorCode.VALIDATION_FAILED),
   MissingParameter: (parameter: string) =>
     new HttpError(
@@ -121,36 +121,36 @@ export const HttpErrors = {
     ),
 
   // 401 Unauthorized
-  Unauthorized: (message = 'Authentication required') =>
+  Unauthorized: (message = "Authentication required") =>
     new HttpError(HttpStatusCode.UNAUTHORIZED, message, ErrorCode.UNAUTHORIZED),
-  InvalidToken: (message = 'Invalid or expired token') =>
+  InvalidToken: (message = "Invalid or expired token") =>
     new HttpError(HttpStatusCode.UNAUTHORIZED, message, ErrorCode.INVALID_TOKEN),
 
   // 403 Forbidden
-  Forbidden: (message = 'Access denied') =>
+  Forbidden: (message = "Access denied") =>
     new HttpError(HttpStatusCode.FORBIDDEN, message, ErrorCode.FORBIDDEN),
-  InsufficientPermissions: (message = 'Insufficient permissions') =>
+  InsufficientPermissions: (message = "Insufficient permissions") =>
     new HttpError(HttpStatusCode.FORBIDDEN, message, ErrorCode.INSUFFICIENT_PERMISSIONS),
 
   // 404 Not Found
-  NotFound: (resource = 'Resource') =>
+  NotFound: (resource = "Resource") =>
     new HttpError(HttpStatusCode.NOT_FOUND, `${resource} not found`, ErrorCode.NOT_FOUND),
 
   // 409 Conflict
-  Conflict: (message = 'Resource conflict') =>
+  Conflict: (message = "Resource conflict") =>
     new HttpError(HttpStatusCode.CONFLICT, message, ErrorCode.CONFLICT),
 
   // 422 Unprocessable Entity
-  UnprocessableEntity: (message = 'Unable to process request') =>
+  UnprocessableEntity: (message = "Unable to process request") =>
     new HttpError(HttpStatusCode.UNPROCESSABLE_ENTITY, message, ErrorCode.UNPROCESSABLE_ENTITY),
 
   // 429 Too Many Requests
-  TooManyRequests: (message = 'Too many requests') =>
+  TooManyRequests: (message = "Too many requests") =>
     new HttpError(HttpStatusCode.TOO_MANY_REQUESTS, message, ErrorCode.TOO_MANY_REQUESTS),
 
   // 500 Internal Server Error
-  InternalError: (message = 'Internal server error') =>
+  InternalError: (message = "Internal server error") =>
     new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, message, ErrorCode.INTERNAL_SERVER_ERROR),
-  DatabaseError: (message = 'Database operation failed') =>
+  DatabaseError: (message = "Database operation failed") =>
     new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, message, ErrorCode.DATABASE_ERROR)
 } as const

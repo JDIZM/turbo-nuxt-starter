@@ -1,17 +1,8 @@
-import { logger } from 'logger'
-import { HttpError, HttpStatusCode, type ErrorCode } from './HttpError.ts'
+import { logger } from "logger"
+import { HttpError, HttpStatusCode } from "./HttpError.ts"
+import type { ErrorResponse, SuccessResponse } from "api-types"
 
-interface ErrorResponse {
-  statusCode: HttpStatusCode | number
-  code: ErrorCode
-  message: string
-}
-
-interface SuccessResponse<T> {
-  statusCode: HttpStatusCode | number
-  data: T
-  message: string
-}
+export type ResponseType<T> = ErrorResponse | SuccessResponse<T>
 
 /**
  * API response helper with error and success methods
@@ -33,18 +24,18 @@ export const apiResponse = {
   error: (error: HttpError | Error, statusCode?: HttpStatusCode): ErrorResponse => {
     if (error instanceof HttpError) {
       // Use warn for 4xx, error for 5xx
-      const logLevel = error.statusCode >= 500 ? 'error' : 'warn'
-      logger[logLevel]({ statusCode: error.statusCode, code: error.code, msg: error.message })
+      const logLevel = error.code >= 500 ? "error" : "warn"
+      logger[logLevel]({ code: error.code, error: error.error, msg: error.message })
       return error.toResponse()
     }
 
     // Fallback for generic Error
     const code = statusCode || HttpStatusCode.INTERNAL_SERVER_ERROR
     const httpError = new HttpError(code, error.message)
-    const logLevel = httpError.statusCode >= 500 ? 'error' : 'warn'
+    const logLevel = httpError.code >= 500 ? "error" : "warn"
     logger[logLevel]({
-      statusCode: httpError.statusCode,
       code: httpError.code,
+      error: httpError.error,
       msg: httpError.message
     })
     return httpError.toResponse()
@@ -53,14 +44,10 @@ export const apiResponse = {
   /**
    * Create success response
    */
-  success: <T>(
-    statusCode: HttpStatusCode | number,
-    data: T,
-    message = 'Success'
-  ): SuccessResponse<T> => {
-    logger.info({ statusCode, msg: message })
+  success: <T>(code: HttpStatusCode | number, data: T, message = "Success"): SuccessResponse<T> => {
+    logger.info({ code, msg: message })
     return {
-      statusCode,
+      code,
       data,
       message
     }

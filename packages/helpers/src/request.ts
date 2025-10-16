@@ -15,20 +15,20 @@ export interface RequestLike {
  */
 export function getIpFromRequest(req: RequestLike): string | undefined {
   const ips =
-    req.headers['cf-connecting-ip'] ??
-    req.headers['x-real-ip'] ??
-    req.headers['x-forwarded-for'] ??
+    req.headers["cf-connecting-ip"] ??
+    req.headers["x-real-ip"] ??
+    req.headers["x-forwarded-for"] ??
     req.ip ??
-    ''
+    ""
 
-  const result = ips instanceof Array ? ips : ips.split(',')
+  const result = ips instanceof Array ? ips : ips.split(",")
   return result[0]?.trim()
 }
 
 /**
  * Re-export Express types for convenience
  */
-import type { Request, Response, NextFunction } from 'express'
+import type { Request, Response, NextFunction } from "express"
 export type { Request, Response, NextFunction }
 
 /**

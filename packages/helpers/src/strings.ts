@@ -10,14 +10,14 @@
  */
 export const camelCase = (str: string): string => {
   return str
-    .split(' ')
+    .split(" ")
     .map((word, index) => {
       if (index === 0) {
         return word.toLowerCase()
       }
       return word.charAt(0).toUpperCase() + word.slice(1)
     })
-    .join('')
+    .join("")
 }
 
 /**
@@ -57,9 +57,9 @@ export const pascalCase = (str: string): string => {
  */
 export const titleCase = (str: string): string => {
   return str
-    .split(' ')
+    .split(" ")
     .map((word) => capitalize(word))
-    .join(' ')
+    .join(" ")
 }
 
 /**
@@ -76,10 +76,10 @@ export const titleCase = (str: string): string => {
  */
 export const snakeCase = (str: string): string => {
   return str
-    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/([A-Z])/g, " $1") // Add space before capital letters
     .trim()
     .toLowerCase()
-    .replace(/[\s-]+/g, '_') // Replace spaces and hyphens with underscore
+    .replace(/[\s-]+/g, "_") // Replace spaces and hyphens with underscore
 }
 
 /**
@@ -96,8 +96,8 @@ export const snakeCase = (str: string): string => {
  */
 export const kebabCase = (str: string): string => {
   return str
-    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/([A-Z])/g, " $1") // Add space before capital letters
     .trim()
     .toLowerCase()
-    .replace(/[\s_]+/g, '-') // Replace spaces and underscores with hyphen
+    .replace(/[\s_]+/g, "-") // Replace spaces and underscores with hyphen
 }
