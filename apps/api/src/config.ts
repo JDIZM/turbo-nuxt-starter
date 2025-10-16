@@ -9,7 +9,9 @@ export const config = {
   // Supabase configuration
   supabaseUrl: process.env.SUPABASE_URL || "http://localhost:54321",
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY || "",
-  jwtSecret: process.env.SUPABASE_AUTH_JWT_SECRET || "super-secret-jwt-token-with-at-least-32-characters-long"
+  jwtSecret:
+    process.env.SUPABASE_AUTH_JWT_SECRET ||
+    "super-secret-jwt-token-with-at-least-32-characters-long"
 } as const
 
 export type Config = typeof config

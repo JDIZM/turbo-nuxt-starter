@@ -10,7 +10,12 @@ import { logger } from "logger"
  * // In server.ts (must be last middleware):
  * app.use(errorHandler)
  */
-export const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
+export const errorHandler = (
+  err: Error,
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+): void => {
   // Log the error for monitoring
   logger.error({ err }, "Unhandled error")
 
