@@ -1,0 +1,30 @@
+import { createLogger } from "logger"
+import { db, accounts, insertAccountSchema, type NewAccount } from "db-schema"
+import { HttpErrors } from "helpers"
+
+const logger = createLogger()
+
+/**
+ * Create a new account record in the database
+ * @param account - Account data including uuid from Supabase Auth
+ * @returns The created account UUID
+ */
+export async function createDbAccount(account: NewAccount): Promise<string> {
+  const validationResult = insertAccountSchema.safeParse(account)
+
+  if (!validationResult.success) {
+    throw HttpErrors.BadRequest(`Account validation failed: ${validationResult.error.message}`)
+  }
+
+  const response = await db.insert(accounts).values(account).returning()
+
+  const result = response[0]
+
+  if (!result) {
+    throw HttpErrors.InternalError("Unable to create account")
+  }
+
+  logger.info(`Created account with UUID: ${result.uuid}`)
+
+  return result.uuid
+}

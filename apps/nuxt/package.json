@@ -13,6 +13,7 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,vue}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,tsx,md,vue}\"",
     "test:unit": "vitest --run --coverage",
     "typecheck": "pnpm exec nuxt typecheck"
   },
