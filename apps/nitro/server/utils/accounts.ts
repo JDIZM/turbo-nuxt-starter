@@ -1,8 +1,6 @@
-import { createLogger } from "logger"
+import { logger } from "logger"
 import { db, accounts, insertAccountSchema, type NewAccount } from "db-schema"
 import { HttpErrors } from "helpers"
-
-const logger = createLogger()
 
 /**
  * Create a new account record in the database

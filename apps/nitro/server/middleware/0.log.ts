@@ -1,6 +1,4 @@
-import { createLogger } from "logger"
-
-const logger = createLogger()
+import { logger } from "logger"
 
 /**
  * Structured logging middleware using Pino
