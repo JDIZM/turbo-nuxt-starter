@@ -36,23 +36,37 @@ SUPABASE_URL=http://localhost:54321
 SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_AUTH_JWT_SECRET=your-jwt-secret
 CORS_ORIGIN=http://localhost:3001
+PORT=3004        # Development server port
+#HOST=0.0.0.0    # Uncomment to bind to all interfaces (not recommended for local dev)
 ```
+
+**Note on Environment Variables in Monorepo:**
+
+- Nitro's built-in .env loading looks for files at `process.cwd()`, which in a monorepo may be the repository root
+- This project explicitly loads `apps/nitro/.env` in `nitro.config.ts` for monorepo compatibility
+- All environment variables (SUPABASE\_\*, CORS_ORIGIN, etc.) are loaded from the app-specific `.env` file
+- The duplicate `dotenv.config()` has been removed from runtime code to avoid conflicts
 
 ### Start Development Server
 
 ```bash
+# Start on localhost:3004 (default)
 pnpm dev
+
+# Start and expose on network (use --host flag)
+pnpm dev --host
 ```
 
-Server runs on port `3004` (configurable via `NITRO_PORT` environment variable).
+Server runs on `http://localhost:3004/` by default (configurable via `PORT` in `.env`).
+Use `--host` flag to expose on all network interfaces.
 
 ## API Documentation
 
 Once the server is running, access the API documentation at:
 
-- **Swagger UI**: http://localhost:3004/_swagger
-- **Scalar UI**: http://localhost:3004/_scalar
-- **OpenAPI JSON**: http://localhost:3004/_openapi.json
+- **Swagger UI**: http://localhost:3004/\_swagger
+- **Scalar UI**: http://localhost:3004/\_scalar
+- **OpenAPI JSON**: http://localhost:3004/\_openapi.json
 
 ## Available Endpoints
 
@@ -121,8 +135,12 @@ defineRouteMeta({
     tags: ["Authentication"],
     summary: "Create new account",
     description: "Register a new user",
-    requestBody: { /* schema */ },
-    responses: { /* responses */ }
+    requestBody: {
+      /* schema */
+    },
+    responses: {
+      /* responses */
+    }
   }
 })
 ```

@@ -1,11 +1,8 @@
 /**
  * Server configuration
  * Centralizes environment variable access with validation
+ * Note: .env is loaded in nitro.config.ts for monorepo compatibility
  */
-
-// Load environment variables from .env file
-import dotenv from "dotenv"
-dotenv.config()
 
 const getJwtSecret = (): string => {
   const secret = process.env.SUPABASE_AUTH_JWT_SECRET

@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "build": "nitro build",
-    "dev": "PORT=${NITRO_PORT:-3004} nitro dev",
+    "dev": "nitro dev",
     "postinstall": "nitro prepare",
     "prepare": "nitro prepare",
-    "preview": "PORT=${NITRO_PORT:-3004} node .output/server/index.mjs",
+    "preview": "node .output/server/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint . --fix",
     "lint:check": "eslint ."
