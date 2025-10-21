@@ -33,12 +33,36 @@ Configure your environment variables:
 ```env
 NODE_ENV=development
 SUPABASE_URL=http://localhost:54321
-SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_AUTH_JWT_SECRET=your-jwt-secret
 CORS_ORIGIN=http://localhost:3001
 PORT=3004        # Development server port
 #HOST=0.0.0.0    # Uncomment to bind to all interfaces (not recommended for local dev)
+
+# Supabase Keys - Choose one option:
+
+# Option 1: New key system (2025+) - Recommended for new projects
+# SUPABASE_PUBLISHABLE_KEY=sb_publishable_*
+# SUPABASE_SECRET_KEY=sb_secret_*
+
+# Option 2: Legacy JWT keys - Still supported for local development
+SUPABASE_ANON_KEY=eyJhbGci...
+SUPABASE_AUTH_JWT_SECRET=your-jwt-secret
 ```
+
+**Supabase Key System:**
+
+Run `supabase start` to get your local development keys. Supabase now supports two key formats:
+
+1. **New System (2025+)**: `sb_publishable_*` and `sb_secret_*` keys
+   - Not JWT-based, can't be used in Authorization Bearer header
+   - Supports multiple secret keys with custom permissions
+   - Recommended for new projects
+
+2. **Legacy System**: JWT-based `anon` key and `service_role` key
+   - Still fully supported for local development
+   - Backward compatible with existing code
+   - Works with Authorization Bearer header
+
+This project supports **both formats** - the config automatically prefers new keys but falls back to legacy keys for backward compatibility.
 
 **Note on Environment Variables in Monorepo:**
 
