@@ -126,7 +126,7 @@ This starter includes **Supabase authentication** with local Docker development.
 
 ```bash
 # Install Supabase CLI
-npm install -g supabase
+pnpm add -g supabase
 
 # Initialize Supabase (creates supabase/ directory)
 supabase init
@@ -234,12 +234,12 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- **`nuxt`** - [Nuxt 3](https://nuxt.com/) frontend application (port 3001)
-- **`api`** - [Express.js](https://expressjs.com/) API server with TypeScript (port 3002)
-- **`nitro`** - [Nitro](https://nitro.unjs.io/) server example
-- **`storybook`** - [Storybook](https://storybook.js.org/) for component development
-- **`vite`** - [Vite](https://vitejs.dev/) + Vue 3 application
+- **`vite`** - [Vite](https://vitejs.dev/) + Vue 3 application (port 3000)
+- **`nuxt`** - [Nuxt 4](https://nuxt.com/) frontend application (port 3001)
+- **`api`** - [Express API](https://expressjs.com/) server with TypeScript (port 3002)
 - **`docus`** - [Docus](https://docus.dev/) documentation site (port 3003)
+- **`nitro`** - [Nitro](https://nitro.unjs.io/) server example (port 3004)
+- **`storybook`** - [Storybook](https://storybook.js.org/) for component development (port 6006)
 - **`ui`** - Shared Vue component library with Tailwind CSS
 - **`eslint-config-custom`** - ESLint configurations for different environments
 - **`tsconfig`** - Shared TypeScript configurations
@@ -265,11 +265,24 @@ Run all applications simultaneously:
 pnpm dev
 ```
 
-This starts:
+This starts all applications on their configured ports:
 
-- Nuxt app at `http://localhost:3001`
-- Express API at `http://localhost:3002`
-- Other apps on their respective ports
+| Application | Port | URL | Environment Variable |
+|-------------|------|-----|---------------------|
+| Vite + Vue 3 | 3000 | http://localhost:3000 | - |
+| Nuxt Frontend | 3001 | http://localhost:3001 | NUXT_PORT |
+| Express API | 3002 | http://localhost:3002 | API_PORT |
+| Docus Docs | 3003 | http://localhost:3003 | DOCS_PORT |
+| Nitro Server | 3004 | http://localhost:3004 | NITRO_PORT |
+| Storybook | 6006 | http://localhost:6006 | - |
+
+**Infrastructure Services:**
+
+| Service | Port | URL | Environment Variable |
+|---------|------|-----|---------------------|
+| Supabase Studio | 54323 | http://localhost:54323 | - |
+| Supabase API | 54321 | http://localhost:54321 | SUPABASE_URL |
+| PostgreSQL | 54322 | postgresql://localhost:54322 | POSTGRES_PORT |
 
 ### Individual Services
 
@@ -420,7 +433,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9.1.4
+          version: 10.17.1
 
       - uses: actions/setup-node@v4
         with:
