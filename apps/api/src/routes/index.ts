@@ -1,9 +1,12 @@
 import { Router } from "express"
 import { HttpErrors, HttpStatusCode, apiResponse, asyncHandler } from "helpers"
 import { isAuthenticated } from "../middleware/isAuthenticated.ts"
+import { validateRequest } from "../middleware/validateRequest.ts"
 import { authRateLimit } from "../middleware/rateLimiter.ts"
 import { signup, login } from "../handlers/auth/auth.handlers.ts"
 import { getMe } from "../handlers/me/index.ts"
+import { SignupRequestSchema, LoginRequestSchema } from "../schemas/auth.ts"
+import { UserParamsSchema, UpdateUserSchema } from "../schemas/users.ts"
 
 const router = Router()
 
@@ -26,8 +29,8 @@ router.get(
 )
 
 // Auth routes (public) with stricter rate limiting
-router.post("/auth/signup", authRateLimit, signup)
-router.post("/auth/login", authRateLimit, login)
+router.post("/auth/signup", authRateLimit, validateRequest({ body: SignupRequestSchema }), signup)
+router.post("/auth/login", authRateLimit, validateRequest({ body: LoginRequestSchema }), login)
 router.post(
   "/auth/logout",
   isAuthenticated,
@@ -59,6 +62,7 @@ router.get(
 router.get(
   "/users/:id",
   isAuthenticated,
+  validateRequest({ params: UserParamsSchema }),
   asyncHandler(async (req, res) => {
     const { getAccountById } = await import("../handlers/accounts/accounts.methods.ts")
     const userId = req.params.id
@@ -77,6 +81,7 @@ router.get(
 router.patch(
   "/users/:id",
   isAuthenticated,
+  validateRequest({ params: UserParamsSchema, body: UpdateUserSchema }),
   asyncHandler(async (req, res) => {
     const { updateAccount } = await import("../handlers/accounts/accounts.methods.ts")
     const userId = req.params.id
@@ -97,6 +102,7 @@ router.patch(
 router.delete(
   "/users/:id",
   isAuthenticated,
+  validateRequest({ params: UserParamsSchema }),
   asyncHandler(async (req, res) => {
     const { deleteAccount } = await import("../handlers/accounts/accounts.methods.ts")
     const userId = req.params.id
