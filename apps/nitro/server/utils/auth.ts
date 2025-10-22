@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js"
-import jwt from "jsonwebtoken"
 import type { H3Event } from "h3"
 import { HttpErrors } from "helpers"
 import { config } from "./config"
@@ -8,7 +7,11 @@ import { config } from "./config"
 export const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
 
 /**
- * Extract and verify JWT token from Authorization header
+ * Extract and verify JWT token from Authorization header using getClaims()
+ *
+ * This method automatically adapts based on your Supabase key system:
+ * - With asymmetric keys: Verifies locally using Web Crypto API (fast, secure)
+ * - With symmetric keys: Makes network call to Auth server (slower, but safe)
  */
 export async function verifyToken(event: H3Event): Promise<{
   userId: string
@@ -23,16 +26,27 @@ export async function verifyToken(event: H3Event): Promise<{
   const token = authHeader.substring(7)
 
   try {
-    const decoded = jwt.verify(token, config.jwtSecret) as {
-      sub: string
-      email: string
+    // Get claims - this uses Web Crypto API with asymmetric keys (fast)
+    // or falls back to Auth server verification with symmetric keys
+    const { data, error } = await supabase.auth.getClaims(token)
+
+    if (error || !data) {
+      throw HttpErrors.Unauthorized("Token verification failed")
+    }
+
+    // Extract user ID and email from JWT claims
+    const userId = data.claims.sub as string
+    const email = data.claims.email as string
+
+    if (!userId || !email) {
+      throw HttpErrors.Unauthorized("Invalid token claims")
     }
 
     return {
-      userId: decoded.sub,
-      email: decoded.email
+      userId,
+      email
     }
-  } catch {
+  } catch (_err) {
     throw HttpErrors.Unauthorized("Invalid or expired token")
   }
 }

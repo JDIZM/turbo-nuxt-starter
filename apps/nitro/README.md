@@ -52,17 +52,23 @@ SUPABASE_AUTH_JWT_SECRET=your-jwt-secret
 
 Run `supabase start` to get your local development keys. Supabase now supports two key formats:
 
-1. **New System (2025+)**: `sb_publishable_*` and `sb_secret_*` keys
-   - Not JWT-based, can't be used in Authorization Bearer header
-   - Supports multiple secret keys with custom permissions
-   - Recommended for new projects
+1. **API Keys** (for SDK initialization):
+   - New format: `sb_publishable_*` and `sb_secret_*`
+   - Legacy format: `anon` and `service_role` (JWT-based)
+   - Both formats are functionally equivalent
+   - Config automatically prefers new keys but falls back to legacy
 
-2. **Legacy System**: JWT-based `anon` key and `service_role` key
-   - Still fully supported for local development
-   - Backward compatible with existing code
-   - Works with Authorization Bearer header
+2. **JWT Signing System** (for token verification):
+   - Old: Symmetric key (`JWT_SECRET` signs + verifies)
+   - New: Asymmetric keys (private key signs, public key verifies)
+   - **Benefit**: Local verification with `getClaims()` using Web Crypto API
+   - This project uses `supabase.auth.getClaims()` which:
+     - With asymmetric keys: Verifies locally (fast, secure, offline)
+     - With symmetric keys: Falls back to Auth server call
 
-This project supports **both formats** - the config automatically prefers new keys but falls back to legacy keys for backward compatibility.
+**Learn More:**
+- [Supabase API Keys](https://supabase.com/docs/guides/api/api-keys)
+- [JWT Signing Keys](https://supabase.com/blog/jwt-signing-keys)
 
 **Note on Environment Variables in Monorepo:**
 

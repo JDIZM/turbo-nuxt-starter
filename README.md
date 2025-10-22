@@ -137,22 +137,40 @@ supabase start
 
 ### Configure Environment
 
-After `supabase start`, copy the displayed credentials to your `.env` file:
+After `supabase start`, copy the credentials to your `.env` file:
 
 ```bash
 # Supabase Local Development
 SUPABASE_URL=http://localhost:54321
-SUPABASE_ANON_KEY=<your-anon-key-from-supabase-start-output>
-SUPABASE_AUTH_JWT_SECRET=<your-jwt-secret-from-supabase-start-output>
+
+# Option 1: New key system (2025+) - Recommended
+# Displayed in `supabase start` output
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_*
+# SUPABASE_SECRET_KEY=sb_secret_*  # Only needed for admin operations
+
+# Option 2: Legacy JWT keys - Still supported
+# Get all credentials with: supabase status -o env
+# SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIs...
+
+# JWT Secret for token verification (required for both key systems)
+# Get from: supabase status -o env | grep JWT_SECRET
+SUPABASE_AUTH_JWT_SECRET=<your-jwt-secret>
 
 # Database (Supabase local uses port 54322, not 5432)
-DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres
+DATABASE_URL=postgresql://postgres:<password>@localhost:54322/postgres
 POSTGRES_HOST=localhost
 POSTGRES_PORT=54322
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
+POSTGRES_PASSWORD=<your-password>
 POSTGRES_DB=postgres
 ```
+
+**About Supabase Keys:**
+
+- **API Keys** (`sb_publishable_*` or `anon`): For SDK initialization - functionally equivalent
+- **JWT System**: Newer asymmetric keys enable local token verification (faster, more secure)
+- Both servers use `supabase.auth.getClaims()` which automatically uses Web Crypto API with asymmetric keys
+- Learn more: [Supabase API Keys](https://supabase.com/docs/guides/api/api-keys) | [JWT Signing Keys](https://supabase.com/blog/jwt-signing-keys)
 
 ### Run Database Migrations
 
@@ -208,7 +226,9 @@ curl http://localhost:3002/api/me \
 ### How Auth Works
 
 - **Supabase Auth** handles passwords, JWT tokens, sessions
-- **Express API** verifies JWT tokens with `isAuthenticated` middleware
+- **Both APIs** verify JWT tokens using `supabase.auth.getClaims()`
+  - With asymmetric keys: Local verification using Web Crypto API (fast, offline)
+  - With symmetric keys: Falls back to Auth server verification
 - **Account UUID** matches Supabase Auth user ID (synced on signup)
 - **Protected routes** require `Authorization: Bearer <token>` header
 

@@ -76,9 +76,40 @@ apps/api/
 
 See `.env.example` for all available environment variables:
 
-- `PORT` - Server port (default: 3002)
+- `API_PORT` - Server port (default: 3002)
 - `NODE_ENV` - Environment (development/production)
 - `CORS_ORIGIN` - CORS allowed origin (default: http://localhost:3001)
+
+### Supabase Configuration
+
+This API uses Supabase for authentication with support for both new and legacy key formats:
+
+**API Keys** (for SDK initialization):
+
+- New: `SUPABASE_PUBLISHABLE_KEY` (sb*publishable*\*)
+- Legacy: `SUPABASE_ANON_KEY` (JWT format)
+
+**JWT Verification**:
+
+- `SUPABASE_AUTH_JWT_SECRET` - Used for token verification
+- Auth uses `supabase.auth.getClaims()` which automatically:
+  - With asymmetric keys: Verifies locally using Web Crypto API (fast, secure)
+  - With symmetric keys: Falls back to Auth server call
+
+**Getting Credentials:**
+
+```bash
+# Start Supabase and get new keys
+supabase start
+
+# Get all credentials including JWT_SECRET
+supabase status -o env
+```
+
+**Learn More:**
+
+- [Supabase API Keys](https://supabase.com/docs/guides/api/api-keys)
+- [JWT Signing Keys](https://supabase.com/blog/jwt-signing-keys)
 
 ## Adding New Routes
 
