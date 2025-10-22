@@ -327,19 +327,149 @@ Build all applications and packages:
 pnpm build
 ```
 
+### Dual Server Architecture
+
+This monorepo provides **two production-ready API server options**:
+
+| Feature        | Express (Port 3002)              | Nitro (Port 3004)                 |
+| -------------- | -------------------------------- | --------------------------------- |
+| **Routing**    | Manual registration              | File-based (automatic)            |
+| **OpenAPI**    | `@asteasolutions/zod-to-openapi` | Built-in `defineRouteMeta`        |
+| **Deployment** | Traditional servers              | Edge-optimized, serverless        |
+| **Ecosystem**  | Mature, extensive middleware     | Modern, growing                   |
+| **Best For**   | Complex middleware chains        | Fast prototyping, edge deployment |
+
+**Shared Foundation:**
+
+- Both use identical workspace packages (api-types, db-schema, helpers, logger)
+- Same authentication flow (Supabase JWT verification)
+- Identical response formats and error handling
+- Complete database-backed CRUD operations with PostgreSQL + Drizzle ORM
+
 ### API Endpoints
 
-The Express API provides these endpoints:
+Both servers provide the same core functionality with slightly different route paths:
 
-- `GET /health` - Health check
-- `GET /api` - API information
-- `GET /api/users` - Example users endpoint
+#### Authentication Endpoints (Public)
 
-Test the API:
+| Method | Express Route      | Nitro Route        | Description                    |
+| ------ | ------------------ | ------------------ | ------------------------------ |
+| POST   | `/api/auth/signup` | `/api/auth/signup` | Create new user account        |
+| POST   | `/api/auth/login`  | `/api/auth/login`  | Authenticate and get JWT token |
+| POST   | `/api/auth/logout` | `/api/auth/logout` | Logout (protected)             |
+
+#### User Endpoints (Protected - Requires JWT)
+
+| Method | Express Route    | Nitro Route | Description                    |
+| ------ | ---------------- | ----------- | ------------------------------ |
+| GET    | `/api/me`        | `/api/me`   | Get current user from database |
+| GET    | `/api/users`     | `/user`     | List all users                 |
+| GET    | `/api/users/:id` | `/user/:id` | Get user by ID                 |
+| PATCH  | `/api/users/:id` | `/user/:id` | Update user (self-update only) |
+| DELETE | `/api/users/:id` | `/user/:id` | Delete user (self-delete only) |
+
+#### Health & Info Endpoints
+
+| Method | Express Route | Nitro Route | Description         |
+| ------ | ------------- | ----------- | ------------------- |
+| GET    | `/health`     | `/health`   | Server health check |
+| GET    | `/api/`       | -           | API information     |
+
+### OpenAPI Documentation
+
+Both servers provide interactive API documentation:
+
+- **Express Swagger UI**: http://localhost:3002/docs
+- **Nitro Swagger UI**: http://localhost:3004/\_swagger
+- **Nitro Scalar UI**: http://localhost:3004/\_scalar
+
+Both support the **"Authorize" button** for testing protected endpoints with JWT tokens.
+
+### Example API Requests
+
+#### Signup
 
 ```bash
-curl http://localhost:3002/health
-curl http://localhost:3002/api/users
+curl -X POST http://localhost:3002/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securePassword123",
+    "fullName": "John Doe"
+  }'
+```
+
+#### Login
+
+```bash
+curl -X POST http://localhost:3002/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securePassword123"
+  }'
+```
+
+Response includes JWT token:
+
+```json
+{
+  "code": 200,
+  "data": {
+    "user": { "id": "...", "email": "..." },
+    "session": { "access_token": "eyJ...", "expires_in": 3600 },
+    "message": "Sign in successful"
+  }
+}
+```
+
+#### Get Current User (Protected)
+
+```bash
+curl http://localhost:3002/api/me \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### List Users (Protected)
+
+```bash
+curl http://localhost:3002/api/users \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### Update User (Protected - Self-Update Only)
+
+```bash
+curl -X PATCH http://localhost:3002/api/users/USER_UUID \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullName": "Jane Doe Updated",
+    "email": "updated@example.com"
+  }'
+```
+
+**Authorization Pattern**: Users can only update or delete their own accounts. Attempting to modify another user's account returns `403 Forbidden`.
+
+### Database Integration
+
+Both servers use **PostgreSQL with Drizzle ORM** for type-safe database operations:
+
+- **Connection**: Singleton pattern with `getDb()` from db-schema package
+- **Schema**: Shared `accounts` table with uuid, email, fullName, createdAt
+- **Migrations**: `pnpm db:migrate` applies schema changes
+- **Seeding**: `pnpm db:seed` populates test data
+- **Studio**: `pnpm db:studio` opens Drizzle Studio for visual database management
+
+Database connection details:
+
+```bash
+# PostgreSQL (via Supabase)
+Host: localhost
+Port: 54322
+Database: postgres
+User: postgres
+Password: postgres
 ```
 
 ## Project Structure
