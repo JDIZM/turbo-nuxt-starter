@@ -30,7 +30,7 @@ export const isAuthenticated = async (
     const verifiedToken = await verifyToken(token)
 
     if (!verifiedToken) {
-      throw new Error("Invalid token")
+      throw HttpErrors.Unauthorized("Invalid or expired token")
     }
 
     const { sub } = verifiedToken
