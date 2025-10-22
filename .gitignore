@@ -37,3 +37,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# supabase
+supabase/.branches
+supabase/.temp

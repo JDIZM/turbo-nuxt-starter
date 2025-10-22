@@ -122,22 +122,21 @@ pnpm dev
 
 This starter includes **Supabase authentication** with local Docker development. No cloud account needed for development!
 
-### Setup Supabase CLI
+The `supabase/` directory at the root contains the Supabase CLI configuration shared by all apps.
+
+### Start Supabase
 
 ```bash
-# Install Supabase CLI
+# Install Supabase CLI (if not already installed)
 pnpm add -g supabase
 
-# Initialize Supabase (creates supabase/ directory)
-supabase init
-
-# Start local Supabase stack (PostgreSQL, Auth, Storage, etc.)
+# Start local Supabase stack from root (PostgreSQL, Auth, Storage, etc.)
 supabase start
 ```
 
 ### Configure Environment
 
-After `supabase start`, copy the credentials to your `.env` file:
+After `supabase start`, copy the credentials to **each app's `.env` file** (`apps/api/.env`, `apps/nitro/.env`):
 
 ```bash
 # Supabase Local Development
@@ -164,6 +163,8 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=<your-password>
 POSTGRES_DB=postgres
 ```
+
+**Note:** The root `.env.example` contains only monorepo-level configuration (ports, NODE_ENV). App-specific configuration like Supabase keys should be in each app's `.env` file. See `apps/api/.env.example` and `apps/nitro/.env.example` for templates.
 
 **About Supabase Keys:**
 
