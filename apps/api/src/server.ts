@@ -25,10 +25,10 @@ app.use(helmet())
 // Cookie parser middleware
 app.use(cookieParser())
 
-// CORS configuration
+// CORS configuration - supports single origin or multiple origins
 app.use(
   cors({
-    origin: config.corsOrigin,
+    origin: config.corsOrigins,
     credentials: true
   })
 )

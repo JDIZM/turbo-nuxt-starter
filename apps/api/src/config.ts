@@ -1,4 +1,5 @@
 import dotenv from "dotenv"
+import { z } from "zod"
 
 dotenv.config()
 
@@ -28,17 +29,68 @@ const getSupabaseKey = (): string => {
   return process.env.SUPABASE_ANON_KEY || ""
 }
 
-export const config = {
-  env: process.env.NODE_ENV || "development",
-  port: process.env.API_PORT || 3002,
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3001",
-  // Supabase configuration - supports both new and legacy key formats
-  supabaseUrl: process.env.SUPABASE_URL || "http://localhost:54321",
-  supabaseAnonKey: getSupabaseKey(),
-  // New Supabase key system (2025+)
-  supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
-  supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
-  jwtSecret: getJwtSecret()
-} as const
+/**
+ * Configuration schema - validates environment variables at startup
+ */
+const configSchema = z.object({
+  env: z.enum(["development", "production", "test"]).default("development"),
+  port: z.coerce.number().int().positive().default(3002),
+  corsOrigin: z.string().default("http://localhost:3001"),
+  supabaseUrl: z.url(),
+  supabaseAnonKey: z.string().min(1, "SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY required"),
+  supabasePublishableKey: z.string().optional(),
+  supabaseSecretKey: z.string().optional(),
+  jwtSecret: z.string().min(32, "JWT secret must be at least 32 characters")
+})
 
+/**
+ * Transform and validate CORS origins
+ * Accepts comma-separated list of origins
+ */
+const getCorsOrigins = (corsOriginString: string): string | string[] => {
+  const origins = corsOriginString.split(",").map((origin) => origin.trim())
+
+  // If single origin, return as string (for Express CORS)
+  if (origins.length === 1) {
+    return origins[0]
+  }
+
+  // Multiple origins, return as array
+  return origins
+}
+
+/**
+ * Validated configuration object
+ * Throws error at startup if environment variables are invalid
+ */
+const parseConfig = () => {
+  const rawConfig = {
+    env: process.env.NODE_ENV || "development",
+    port: process.env.API_PORT || 3002,
+    corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3001",
+    supabaseUrl: process.env.SUPABASE_URL || "http://localhost:54321",
+    supabaseAnonKey: getSupabaseKey(),
+    supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+    supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
+    jwtSecret: getJwtSecret()
+  }
+
+  const result = configSchema.safeParse(rawConfig)
+
+  if (!result.success) {
+    console.error("❌ Invalid configuration:")
+    result.error.issues.forEach((issue) => {
+      console.error(`  - ${issue.path.join(".")}: ${issue.message}`)
+    })
+    throw new Error("Configuration validation failed. Check environment variables.")
+  }
+
+  return {
+    ...result.data,
+    // Parse CORS origins for Express (string | string[])
+    corsOrigins: getCorsOrigins(result.data.corsOrigin)
+  }
+}
+
+export const config = parseConfig()
 export type Config = typeof config

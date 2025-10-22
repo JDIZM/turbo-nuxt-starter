@@ -4,6 +4,8 @@
  * Note: .env is loaded in nitro.config.ts for monorepo compatibility
  */
 
+import { z } from "zod"
+
 const getJwtSecret = (): string => {
   const secret = process.env.SUPABASE_AUTH_JWT_SECRET
   const env = process.env.NODE_ENV || "development"
@@ -30,16 +32,46 @@ const getSupabaseKey = (): string => {
   return process.env.SUPABASE_ANON_KEY || ""
 }
 
-export const config = {
-  env: process.env.NODE_ENV || "development",
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3001",
-  // Supabase configuration - supports both new and legacy key formats
-  supabaseUrl: process.env.SUPABASE_URL || "http://localhost:54321",
-  supabaseAnonKey: getSupabaseKey(),
-  // New Supabase key system (2025+)
-  supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
-  supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
-  jwtSecret: getJwtSecret()
-} as const
+/**
+ * Configuration schema - validates environment variables at startup
+ */
+const configSchema = z.object({
+  env: z.enum(["development", "production", "test"]).default("development"),
+  corsOrigin: z.string().default("http://localhost:3001"),
+  supabaseUrl: z.string().url(),
+  supabaseAnonKey: z.string().min(1, "SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY required"),
+  supabasePublishableKey: z.string().optional(),
+  supabaseSecretKey: z.string().optional(),
+  jwtSecret: z.string().min(32, "JWT secret must be at least 32 characters")
+})
 
+/**
+ * Validated configuration object
+ * Throws error at startup if environment variables are invalid
+ */
+const parseConfig = () => {
+  const rawConfig = {
+    env: process.env.NODE_ENV || "development",
+    corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3001",
+    supabaseUrl: process.env.SUPABASE_URL || "http://localhost:54321",
+    supabaseAnonKey: getSupabaseKey(),
+    supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+    supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
+    jwtSecret: getJwtSecret()
+  }
+
+  const result = configSchema.safeParse(rawConfig)
+
+  if (!result.success) {
+    console.error("❌ Invalid Nitro configuration:")
+    result.error.issues.forEach((issue) => {
+      console.error(`  - ${issue.path.join(".")}: ${issue.message}`)
+    })
+    throw new Error("Configuration validation failed. Check environment variables.")
+  }
+
+  return result.data
+}
+
+export const config = parseConfig()
 export type Config = typeof config
