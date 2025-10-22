@@ -157,7 +157,6 @@ SUPABASE_AUTH_JWT_SECRET=<your-jwt-secret>
 
 # Database (Supabase local uses port 54322, not 5432)
 DATABASE_URL=postgresql://postgres:<password>@localhost:54322/postgres
-POSTGRES_HOST=localhost
 POSTGRES_PORT=54322
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=<your-password>
@@ -592,12 +591,28 @@ Docker services use environment variables from your `.env` file:
 # Copy example environment file
 cp .env.example .env
 
-# Required variables for Docker
-POSTGRES_HOST=postgres  # Docker service name
-DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+# Fill in required Supabase credentials
+# Get from: supabase status -o env
 SUPABASE_URL=http://localhost:54321
-SUPABASE_ANON_KEY=your-key
-SUPABASE_AUTH_JWT_SECRET=your-secret
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_AUTH_JWT_SECRET=your-jwt-secret
+```
+
+**Note**: `DATABASE_URL` is the connection string used by application code. Individual `POSTGRES_*` vars configure the PostgreSQL container in `docker-compose.db.yml`.
+
+### Docker Networking
+
+**Important**: Docker containers cannot access `localhost` - it refers to the container itself, not your host machine.
+
+- **Local dev (pnpm dev)**: Use `localhost` in URLs
+- **Docker accessing host services**: Replace `localhost` with `host.docker.internal`
+- **Production**: Use your hosted Supabase project URL (e.g., `https://your-project.supabase.co`)
+
+Example for Docker Compose accessing local Supabase:
+
+```bash
+SUPABASE_URL=http://host.docker.internal:54321
+DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:54322/postgres
 ```
 
 ### Docker Image Optimization

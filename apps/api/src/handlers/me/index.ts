@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import { apiResponse, HttpErrors, asyncHandler } from "helpers"
+import { apiResponse, HttpErrors, asyncHandler, HttpStatusCode } from "helpers"
 import { logger } from "logger"
 import { getDb } from "db-schema/drizzle"
 import { accounts } from "db-schema"
@@ -32,6 +32,6 @@ export const getMe = asyncHandler(async (req: Request, res: Response): Promise<v
   }
 
   logger.info({ accountId: req.accountId }, "Retrieved user account")
-  const response = apiResponse.success(200, account)
+  const response = apiResponse.success(HttpStatusCode.OK, account)
   res.status(response.code).json(response)
 })

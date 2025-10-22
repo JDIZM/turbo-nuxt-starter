@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import { apiResponse, HttpErrors, asyncHandler } from "helpers"
+import { apiResponse, HttpErrors, asyncHandler, HttpStatusCode } from "helpers"
 import { logger } from "logger"
 import { supabase } from "../../services/supabase.ts"
 import { createDbAccount } from "../accounts/accounts.methods.ts"
@@ -52,7 +52,7 @@ export const signup = asyncHandler(async (req: Request, res: Response): Promise<
     fullName
   })
 
-  const response = apiResponse.success(200, {
+  const response = apiResponse.success(HttpStatusCode.OK, {
     accountId: dbAccountId,
     message: "Signup successful"
   })
@@ -84,7 +84,7 @@ export const login = asyncHandler(async (req: Request, res: Response): Promise<v
     return
   }
 
-  const response = apiResponse.success(200, {
+  const response = apiResponse.success(HttpStatusCode.OK, {
     user: data.user,
     session: data.session,
     message: "Sign in successful"

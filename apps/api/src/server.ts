@@ -22,9 +22,6 @@ const port = config.port
 // Security middleware
 app.use(helmet())
 
-// Trust proxy for reverse proxy environments (OrbStack, nginx, etc.)
-app.set("trust proxy", true)
-
 // Cookie parser middleware
 app.use(cookieParser())
 
@@ -88,11 +85,11 @@ app.use("*", (req, res) => {
 // Global error handling middleware (must be last)
 app.use(errorHandler)
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`🚀 API server running at http://0.0.0.0:${port}`)
-  console.log(`📋 Health check: http://0.0.0.0:${port}/health`)
+app.listen(port, () => {
+  console.log(`🚀 API server running at http://localhost:${port}`)
+  console.log(`📋 Health check: http://localhost:${port}/health`)
   if (process.env.NODE_ENV !== "production") {
-    console.log(`📚 API docs: http://0.0.0.0:${port}/docs`)
-    console.log(`📄 OpenAPI spec: http://0.0.0.0:${port}/openapi.json`)
+    console.log(`📚 API docs: http://localhost:${port}/docs`)
+    console.log(`📄 OpenAPI spec: http://localhost:${port}/openapi.json`)
   }
 })
