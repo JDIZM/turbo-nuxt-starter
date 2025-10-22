@@ -287,22 +287,22 @@ pnpm dev
 
 This starts all applications on their configured ports:
 
-| Application | Port | URL | Environment Variable |
-|-------------|------|-----|---------------------|
-| Vite + Vue 3 | 3000 | http://localhost:3000 | - |
-| Nuxt Frontend | 3001 | http://localhost:3001 | NUXT_PORT |
-| Express API | 3002 | http://localhost:3002 | API_PORT |
-| Docus Docs | 3003 | http://localhost:3003 | DOCS_PORT |
-| Nitro Server | 3004 | http://localhost:3004 | NITRO_PORT |
-| Storybook | 6006 | http://localhost:6006 | - |
+| Application   | Port | URL                   | Environment Variable |
+| ------------- | ---- | --------------------- | -------------------- |
+| Vite + Vue 3  | 3000 | http://localhost:3000 | -                    |
+| Nuxt Frontend | 3001 | http://localhost:3001 | NUXT_PORT            |
+| Express API   | 3002 | http://localhost:3002 | API_PORT             |
+| Docus Docs    | 3003 | http://localhost:3003 | DOCS_PORT            |
+| Nitro Server  | 3004 | http://localhost:3004 | NITRO_PORT           |
+| Storybook     | 6006 | http://localhost:6006 | -                    |
 
 **Infrastructure Services:**
 
-| Service | Port | URL | Environment Variable |
-|---------|------|-----|---------------------|
-| Supabase Studio | 54323 | http://localhost:54323 | - |
-| Supabase API | 54321 | http://localhost:54321 | SUPABASE_URL |
-| PostgreSQL | 54322 | postgresql://localhost:54322 | POSTGRES_PORT |
+| Service         | Port  | URL                          | Environment Variable |
+| --------------- | ----- | ---------------------------- | -------------------- |
+| Supabase Studio | 54323 | http://localhost:54323       | -                    |
+| Supabase API    | 54321 | http://localhost:54321       | SUPABASE_URL         |
+| PostgreSQL      | 54322 | postgresql://localhost:54322 | POSTGRES_PORT        |
 
 ### Individual Services
 
