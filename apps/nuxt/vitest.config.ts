@@ -1,10 +1,8 @@
 import { fileURLToPath } from "node:url"
 import { configDefaults, defineConfig } from "vitest/config"
 import vue from "@vitejs/plugin-vue"
-// import vueJsx from "@vitejs/plugin-vue-jsx"
 
 export default defineConfig({
-  // plugins: [vue(), vueJsx()],
   plugins: [vue()],
   resolve: {
     alias: {

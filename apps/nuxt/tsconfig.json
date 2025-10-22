@@ -1,9 +1,9 @@
 {
   "files": [],
   "references": [
-    {
-      "path": "./tsconfig.base.json"
-    },
+    // {
+    //   "path": "./tsconfig.base.json"
+    // },
     {
       "path": "./tsconfig.nuxt.json"
     }

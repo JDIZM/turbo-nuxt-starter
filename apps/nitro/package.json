@@ -1,16 +1,32 @@
 {
   "name": "nitro",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
+    "postinstall": "nitro prepare",
     "prepare": "nitro prepare",
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint . --fix",
+    "lint:check": "eslint ."
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.4",
+    "api-types": "workspace:*",
+    "db-schema": "workspace:*",
+    "dotenv": "^16.0.0",
+    "helpers": "workspace:*",
+    "jsonwebtoken": "^9.0.2",
+    "logger": "workspace:*",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "eslint": "^9.0.0",
     "eslint-config-custom": "workspace:*",
+    "h3": "^1.15.4",
     "nitropack": "latest",
     "tsconfig": "workspace:*",
     "typescript": "^5.5.3",

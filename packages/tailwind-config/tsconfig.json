@@ -1,5 +1,9 @@
 {
   "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "bundler"
+  },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

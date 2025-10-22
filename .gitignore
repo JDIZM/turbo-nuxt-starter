@@ -13,6 +13,8 @@ coverage
 .output/
 out/
 build
+dist
+*.tsbuildinfo
 
 # misc
 .DS_Store
@@ -35,3 +37,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# supabase
+supabase/.branches
+supabase/.temp

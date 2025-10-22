@@ -1,7 +1,23 @@
 // https://nitro.unjs.io/config
+import { config } from "dotenv"
+import { resolve } from "path"
+import { fileURLToPath } from "url"
+
+// Load .env from the app directory (not repo root)
+const __dirname = fileURLToPath(new URL(".", import.meta.url))
+config({ path: resolve(__dirname, ".env") })
+
 export default defineNitroConfig({
   srcDir: "server",
   experimental: {
-    openAPI: true
+    openAPI: true // Enables /_swagger, /_scalar, and /_openapi.json endpoints
+  },
+  openAPI: {
+    meta: {
+      title: "Turbo Nuxt Starter - Nitro API",
+      description:
+        "A production-ready Nitro server with JWT authentication and database integration",
+      version: "1.0.0"
+    }
   }
 })

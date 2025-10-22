@@ -2,3 +2,6 @@
 renovate.json
 *-lock.*
 storybook-static
+
+# Docus content uses MDC syntax - don't format with Prettier
+apps/docus/content/**/*.md

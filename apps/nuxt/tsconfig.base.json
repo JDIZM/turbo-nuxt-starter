@@ -1,3 +1,7 @@
 {
-  "extends": "tsconfig/nuxt.json"
+  "extends": "tsconfig/nuxt.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  }
 }

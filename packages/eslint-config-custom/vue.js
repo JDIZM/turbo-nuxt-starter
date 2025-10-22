@@ -1,36 +1,56 @@
-const { resolve } = require("node:path")
+import eslint from "@eslint/js"
+import tseslint from "typescript-eslint"
+import pluginVue from "eslint-plugin-vue"
+import vueParser from "vue-eslint-parser"
+import prettier from "eslint-config-prettier"
+import globals from "globals"
 
-const project = resolve(process.cwd(), "tsconfig.json")
-
-/*
- * This is a custom ESLint configuration for use with
- * internal that utilize VueJS.
- *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
- */
-
-module.exports = {
-  extends: ["@vercel/style-guide/eslint/browser", "@vue/eslint-config-typescript"].map(
-    require.resolve
-  ),
-  parserOptions: {
-    ecmaVersion: "latest"
+export default tseslint.config(
+  {
+    ignores: ["dist/", "node_modules/", ".nuxt/", ".output/", "storybook-static/"]
   },
-  settings: {
-    "import/resolver": {
-      typescript: {
-        project
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  prettier,
+  {
+    files: ["**/*.vue"],
+    plugins: {
+      vue: pluginVue
+    },
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      ecmaVersion: 2020,
+      sourceType: "module",
+      parser: vueParser,
+      parserOptions: {
+        parser: "@typescript-eslint/parser"
       }
+    },
+    rules: {
+      ...pluginVue.configs["vue3-recommended"].rules,
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "vue/multi-word-component-names": "off"
     }
   },
-  ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js"],
-
-  rules: {
-    "import/no-default-export": "off",
-    "vue/multi-word-component-names": "off",
-    "eslint-comments/require-description": "off",
-    "unicorn/filename-case": "error"
+  {
+    files: ["**/*.ts", "**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      ecmaVersion: 2020,
+      sourceType: "module"
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off"
+    }
   }
-}
+)
