@@ -4,6 +4,9 @@ import * as schema from "./schema.ts"
 
 const { Pool } = pg
 
+// Re-export commonly used drizzle-orm functions for convenience
+export { eq, and, or, gt, lt, gte, lte, ne, isNull, isNotNull } from "drizzle-orm"
+
 /**
  * Create database connection pool
  */

@@ -1,11 +1,8 @@
 import { apiResponse, HttpStatusCode } from "helpers"
+import { getAccounts } from "../../utils/accounts.methods"
 
-export default defineEventHandler((_event) => {
-  // Mock user data - in production, fetch from database
-  const users = [
-    { id: "1", email: "user1@example.com", name: "User One" },
-    { id: "2", email: "user2@example.com", name: "User Two" }
-  ]
+export default defineEventHandler(async (_event) => {
+  const users = await getAccounts()
 
   return apiResponse.success(HttpStatusCode.OK, users, "Users retrieved successfully")
 })
@@ -15,7 +12,8 @@ defineRouteMeta({
   openAPI: {
     tags: ["Users"],
     summary: "List all users",
-    description: "Returns a list of all users (mock data)",
+    description: "Returns a list of all users from the database",
+    security: [{ bearerAuth: [] }],
     responses: {
       200: {
         description: "Users retrieved successfully",
@@ -30,9 +28,10 @@ defineRouteMeta({
                   items: {
                     type: "object",
                     properties: {
-                      id: { type: "string", example: "1" },
-                      email: { type: "string", example: "user1@example.com" },
-                      name: { type: "string", example: "User One" }
+                      uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
+                      email: { type: "string", example: "user@example.com" },
+                      fullName: { type: "string", example: "John Doe" },
+                      createdAt: { type: "string", format: "date-time" }
                     }
                   }
                 },

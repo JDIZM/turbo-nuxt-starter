@@ -67,6 +67,7 @@ Run `supabase start` to get your local development keys. Supabase now supports t
      - With symmetric keys: Falls back to Auth server call
 
 **Learn More:**
+
 - [Supabase API Keys](https://supabase.com/docs/guides/api/api-keys)
 - [JWT Signing Keys](https://supabase.com/blog/jwt-signing-keys)
 

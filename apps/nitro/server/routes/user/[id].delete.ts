@@ -1,5 +1,5 @@
 import { apiResponse, HttpErrors, HttpStatusCode, HttpError } from "helpers"
-import { getAccountById } from "../../utils/accounts.methods"
+import { deleteAccount } from "../../utils/accounts.methods"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,21 +9,22 @@ export default defineEventHandler(async (event) => {
       throw HttpErrors.BadRequest("User ID is required")
     }
 
-    const user = await getAccountById(id)
+    // Verify authenticated user can only delete their own account
+    const userId = event.context.user?.userId
 
-    if (!user) {
-      throw HttpErrors.NotFound(`User with ID ${id} not found`)
+    if (!userId || userId !== id) {
+      throw HttpErrors.Forbidden("You can only delete your own account")
     }
 
-    return apiResponse.success(HttpStatusCode.OK, user, "User retrieved successfully")
+    await deleteAccount(id)
+
+    return apiResponse.success(HttpStatusCode.OK, null, "User deleted successfully")
   } catch (error) {
-    // Format error using apiResponse helper
     if (error instanceof HttpError) {
       const errorResponse = apiResponse.error(error)
       setResponseStatus(event, errorResponse.code)
       return errorResponse
     }
-    // Handle unexpected errors
     const errorResponse = apiResponse.error(
       error instanceof Error ? error : new Error("Unknown error"),
       HttpStatusCode.INTERNAL_SERVER_ERROR
@@ -37,8 +38,8 @@ export default defineEventHandler(async (event) => {
 defineRouteMeta({
   openAPI: {
     tags: ["Users"],
-    summary: "Get user by ID",
-    description: "Returns a specific user by their UUID from the database",
+    summary: "Delete user by ID",
+    description: "Deletes a user account (users can only delete their own account)",
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -54,23 +55,30 @@ defineRouteMeta({
     ],
     responses: {
       200: {
-        description: "User retrieved successfully",
+        description: "User deleted successfully",
         content: {
           "application/json": {
             schema: {
               type: "object",
               properties: {
                 code: { type: "number", example: 200 },
-                data: {
-                  type: "object",
-                  properties: {
-                    uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
-                    email: { type: "string", example: "user@example.com" },
-                    fullName: { type: "string", example: "John Doe" },
-                    createdAt: { type: "string", format: "date-time" }
-                  }
-                },
-                message: { type: "string", example: "User retrieved successfully" }
+                data: { type: "null" },
+                message: { type: "string", example: "User deleted successfully" }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: "Forbidden - can only delete own account",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                code: { type: "number", example: 403 },
+                error: { type: "string", example: "FORBIDDEN" },
+                message: { type: "string", example: "You can only delete your own account" }
               }
             }
           }
@@ -85,7 +93,10 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 404 },
                 error: { type: "string", example: "NOT_FOUND" },
-                message: { type: "string", example: "User with ID 1 not found" }
+                message: {
+                  type: "string",
+                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found"
+                }
               }
             }
           }

@@ -1,40 +1,7 @@
 import { logger } from "logger"
-import { eq } from "drizzle-orm"
-import { getDb } from "db-schema/drizzle"
-import {
-  accounts,
-  insertAccountSchema,
-  updateAccountSchema,
-  type NewAccount,
-  type Account
-} from "db-schema"
+import { getDb, eq } from "db-schema/drizzle"
+import { accounts, type Account } from "db-schema"
 import { HttpErrors } from "helpers"
-
-/**
- * Create a new account record in the database
- * @param account - Account data including uuid from Supabase Auth
- * @returns The created account UUID
- */
-export async function createDbAccount(account: NewAccount): Promise<string> {
-  const validationResult = insertAccountSchema.safeParse(account)
-
-  if (!validationResult.success) {
-    throw HttpErrors.BadRequest(`Account validation failed: ${validationResult.error.message}`)
-  }
-
-  const db = getDb()
-  const response = await db.insert(accounts).values(account).returning()
-
-  const result = response[0]
-
-  if (!result) {
-    throw HttpErrors.InternalError("Unable to create account")
-  }
-
-  logger.info(`Created account with UUID: ${result.uuid}`)
-
-  return result.uuid
-}
 
 /**
  * Get all accounts from the database
@@ -77,12 +44,6 @@ export async function updateAccount(
   uuid: string,
   updates: Partial<Omit<Account, "uuid" | "createdAt">>
 ): Promise<Account> {
-  const validationResult = updateAccountSchema.safeParse(updates)
-
-  if (!validationResult.success) {
-    throw HttpErrors.BadRequest(`Account validation failed: ${validationResult.error.message}`)
-  }
-
   const db = getDb()
   const response = await db.update(accounts).set(updates).where(eq(accounts.uuid, uuid)).returning()
 

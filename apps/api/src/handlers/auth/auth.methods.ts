@@ -19,6 +19,7 @@ export const verifyToken = async (
   try {
     // Get claims - this uses Web Crypto API with asymmetric keys (fast)
     // or falls back to Auth server verification with symmetric keys
+    // see https://supabase.com/blog/jwt-signing-keys#getting-the-most-benefit
     const { data, error } = await supabase.auth.getClaims(token)
 
     if (error || !data) {

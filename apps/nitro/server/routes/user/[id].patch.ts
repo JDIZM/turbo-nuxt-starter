@@ -1,5 +1,5 @@
 import { apiResponse, HttpErrors, HttpStatusCode, HttpError } from "helpers"
-import { getAccountById } from "../../utils/accounts.methods"
+import { updateAccount } from "../../utils/accounts.methods"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,21 +9,23 @@ export default defineEventHandler(async (event) => {
       throw HttpErrors.BadRequest("User ID is required")
     }
 
-    const user = await getAccountById(id)
+    // Verify authenticated user can only update their own account
+    const userId = event.context.user?.userId
 
-    if (!user) {
-      throw HttpErrors.NotFound(`User with ID ${id} not found`)
+    if (!userId || userId !== id) {
+      throw HttpErrors.Forbidden("You can only update your own account")
     }
 
-    return apiResponse.success(HttpStatusCode.OK, user, "User retrieved successfully")
+    const body = await readBody(event)
+    const user = await updateAccount(id, body)
+
+    return apiResponse.success(HttpStatusCode.OK, user, "User updated successfully")
   } catch (error) {
-    // Format error using apiResponse helper
     if (error instanceof HttpError) {
       const errorResponse = apiResponse.error(error)
       setResponseStatus(event, errorResponse.code)
       return errorResponse
     }
-    // Handle unexpected errors
     const errorResponse = apiResponse.error(
       error instanceof Error ? error : new Error("Unknown error"),
       HttpStatusCode.INTERNAL_SERVER_ERROR
@@ -37,8 +39,8 @@ export default defineEventHandler(async (event) => {
 defineRouteMeta({
   openAPI: {
     tags: ["Users"],
-    summary: "Get user by ID",
-    description: "Returns a specific user by their UUID from the database",
+    summary: "Update user by ID",
+    description: "Updates a user's information (users can only update their own account)",
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -52,9 +54,22 @@ defineRouteMeta({
         }
       }
     ],
+    requestBody: {
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              email: { type: "string", format: "email", example: "updated@example.com" },
+              fullName: { type: "string", example: "John Updated" }
+            }
+          }
+        }
+      }
+    },
     responses: {
       200: {
-        description: "User retrieved successfully",
+        description: "User updated successfully",
         content: {
           "application/json": {
             schema: {
@@ -65,12 +80,27 @@ defineRouteMeta({
                   type: "object",
                   properties: {
                     uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
-                    email: { type: "string", example: "user@example.com" },
-                    fullName: { type: "string", example: "John Doe" },
+                    email: { type: "string", example: "updated@example.com" },
+                    fullName: { type: "string", example: "John Updated" },
                     createdAt: { type: "string", format: "date-time" }
                   }
                 },
-                message: { type: "string", example: "User retrieved successfully" }
+                message: { type: "string", example: "User updated successfully" }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: "Forbidden - can only update own account",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                code: { type: "number", example: 403 },
+                error: { type: "string", example: "FORBIDDEN" },
+                message: { type: "string", example: "You can only update your own account" }
               }
             }
           }
@@ -85,7 +115,10 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 404 },
                 error: { type: "string", example: "NOT_FOUND" },
-                message: { type: "string", example: "User with ID 1 not found" }
+                message: {
+                  type: "string",
+                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found"
+                }
               }
             }
           }

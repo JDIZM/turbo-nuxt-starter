@@ -23,7 +23,10 @@ export const setupSwagger = (app: Application): void => {
         .swagger-ui .topbar { display: none }
         .swagger-ui .info { margin: 20px 0 }
       `,
-        customSiteTitle: "Turbo Nuxt Starter API Documentation"
+        customSiteTitle: "Turbo Nuxt Starter API Documentation",
+        swaggerOptions: {
+          persistAuthorization: true // Keep authorization token between page refreshes
+        }
       })
     )
 

@@ -1,4 +1,5 @@
 import { HttpErrors, apiResponse, HttpStatusCode, HttpError } from "helpers"
+import { getAccountById } from "../../utils/accounts.methods"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,14 +10,14 @@ export default defineEventHandler(async (event) => {
       throw HttpErrors.Unauthorized("Authentication required")
     }
 
-    return apiResponse.success(
-      HttpStatusCode.OK,
-      {
-        id: user.userId,
-        email: user.email
-      },
-      "User retrieved successfully"
-    )
+    // Query database for complete account information
+    const account = await getAccountById(user.userId)
+
+    if (!account) {
+      throw HttpErrors.NotFound("Account not found")
+    }
+
+    return apiResponse.success(HttpStatusCode.OK, account, "User retrieved successfully")
   } catch (error) {
     // Format error using apiResponse helper
     if (error instanceof HttpError) {
@@ -39,7 +40,7 @@ defineRouteMeta({
   openAPI: {
     tags: ["User"],
     summary: "Get current user",
-    description: "Returns information about the authenticated user",
+    description: "Returns complete account information for the authenticated user",
     security: [{ bearerAuth: [] }],
     responses: {
       200: {
@@ -53,8 +54,10 @@ defineRouteMeta({
                 data: {
                   type: "object",
                   properties: {
-                    id: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
-                    email: { type: "string", example: "user@example.com" }
+                    uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
+                    email: { type: "string", example: "user@example.com" },
+                    fullName: { type: "string", example: "John Doe" },
+                    createdAt: { type: "string", format: "date-time" }
                   }
                 },
                 message: { type: "string", example: "User retrieved successfully" }

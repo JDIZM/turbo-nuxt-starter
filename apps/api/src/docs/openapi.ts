@@ -60,6 +60,34 @@ registry.registerPath({
   }
 })
 
+// Get current user (protected)
+registry.registerPath({
+  method: "get",
+  path: "/api/me",
+  summary: "Get current user",
+  description: "Returns information about the authenticated user",
+  security: [{ bearerAuth: [] }],
+  tags: ["Users"],
+  responses: {
+    200: {
+      description: "User information retrieved successfully",
+      content: {
+        "application/json": {
+          schema: SuccessResponseSchema(UserSchema)
+        }
+      }
+    },
+    401: {
+      description: "Unauthorized - missing or invalid token",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema
+        }
+      }
+    }
+  }
+})
+
 // Example protected route
 registry.registerPath({
   method: "get",

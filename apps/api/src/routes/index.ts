@@ -28,51 +28,89 @@ router.get(
 // Auth routes (public) with stricter rate limiting
 router.post("/auth/signup", authRateLimit, signup)
 router.post("/auth/login", authRateLimit, login)
+router.post(
+  "/auth/logout",
+  isAuthenticated,
+  asyncHandler(async (req, res) => {
+    // Client-side should clear the JWT token
+    // This endpoint validates the user is authenticated before logout
+    const response = apiResponse.success(HttpStatusCode.OK, {
+      message: "Logged out successfully"
+    })
+    res.status(response.code).json(response)
+  })
+)
 
 // Protected routes (require authentication)
 router.get("/me", isAuthenticated, getMe)
 
 router.get(
   "/users",
-  // Uncomment to add authentication: isAuthenticated,
+  isAuthenticated,
   asyncHandler(async (req, res) => {
-    // Example users endpoint with Zod schemas from api-types
-    // Schemas provide type safety and OpenAPI generation
-    const users = [
-      { id: 1, name: "John Doe", email: "john@example.com" },
-      { id: 2, name: "Jane Smith", email: "jane@example.com" }
-    ]
+    const { getAccounts } = await import("../handlers/accounts/accounts.methods.ts")
+    const users = await getAccounts()
 
-    // Type-safe response construction using api-types schemas
     const response = apiResponse.success(HttpStatusCode.OK, { users })
     res.status(response.code).json(response)
   })
 )
 
-// Example error route showing HttpErrors usage
 router.get(
   "/users/:id",
+  isAuthenticated,
   asyncHandler(async (req, res) => {
-    const userId = parseInt(req.params.id)
+    const { getAccountById } = await import("../handlers/accounts/accounts.methods.ts")
+    const userId = req.params.id
 
-    if (isNaN(userId)) {
-      throw HttpErrors.BadRequest("User ID must be a number")
-    }
-
-    // Simulate user lookup with typed data
-    const users = [
-      { id: 1, name: "John Doe", email: "john@example.com" },
-      { id: 2, name: "Jane Smith", email: "jane@example.com" }
-    ]
-
-    const user = users.find((u) => u.id === userId)
+    const user = await getAccountById(userId)
 
     if (!user) {
       throw HttpErrors.NotFound(`User with ID ${userId} not found`)
     }
 
-    // Type-safe response with user schema
     const response = apiResponse.success(HttpStatusCode.OK, { user })
+    res.status(response.code).json(response)
+  })
+)
+
+router.patch(
+  "/users/:id",
+  isAuthenticated,
+  asyncHandler(async (req, res) => {
+    const { updateAccount } = await import("../handlers/accounts/accounts.methods.ts")
+    const userId = req.params.id
+
+    // Only allow users to update their own account
+    if (req.accountId !== userId) {
+      throw HttpErrors.Forbidden("You can only update your own account")
+    }
+
+    const updates = req.body
+    const user = await updateAccount(userId, updates)
+
+    const response = apiResponse.success(HttpStatusCode.OK, { user })
+    res.status(response.code).json(response)
+  })
+)
+
+router.delete(
+  "/users/:id",
+  isAuthenticated,
+  asyncHandler(async (req, res) => {
+    const { deleteAccount } = await import("../handlers/accounts/accounts.methods.ts")
+    const userId = req.params.id
+
+    // Only allow users to delete their own account
+    if (req.accountId !== userId) {
+      throw HttpErrors.Forbidden("You can only delete your own account")
+    }
+
+    await deleteAccount(userId)
+
+    const response = apiResponse.success(HttpStatusCode.OK, {
+      message: "Account deleted successfully"
+    })
     res.status(response.code).json(response)
   })
 )

@@ -9,9 +9,7 @@ export default defineEventHandler(async (event) => {
     const validationResult = LoginSchema.safeParse(body)
 
     if (!validationResult.success) {
-      throw HttpErrors.BadRequest(
-        `Validation failed: ${validationResult.error.message}`
-      )
+      throw HttpErrors.BadRequest(`Validation failed: ${validationResult.error.message}`)
     }
 
     const { email, password } = validationResult.data

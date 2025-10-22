@@ -27,11 +27,7 @@ export default defineEventHandler((event) => {
       "Access-Control-Allow-Methods",
       "GET, POST, PUT, DELETE, PATCH, OPTIONS"
     )
-    setResponseHeader(
-      event,
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    )
+    setResponseHeader(event, "Access-Control-Allow-Headers", "Content-Type, Authorization")
   }
 
   // Handle preflight requests

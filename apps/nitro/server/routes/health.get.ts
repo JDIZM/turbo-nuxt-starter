@@ -12,6 +12,19 @@ export default defineEventHandler((_event) => {
 // OpenAPI metadata
 defineRouteMeta({
   openAPI: {
+    // Global OpenAPI configuration - available to all routes
+    $global: {
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            description: "Enter your JWT token from the login endpoint"
+          }
+        }
+      }
+    },
+    // Route-specific metadata
     tags: ["Health"],
     summary: "Health check endpoint",
     description: "Returns server health status and basic information",

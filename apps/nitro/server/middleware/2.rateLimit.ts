@@ -36,9 +36,7 @@ export default defineEventHandler((event) => {
 
   // Check if limit exceeded
   if (entry.count > MAX_REQUESTS) {
-    throw HttpErrors.TooManyRequests(
-      "Too many requests, please try again later"
-    )
+    throw HttpErrors.TooManyRequests("Too many requests, please try again later")
   }
 
   // Add rate limit headers
