@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --strict-peer-dependencies
 
       - run: pnpm lint
-      - run: pnpm format
+      - run: pnpm format:check
       - run: pnpm typecheck
-      - run: pnpm build
       - run: pnpm test:unit
+      - run: pnpm build
