@@ -473,6 +473,187 @@ User: postgres
 Password: postgres
 ```
 
+## 🐳 Docker Deployment
+
+This monorepo includes complete Docker configurations for all applications with optimized multi-stage builds.
+
+### Quick Start
+
+```bash
+# Build and start all services
+docker compose build
+docker compose up -d
+
+# Or combine into one command
+docker compose up -d --build
+
+# View logs
+docker compose logs -f
+
+# Stop all services
+docker compose down
+```
+
+### Available Docker Services
+
+All applications have individual Dockerfiles with multi-stage builds:
+
+| Service       | Port  | Dockerfile                  | Description         |
+| ------------- | ----- | --------------------------- | ------------------- |
+| **api**       | 3002  | `apps/api/Dockerfile`       | Express API server  |
+| **nitro**     | 3004  | `apps/nitro/Dockerfile`     | Nitro server        |
+| **nuxt**      | 3001  | `apps/nuxt/Dockerfile`      | Nuxt SSR frontend   |
+| **vite**      | 3000  | `apps/vite/Dockerfile`      | Vite static app     |
+| **docus**     | 3003  | `apps/docus/Dockerfile`     | Documentation site  |
+| **storybook** | 6006  | `apps/storybook/Dockerfile` | Component library   |
+| **postgres**  | 54322 | `postgres:16-alpine`        | PostgreSQL database |
+
+### Docker Compose Files
+
+**docker-compose.yml** - Production environment (default):
+
+- Optimized production builds
+- Health checks for all services
+- Automatic restarts
+- Minimal image sizes
+- Supabase integration (no PostgreSQL needed)
+
+**docker-compose.db.yml** - Optional local PostgreSQL:
+
+- Use this for local development without Supabase
+- Includes PostgreSQL 16 on port 54322
+- Persistent volume for data storage
+
+**Note**: For local development, use `pnpm dev` directly instead of Docker. Docker is primarily for production deployment testing.
+
+### Accessing Services
+
+**Standard localhost access:**
+
+- Vite: http://localhost:3000
+- Nuxt: http://localhost:3001
+- API: http://localhost:3002
+- Docus: http://localhost:3003
+- Nitro: http://localhost:3004
+- Storybook: http://localhost:6006
+
+**OrbStack users** (automatic HTTPS domains):
+If you're using OrbStack instead of Docker Desktop, containers are automatically available at:
+
+- Vite: https://vite.turbo-nuxt-starter.orb.local
+- Nuxt: https://nuxt.turbo-nuxt-starter.orb.local
+- API: https://api.turbo-nuxt-starter.orb.local
+- Docus: https://docus.turbo-nuxt-starter.orb.local
+- Nitro: https://nitro.turbo-nuxt-starter.orb.local
+- Storybook: https://storybook.turbo-nuxt-starter.orb.local
+
+OrbStack provides automatic local DNS and SSL certificates for all running containers.
+
+### Building Individual Images
+
+```bash
+# Build specific app
+docker build -f apps/api/Dockerfile -t turbo-api .
+
+# Build with BuildKit caching
+DOCKER_BUILDKIT=1 docker build -f apps/api/Dockerfile -t turbo-api .
+```
+
+### Common Docker Commands
+
+```bash
+# Build all services
+docker compose build
+
+# Start services in background
+docker compose up -d
+
+# Build and start (no cache)
+docker compose build --no-cache && docker compose up -d
+
+# View logs
+docker compose logs -f api
+
+# Stop all services
+docker compose down
+
+# Remove volumes
+docker compose down -v
+
+# Start with optional PostgreSQL database
+docker compose -f docker-compose.yml -f docker-compose.db.yml up -d
+```
+
+### Environment Variables
+
+Docker services use environment variables from your `.env` file:
+
+```bash
+# Copy example environment file
+cp .env.example .env
+
+# Required variables for Docker
+POSTGRES_HOST=postgres  # Docker service name
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+SUPABASE_URL=http://localhost:54321
+SUPABASE_ANON_KEY=your-key
+SUPABASE_AUTH_JWT_SECRET=your-secret
+```
+
+### Docker Image Optimization
+
+All Dockerfiles use:
+
+- **Multi-stage builds** - Separate build and runtime stages
+- **BuildKit cache mounts** - Faster dependency installation
+- **pnpm** - Efficient monorepo package management
+- **Node 22 Alpine** - Minimal base images (~50MB)
+- **Non-root users** - Enhanced security
+
+### Health Checks
+
+Production services include health checks:
+
+```yaml
+# API health check
+healthcheck:
+  test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+```
+
+Check service health:
+
+```bash
+docker-compose ps
+```
+
+### Troubleshooting
+
+**Issue: Build fails with "permission denied"**
+
+```bash
+# Use BuildKit
+export DOCKER_BUILDKIT=1
+docker-compose build
+```
+
+**Issue: Port already in use**
+
+```bash
+# Change ports in .env file
+API_PORT=3012
+NUXT_PORT=3011
+```
+
+**Issue: Services can't connect to database**
+
+```bash
+# Use Docker service name for DATABASE_URL
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+```
+
 ## Project Structure
 
 ```

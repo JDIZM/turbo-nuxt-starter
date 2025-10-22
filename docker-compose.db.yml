@@ -1,0 +1,27 @@
+# Docker Compose file for local PostgreSQL database
+# Use this if you want a local PostgreSQL database instead of Supabase
+# Start with: docker compose -f docker-compose.db.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: turbo-postgres-local
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-54322}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
