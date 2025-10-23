@@ -630,19 +630,46 @@ All Dockerfiles use:
 Production services include health checks:
 
 ```yaml
-# API health check
+# API health check (defined in Dockerfile)
 healthcheck:
-  test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/health"]
+  test:
+    [
+      "CMD",
+      "node",
+      "-e",
+      "require('http').get('http://localhost:3002/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+    ]
   interval: 30s
-  timeout: 10s
+  timeout: 3s
   retries: 3
+  start_period: 40s
 ```
 
 Check service health:
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
+
+### Local Development vs Production
+
+**Local Development (pnpm dev)**
+
+- Uses `tsx` for on-the-fly TypeScript execution
+- Reads workspace packages as TypeScript source files
+- No build step required
+- Hot reload enabled
+
+**Production/Docker (pnpm start)**
+
+- Requires transpiled output (`dist/` directory)
+- Needs `node_modules` with built workspace packages
+- Express API depends on external workspace packages
+- Nuxt uses self-contained `.output` directory (includes bundled dependencies)
+
+**Why pnpm start fails locally:**
+
+The Express API (`apps/api`) uses workspace packages (`logger`, `db-schema`, etc.) as TypeScript source. When tsup transpiles the API, it doesn't bundle these workspace packages. Docker containers include `node_modules` from the installer stage, but running `pnpm start` locally without a full workspace build will fail with TypeScript import errors.
 
 ### Troubleshooting
 

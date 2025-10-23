@@ -6,7 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 RUN apk add --no-cache libc6-compat
-RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && npm install -g turbo
+RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && npm install -g turbo@^2
 
 # Builder stage
 FROM base AS builder
@@ -47,8 +47,10 @@ USER nuxt
 
 EXPOSE 3001
 
-COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/node_modules ./apps/nuxt/node_modules
 COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/.output ./apps/nuxt/.output
 COPY --from=installer --chown=nuxt:nodejs /app/apps/nuxt/package.json ./apps/nuxt/package.json
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
+    CMD node -e "require('http').get('http://localhost:3001', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 CMD ["node", "apps/nuxt/.output/server/index.mjs"]

@@ -61,9 +61,7 @@ docker-compose*.yml
 .dockerignore
 
 # Documentation
-README.md
-CLAUDE.md
-*.md
+/*.md
 docs
 
 # CI/CD

@@ -6,7 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
 RUN apk add --no-cache libc6-compat
-RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && npm install -g turbo
+RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && npm install -g turbo@^2
 
 # Builder stage
 FROM base AS builder
@@ -57,4 +57,4 @@ COPY --from=installer --chown=express:nodejs /app/packages ./packages
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
     CMD node -e "require('http').get('http://localhost:3002/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
-CMD ["node", "apps/api/dist/server.js"]
+CMD ["node", "apps/api/dist/server.esm.js"]

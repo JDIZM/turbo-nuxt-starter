@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsx watch src/server.ts",
-    "start": "node dist/server.mjs",
+    "start": "node dist/server.esm.js",
     "seed": "tsx scripts/seed.ts",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
