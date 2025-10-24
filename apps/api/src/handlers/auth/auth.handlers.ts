@@ -52,7 +52,7 @@ export const signup = asyncHandler(async (req: Request, res: Response): Promise<
     fullName
   })
 
-  const response = apiResponse.success(HttpStatusCode.OK, {
+  const response = apiResponse.success(HttpStatusCode.CREATED, {
     accountId: dbAccountId,
     message: "Signup successful"
   })
