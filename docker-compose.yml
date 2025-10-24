@@ -1,45 +1,120 @@
 services:
-  # PostgreSQL Database
-  # NOTE: When using Supabase local (recommended), you don't need this service
-  # Supabase CLI provides its own PostgreSQL instance on port 54322
-  postgres:
-    image: postgres:16-alpine
-    container_name: turbo-nuxt-postgres
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-postgres}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      PGDATA: /var/lib/postgresql/data/pgdata
+  # Express API Server
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: runner
+      args:
+        NODE_ENV: production
+    container_name: turbo-api-prod
     ports:
-      - "${POSTGRES_PORT:-54322}:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - "${API_PORT:-3002}:3002"
+    environment:
+      - NODE_ENV=production
+      - API_PORT=${API_PORT:-3002}
+      - SUPABASE_URL=${SUPABASE_URL:-http://host.docker.internal:54321}
+      # New key system (2025+) - Preferred
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY:-}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY:-}
+      # Legacy keys - Fallback if new keys not provided
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+      - SUPABASE_AUTH_JWT_SECRET=${SUPABASE_AUTH_JWT_SECRET}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3001}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Nitro Server
+  nitro:
+    build:
+      context: .
+      dockerfile: apps/nitro/Dockerfile
+      target: runner
+      args:
+        NODE_ENV: production
+    container_name: turbo-nitro-prod
+    ports:
+      - "${NITRO_PORT:-3004}:3004"
+    environment:
+      - NODE_ENV=production
+      - PORT=${NITRO_PORT:-3004}
+      - SUPABASE_URL=${SUPABASE_URL:-http://host.docker.internal:54321}
+      # New key system (2025+) - Preferred
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY:-}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY:-}
+      # Legacy keys - Fallback if new keys not provided
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+      - SUPABASE_AUTH_JWT_SECRET=${SUPABASE_AUTH_JWT_SECRET}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3001}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    restart: unless-stopped
     networks:
       - app-network
 
   # Nuxt Frontend
   nuxt:
     build:
-      context: ./
-      dockerfile: docker/nuxt
+      context: .
+      dockerfile: apps/nuxt/Dockerfile
+      target: runner
       args:
-        - NODE_ENV=${NODE_ENV:-production}
-    container_name: turbo-nuxt-app
+        NODE_ENV: production
+    container_name: turbo-nuxt-prod
     ports:
-      - "${NUXT_PORT:-3001}:3000"
+      - "${NUXT_PORT:-3001}:3001"
     environment:
-      - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-http://localhost:4000}
+      - NODE_ENV=production
+      - PORT=${NUXT_PORT:-3001}
+      - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-http://api:3002}
+    restart: unless-stopped
+    networks:
+      - app-network
+    depends_on:
+      api:
+        condition: service_healthy
+
+  # Vite App
+  vite:
+    build:
+      context: .
+      dockerfile: apps/vite/Dockerfile
+      target: runner
+    container_name: turbo-vite-prod
+    ports:
+      - "${VITE_PORT:-3000}:80"
+    restart: unless-stopped
     networks:
       - app-network
 
-volumes:
-  postgres_data:
-    driver: local
+  # Docus Documentation
+  docus:
+    build:
+      context: .
+      dockerfile: apps/docus/Dockerfile
+      target: runner
+    container_name: turbo-docus-prod
+    ports:
+      - "${DOCS_PORT:-3003}:80"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Storybook
+  storybook:
+    build:
+      context: .
+      dockerfile: apps/storybook/Dockerfile
+      target: runner
+    container_name: turbo-storybook-prod
+    ports:
+      - "${STORYBOOK_PORT:-6006}:80"
+    restart: unless-stopped
+    networks:
+      - app-network
 
 networks:
   app-network:

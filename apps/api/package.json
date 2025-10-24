@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "dev": "tsx watch src/server.ts",
-    "start": "node dist/server.js",
+    "start": "node dist/server.esm.js",
     "seed": "tsx scripts/seed.ts",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
@@ -42,6 +42,7 @@
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
     "tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0"

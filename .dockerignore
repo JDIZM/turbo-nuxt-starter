@@ -1,0 +1,70 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Git
+.git
+
+# Build outputs
+dist
+.output
+.nuxt
+.next
+out
+build
+storybook-static
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage
+.nyc_output
+
+# Temp files
+.temp
+*.tmp
+.cache
+
+# Turbo
+.turbo
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+/*.md
+
+# CI/CD
+.github
+
+# Misc
+*.pem
