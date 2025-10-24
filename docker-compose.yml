@@ -74,7 +74,8 @@ services:
     networks:
       - app-network
     depends_on:
-      - api
+      api:
+        condition: service_healthy
 
   # Vite App
   vite:
