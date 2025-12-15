@@ -44,13 +44,11 @@ if [ ! -f "$ROOT_DIR/.env" ]; then
     echo ""
     echo "📝 Creating .env file from .env.example..."
     cp "$ROOT_DIR/.env.example" "$ROOT_DIR/.env"
-
-    # Set development-friendly defaults
-    sed -i.bak 's/DATABASE_URL=.*/DATABASE_URL=postgresql:\/\/postgres:postgres@localhost:54322\/postgres/' "$ROOT_DIR/.env" 2>/dev/null || \
-    sed -i '' 's/DATABASE_URL=.*/DATABASE_URL=postgresql:\/\/postgres:postgres@localhost:54322\/postgres/' "$ROOT_DIR/.env"
-
-    rm -f "$ROOT_DIR/.env.bak"
     echo "✅ .env file created"
+    echo ""
+    echo "⚠️  Please update .env with your Supabase credentials:"
+    echo "   Run: supabase status -o env"
+    echo "   Copy the values to your .env file"
 else
     echo "✅ .env file already exists"
 fi
@@ -61,35 +59,29 @@ echo "📦 Installing dependencies..."
 cd "$ROOT_DIR"
 pnpm install
 
-# Start the database
+# Check if Supabase is available
 echo ""
-echo "🗄️ Starting PostgreSQL database..."
-docker compose -f docker-compose.db.yml up -d
-
-# Wait for database to be ready
-echo "⏳ Waiting for database to be ready..."
-MAX_RETRIES=30
-RETRY_COUNT=0
-until docker exec turbo-postgres-local pg_isready -U postgres > /dev/null 2>&1; do
-    RETRY_COUNT=$((RETRY_COUNT + 1))
-    if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
-        echo "❌ Database failed to start after $MAX_RETRIES attempts"
-        exit 1
+if command -v supabase &> /dev/null; then
+    echo "🗄️ Checking Supabase status..."
+    if supabase status > /dev/null 2>&1; then
+        echo "✅ Supabase is running"
+    else
+        echo "⚠️ Supabase is not running. Starting it now..."
+        supabase start
+        echo "✅ Supabase started"
+        echo ""
+        echo "📋 Copy these credentials to your .env file:"
+        supabase status
     fi
-    echo "  Waiting for database... ($RETRY_COUNT/$MAX_RETRIES)"
-    sleep 1
-done
-echo "✅ Database is ready"
+else
+    echo "⚠️ Supabase CLI not found. Install with: brew install supabase/tap/supabase"
+    echo "   Or use docker-compose.db.yml for a standalone PostgreSQL database."
+fi
 
 # Run migrations
 echo ""
 echo "🔄 Running database migrations..."
-pnpm --filter=db-schema run db:push || echo "⚠️ Migrations skipped (may already be applied)"
-
-# Seed the database
-echo ""
-echo "🌱 Seeding database..."
-pnpm --filter=db-schema run db:seed || echo "⚠️ Seeding skipped (may already be seeded)"
+pnpm --filter=db-schema run db:push || echo "⚠️ Migrations skipped (may need Supabase running)"
 
 echo ""
 echo "=========================================="
@@ -98,17 +90,18 @@ echo "=========================================="
 echo ""
 echo "Available commands:"
 echo "  pnpm dev           - Start all apps in development mode"
-echo "  pnpm docker:dev    - Start full Docker development environment"
-echo "  pnpm docker:db     - Start only the database"
+echo "  pnpm docker:dev    - Start API + Nuxt in Docker (requires Supabase)"
+echo "  pnpm docker:db     - Start standalone PostgreSQL (alternative to Supabase)"
 echo "  pnpm docker:down   - Stop all Docker containers"
 echo "  pnpm docker:logs   - View container logs"
-echo "  pnpm docker:reset  - Reset database and volumes"
+echo "  pnpm docker:reset  - Reset Docker volumes"
 echo ""
 echo "Access points:"
-echo "  Nuxt Frontend:  http://localhost:3001"
-echo "  Express API:    http://localhost:3002"
-echo "  API Docs:       http://localhost:3002/docs"
-echo "  Nitro Server:   http://localhost:3004"
-echo "  Docus Docs:     http://localhost:3003"
-echo "  Storybook:      http://localhost:6006"
+echo "  Nuxt Frontend:     http://localhost:3001"
+echo "  Express API:       http://localhost:3002"
+echo "  API Docs:          http://localhost:3002/docs"
+echo "  Nitro Server:      http://localhost:3004"
+echo "  Docus Docs:        http://localhost:3003"
+echo "  Storybook:         http://localhost:6006"
+echo "  Supabase Studio:   http://localhost:54323"
 echo ""

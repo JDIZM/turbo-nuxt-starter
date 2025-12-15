@@ -1,29 +1,11 @@
 # Docker Compose for local development
 # Start with: docker compose -f docker-compose.dev.yml up
 # Or use: pnpm docker:dev
+#
+# NOTE: This assumes Supabase is running locally (supabase start)
+# The API connects to Supabase's PostgreSQL on host.docker.internal:54322
 
 services:
-  # PostgreSQL Database
-  db:
-    image: postgres:16-alpine
-    container_name: turbo-postgres-dev
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-postgres}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "${POSTGRES_PORT:-54322}:5432"
-    volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - dev-network
-
   # Express API Server (Development with hot reload)
   api:
     build:
@@ -40,8 +22,8 @@ services:
       - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY:-}
       - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY:-}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
-      - SUPABASE_AUTH_JWT_SECRET=${SUPABASE_AUTH_JWT_SECRET:-super-secret-jwt-token-for-dev}
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}
+      - SUPABASE_AUTH_JWT_SECRET=${SUPABASE_AUTH_JWT_SECRET}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
       - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3001,http://localhost:3000}
       - LOG_LEVEL=${LOG_LEVEL:-debug}
     volumes:
@@ -50,9 +32,6 @@ services:
       - ./packages/logger/src:/app/packages/logger/src:ro
       - ./packages/api-types/src:/app/packages/api-types/src:ro
       - ./packages/db-schema/src:/app/packages/db-schema/src:ro
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - dev-network
 
@@ -82,7 +61,3 @@ services:
 networks:
   dev-network:
     driver: bridge
-
-volumes:
-  postgres_dev_data:
-    driver: local
