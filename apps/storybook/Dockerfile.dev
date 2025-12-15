@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1
+# Development Dockerfile for Storybook
+# Uses turbo prune for efficient monorepo builds
+
+FROM node:24-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+RUN apk add --no-cache libc6-compat
+RUN corepack enable && npm install -g turbo@^2.5.8
+
+# Prune stage - create minimal monorepo subset
+FROM base AS pruner
+
+WORKDIR /app
+COPY . .
+RUN pnpx turbo prune storybook --docker
+
+# Development stage
+FROM base AS dev
+
+WORKDIR /app
+
+# Copy pruned package files
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Install dependencies
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Copy pruned source files
+COPY --from=pruner /app/out/full/ .
+
+EXPOSE 6006
+
+# Run Storybook in development mode
+CMD ["pnpm", "--filter=storybook", "dev"]

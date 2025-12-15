@@ -62,6 +62,44 @@ services:
     networks:
       - dev-network
 
+  # Docus Documentation Site (Development with HMR)
+  docus:
+    build:
+      context: .
+      dockerfile: apps/docus/Dockerfile.dev
+      target: dev
+    container_name: turbo-docus-dev
+    ports:
+      - "${DOCUS_PORT:-3003}:3003"
+    environment:
+      - NODE_ENV=development
+      - PORT=${DOCUS_PORT:-3003}
+    volumes:
+      - ./apps/docus:/app/apps/docus:ro
+      - /app/apps/docus/node_modules
+      - /app/apps/docus/.nuxt
+    networks:
+      - dev-network
+
+  # Storybook Component Library (Development)
+  storybook:
+    build:
+      context: .
+      dockerfile: apps/storybook/Dockerfile.dev
+      target: dev
+    container_name: turbo-storybook-dev
+    ports:
+      - "${STORYBOOK_PORT:-6006}:6006"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/storybook:/app/apps/storybook:ro
+      - ./packages/ui/src:/app/packages/ui/src:ro
+      - ./packages/tailwind-config:/app/packages/tailwind-config:ro
+      - /app/apps/storybook/node_modules
+    networks:
+      - dev-network
+
 networks:
   dev-network:
     driver: bridge
