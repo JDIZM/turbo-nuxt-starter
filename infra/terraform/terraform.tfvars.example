@@ -1,0 +1,37 @@
+# GCP Project Configuration
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored to prevent exposing secrets
+
+project_id = "your-gcp-project-id"
+region     = "europe-west1"
+environment = "production"
+
+# Service names (optional - these have sensible defaults)
+# repository_name   = "turbo-repo"
+# api_service_name  = "turbo-api"
+# nuxt_service_name = "turbo-nuxt"
+# docus_service_name = "turbo-docus"
+
+# Resource limits (optional)
+# api_cpu    = "1"
+# api_memory = "512Mi"
+# nuxt_cpu   = "1"
+# nuxt_memory = "512Mi"
+
+# Scaling configuration
+# min_instances = 0  # Set to 1 for always-on
+# max_instances = 10
+
+# Custom domains (optional - leave empty to use Cloud Run URLs)
+# api_domain  = "api.example.com"
+# nuxt_domain = "app.example.com"
+
+# GitHub configuration (for Workload Identity Federation)
+# github_owner = "JDIZM"
+# github_repo  = "turbo-nuxt-starter"
+
+# Secrets - provide these or set them manually in Secret Manager
+# database_url        = "postgresql://user:pass@host:5432/db"
+# supabase_url        = "https://your-project.supabase.co"
+# supabase_anon_key   = "your-anon-key"
+# supabase_jwt_secret = "your-jwt-secret"
