@@ -1,0 +1,138 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases",
+    "group:allNonMajor"
+  ],
+  "labels": ["dependencies"],
+  "schedule": ["every weekend"],
+  "timezone": "Europe/London",
+  "prConcurrentLimit": 5,
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "description": "Auto-merge patch updates after CI passes",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Auto-merge minor updates for dev dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Group Vue ecosystem packages",
+      "matchPackagePatterns": ["^vue", "^@vue/", "^pinia"],
+      "groupName": "Vue ecosystem"
+    },
+    {
+      "description": "Group Nuxt ecosystem packages",
+      "matchPackagePatterns": ["^nuxt", "^@nuxt/", "^nitro", "^h3"],
+      "groupName": "Nuxt ecosystem"
+    },
+    {
+      "description": "Group TypeScript and ESLint packages",
+      "matchPackagePatterns": [
+        "typescript",
+        "eslint",
+        "@typescript-eslint",
+        "@eslint"
+      ],
+      "groupName": "TypeScript & Linting"
+    },
+    {
+      "description": "Group Drizzle ORM packages",
+      "matchPackagePatterns": ["^drizzle"],
+      "groupName": "Drizzle ORM"
+    },
+    {
+      "description": "Group Tailwind CSS packages",
+      "matchPackagePatterns": ["tailwind", "daisyui", "postcss"],
+      "groupName": "Tailwind CSS"
+    },
+    {
+      "description": "Group testing packages",
+      "matchPackagePatterns": [
+        "vitest",
+        "@testing-library",
+        "@vitest",
+        "happy-dom"
+      ],
+      "groupName": "Testing"
+    },
+    {
+      "description": "Group Storybook packages",
+      "matchPackagePatterns": ["storybook", "@storybook"],
+      "groupName": "Storybook"
+    },
+    {
+      "description": "Group Docker-related packages",
+      "matchPackagePatterns": ["docker"],
+      "groupName": "Docker"
+    },
+    {
+      "description": "Group Supabase packages",
+      "matchPackagePatterns": ["@supabase"],
+      "groupName": "Supabase"
+    },
+    {
+      "description": "Group Zod packages",
+      "matchPackagePatterns": ["^zod", "@asteasolutions/zod"],
+      "groupName": "Zod"
+    },
+    {
+      "description": "Group Express packages",
+      "matchPackagePatterns": [
+        "^express",
+        "^@types/express",
+        "helmet",
+        "cors",
+        "cookie-parser"
+      ],
+      "groupName": "Express"
+    },
+    {
+      "description": "Group Pino logging packages",
+      "matchPackagePatterns": ["pino"],
+      "groupName": "Pino"
+    },
+    {
+      "description": "Group build tools",
+      "matchPackagePatterns": ["turbo", "tsup", "tsx", "vite"],
+      "groupName": "Build tools"
+    },
+    {
+      "description": "Require approval for major updates",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Pin Terraform provider versions",
+      "matchManagers": ["terraform"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Pin GitHub Actions to digest",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
+    }
+  ],
+  "postUpdateOptions": ["pnpmDedupe"],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 5am on monday"]
+  }
+}
