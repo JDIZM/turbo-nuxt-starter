@@ -6,9 +6,10 @@
   "type": "module",
   "exports": {
     "./base": "./base.js",
-    "./node": "./node.js", 
+    "./node": "./node.js",
     "./vue": "./vue.js",
-    "./nuxt": "./nuxt.js"
+    "./nuxt": "./nuxt.js",
+    "./nitro": "./nitro.js"
   },
   "dependencies": {
     "@eslint/js": "^9.0.0",

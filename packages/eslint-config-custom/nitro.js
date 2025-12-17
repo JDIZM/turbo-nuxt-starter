@@ -1,38 +1,52 @@
-const { resolve } = require("node:path")
-const project = resolve(process.cwd(), "tsconfig.json")
+import eslint from "@eslint/js"
+import { defineConfig } from "eslint/config"
+import tseslint from "typescript-eslint"
+import prettier from "eslint-config-prettier"
+import globals from "globals"
 
 /*
  * This is a custom ESLint configuration for use with
- * NuxtJs apps.
+ * Nitro server apps.
  *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
+ * Nitro is a server framework built on top of h3 and is used by Nuxt
+ * for its server engine.
  */
-module.exports = {
-  extends: [
-    "@nuxt/eslint-config",
-    "@vercel/style-guide/eslint/node",
-    "@vercel/style-guide/eslint/browser",
-    "eslint-config-turbo"
-  ].map(require.resolve),
-  parserOptions: {
-    sourceType: "module"
+export default defineConfig(
+  {
+    ignores: [
+      "dist/",
+      "node_modules/",
+      ".output/",
+      ".nitro/",
+      ".netlify/",
+      ".vercel/",
+      "nitro.config.ts"
+    ]
   },
-  settings: {
-    "import/resolver": {
-      typescript: {
-        project
-      }
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  prettier,
+  {
+    files: ["**/*.ts", "**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node
+      },
+      ecmaVersion: 2020,
+      sourceType: "module"
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_"
+        }
+      ],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-undef": "off"
     }
-  },
-  ignorePatterns: ["node_modules/", "dist/", ".eslintrc.cjs", "nitro.config.ts"],
-  rules: {
-    "comma-dangle": "off",
-    semi: "off",
-    "no-undef": "off",
-    "import/no-default-export": "off",
-    "eslint-comments/require-description": "off"
-    // add specific rules configurations here
   }
-}
+)

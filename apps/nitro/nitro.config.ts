@@ -8,6 +8,7 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url))
 config({ path: resolve(__dirname, ".env") })
 
 export default defineNitroConfig({
+  compatibilityDate: "2025-12-17",
   srcDir: "server",
   experimental: {
     openAPI: true // Enables /_swagger, /_scalar, and /_openapi.json endpoints
