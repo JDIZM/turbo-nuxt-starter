@@ -116,6 +116,7 @@ Monorepo Architecture
 #description
 Organized as a pnpm workspace with shared packages and multiple applications.
 
+#default
 ```
 turbo-nuxt-starter/
 ├── apps/
