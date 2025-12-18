@@ -9,7 +9,7 @@ on:
       services:
         description: 'Services to deploy (comma-separated: api,nuxt,docus or "all")'
         required: false
-        default: 'all'
+        default: "all"
         type: string
 
 concurrency:
