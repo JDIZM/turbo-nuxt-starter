@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -31,6 +32,9 @@ jobs:
 
       - name: Rebuild native modules
         run: pnpm rebuild better-sqlite3 || true
+
+      - name: Prepare Nuxt/Nitro
+        run: pnpm turbo prepare
 
       - name: Lint
         run: pnpm lint:check
@@ -65,6 +69,9 @@ jobs:
       - name: Rebuild native modules
         run: pnpm rebuild better-sqlite3 || true
 
+      - name: Prepare Nuxt/Nitro
+        run: pnpm turbo prepare
+
       - name: Run tests
         run: pnpm test:unit
 
@@ -89,6 +96,9 @@ jobs:
 
       - name: Rebuild native modules
         run: pnpm rebuild better-sqlite3 || true
+
+      - name: Prepare Nuxt/Nitro
+        run: pnpm turbo prepare
 
       - name: Build all packages
         run: pnpm build
