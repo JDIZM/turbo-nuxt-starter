@@ -49,7 +49,7 @@ resource "google_cloud_run_v2_service" "api" {
 
       env {
         name  = "CORS_ORIGIN"
-        value = var.nuxt_domain != "" ? "https://${var.nuxt_domain}" : google_cloud_run_v2_service.nuxt.uri
+        value = var.nuxt_domain != "" ? "https://${var.nuxt_domain}" : "*"
       }
 
       env {
@@ -157,13 +157,8 @@ resource "google_cloud_run_v2_service" "nuxt" {
       }
 
       env {
-        name  = "PORT"
-        value = "3001"
-      }
-
-      env {
         name  = "NUXT_PUBLIC_API_BASE"
-        value = var.api_domain != "" ? "https://${var.api_domain}" : google_cloud_run_v2_service.api.uri
+        value = var.api_domain != "" ? "https://${var.api_domain}" : "https://${var.api_service_name}-${data.google_project.current.number}.${var.region}.run.app"
       }
 
       resources {
@@ -219,7 +214,7 @@ resource "google_cloud_run_v2_service" "docus" {
       resources {
         limits = {
           cpu    = "1"
-          memory = "256Mi"
+          memory = "512Mi"
         }
       }
 

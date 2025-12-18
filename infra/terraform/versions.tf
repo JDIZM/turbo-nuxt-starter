@@ -12,11 +12,10 @@ terraform {
     }
   }
 
-  # Uncomment to use remote state storage in GCS
-  # backend "gcs" {
-  #   bucket = "your-terraform-state-bucket"
-  #   prefix = "turbo-nuxt-starter"
-  # }
+  backend "gcs" {
+    bucket = "nuxt-wp-headless-turbo-tfstate"
+    prefix = "turbo-nuxt-starter"
+  }
 }
 
 provider "google" {

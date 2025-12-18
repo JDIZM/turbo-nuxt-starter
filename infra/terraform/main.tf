@@ -1,3 +1,8 @@
+# Get current project information
+data "google_project" "current" {
+  project_id = var.project_id
+}
+
 # Enable required APIs
 resource "google_project_service" "required_apis" {
   for_each = toset([
