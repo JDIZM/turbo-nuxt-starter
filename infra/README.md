@@ -91,6 +91,7 @@ terraform apply
 ## Cost Optimization
 
 Default configuration scales to zero (`min_instances = 0`):
+
 - **Idle cost**: ~$1/month (Artifact Registry storage only)
 - **Active cost**: ~$12-50/month depending on traffic
 - Pay only when services handle requests
