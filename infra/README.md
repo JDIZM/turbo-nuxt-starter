@@ -20,12 +20,12 @@ Terraform configurations for deploying to Google Cloud Platform.
 unset GOOGLE_APPLICATION_CREDENTIALS
 gcloud auth login
 gcloud auth application-default login
-gcloud config set project YOUR_PROJECT_ID
+gcloud config set project YOUR_GCP_PROJECT_ID
 
 # 2. Create state bucket (first time only)
-gcloud storage buckets create gs://YOUR_PROJECT_ID-turbo-tfstate \
-  --project=YOUR_PROJECT_ID \
-  --location=YOUR_REGION \
+gcloud storage buckets create gs://YOUR_GCP_PROJECT_ID-turbo-tfstate \
+  --project=YOUR_GCP_PROJECT_ID \
+  --location=YOUR_GCP_REGION \
   --uniform-bucket-level-access
 
 # 3. Configure Terraform
@@ -35,22 +35,32 @@ cp terraform.tfvars.example terraform.tfvars
 
 # Update versions.tf with your bucket name:
 # backend "gcs" {
-#   bucket = "YOUR_PROJECT_ID-turbo-tfstate"
+#   bucket = "YOUR_GCP_PROJECT_ID-turbo-tfstate"
 #   prefix = "turbo-nuxt-starter"
 # }
 
 # 4. Build and push Docker images FIRST (from repo root)
 cd ../..
-gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
-docker build -f apps/api/Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/api:latest .
-docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/api:latest
+# Set your variables
+export GCP_PROJECT_ID="your-gcp-project-id"
+export GCP_REGION="europe-west2"  # Or your chosen region
 
-docker build -f apps/nuxt/Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/nuxt:latest .
-docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/nuxt:latest
+# Configure Docker auth
+gcloud auth configure-docker ${GCP_REGION}-docker.pkg.dev
 
-docker build -f apps/docus/Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/docus:latest .
-docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/turbo-repo/docus:latest
+# Build with AMD64 platform (required for Cloud Run)
+docker build --platform linux/amd64 -f apps/api/Dockerfile \
+  -t ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/api:latest .
+docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/api:latest
+
+docker build --platform linux/amd64 -f apps/nuxt/Dockerfile \
+  -t ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/nuxt:latest .
+docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/nuxt:latest
+
+docker build --platform linux/amd64 -f apps/docus/Dockerfile \
+  -t ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/docus:latest .
+docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/turbo-repo/docus:latest
 
 # 5. Apply Terraform
 cd infra/terraform
