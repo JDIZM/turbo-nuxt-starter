@@ -31,7 +31,7 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Rebuild native modules
-        run: pnpm rebuild better-sqlite3 || true
+        run: pnpm rebuild better-sqlite3
 
       - name: Prepare Nuxt/Nitro
         run: pnpm turbo prepare
@@ -67,7 +67,7 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Rebuild native modules
-        run: pnpm rebuild better-sqlite3 || true
+        run: pnpm rebuild better-sqlite3
 
       - name: Prepare Nuxt/Nitro
         run: pnpm turbo prepare
@@ -95,7 +95,7 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Rebuild native modules
-        run: pnpm rebuild better-sqlite3 || true
+        run: pnpm rebuild better-sqlite3
 
       - name: Prepare Nuxt/Nitro
         run: pnpm turbo prepare
