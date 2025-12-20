@@ -14,7 +14,7 @@ A production-ready Nitro server with authentication, database integration, and c
 
 ## Prerequisites
 
-- Node.js >= 20
+- Node.js 22
 - pnpm (package manager)
 - Supabase (local or cloud)
 

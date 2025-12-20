@@ -65,7 +65,7 @@ Leverages **Turborepo** for intelligent caching and parallel task execution. Sha
 - **Nuxt 4.1+** - Latest stable with Vue 3.5+ and Vite 6
 - **TypeScript 5.7+** - Strict mode with comprehensive type safety
 - **pnpm 10** - Fastest package manager with built-in security
-- **Node 20+ LTS** - Future-proof with long-term support
+- **Node 22+ LTS** - Future-proof with long-term support
 
 ### 📚 Documentation-Driven
 
@@ -83,7 +83,7 @@ PostgreSQL + Drizzle ORM setup with migrations, seeds, and type-safe queries. Su
 
 ### Prerequisites
 
-- **Node.js** 20+ (LTS) - [Download](https://nodejs.org/)
+- **Node.js 22+ (LTS) - [Download](https://nodejs.org/)
 - **Corepack** - Package manager version manager (included with Node.js 16+)
 - **Docker** (for database) - [Get Docker](https://docs.docker.com/get-docker/)
 
@@ -839,7 +839,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "pnpm"
 
       # Install dependencies (skip postinstall for speed)

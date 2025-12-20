@@ -15,7 +15,7 @@ A modern Express.js API server with TypeScript support, built as part of the Tur
 
 ### Prerequisites
 
-- Node.js >= 20
+- Node.js 22
 - pnpm (recommended package manager)
 
 ### Development

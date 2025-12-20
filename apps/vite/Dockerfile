@@ -5,8 +5,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
-RUN apk add --no-cache libc6-compat
-RUN corepack enable && npm install -g turbo@^2.5.8
+RUN apk add --no-cache libc6-compat && corepack enable
 
 # Builder stage
 FROM base AS builder

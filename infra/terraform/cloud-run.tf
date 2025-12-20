@@ -17,6 +17,26 @@ resource "google_service_account" "docus_service" {
   description  = "Service account for the Docus Cloud Run service"
 }
 
+# Allow GitHub Actions service account to impersonate Cloud Run service accounts
+# This is required for deploying Cloud Run services from GitHub Actions
+resource "google_service_account_iam_member" "github_actAs_api" {
+  service_account_id = google_service_account.api_service.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_service_account_iam_member" "github_actAs_nuxt" {
+  service_account_id = google_service_account.nuxt_service.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_service_account_iam_member" "github_actAs_docus" {
+  service_account_id = google_service_account.docus_service.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
 # Express API Cloud Run Service
 resource "google_cloud_run_v2_service" "api" {
   name     = var.api_service_name
