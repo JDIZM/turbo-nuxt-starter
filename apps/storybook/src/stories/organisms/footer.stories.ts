@@ -94,9 +94,7 @@ export const MinimalFooter: Story = {
         ]
       }
     ],
-    socialLinks: [
-      { label: "GitHub", href: "https://github.com", icon: "github" as const }
-    ],
+    socialLinks: [{ label: "GitHub", href: "https://github.com", icon: "github" as const }],
     copyright: "© 2025 Simple App"
   }
 }

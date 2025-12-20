@@ -29,7 +29,8 @@ useHead({
   meta: [
     {
       name: "description",
-      content: "Production-ready Nuxt 4 + Turborepo starter with TypeScript, Tailwind, and API integration"
+      content:
+        "Production-ready Nuxt 4 + Turborepo starter with TypeScript, Tailwind, and API integration"
     }
   ]
 })
@@ -94,8 +95,8 @@ useHead({
         <div v-if="error" class="mt-4">
           <p class="text-sm text-red-600">{{ error.message || "Failed to connect to API" }}</p>
           <button
-            class="mt-2 text-sm font-medium text-primary-600 hover:text-primary-700"
-            @click="refresh"
+            class="text-primary-600 hover:text-primary-700 mt-2 text-sm font-medium"
+            @click="() => refresh()"
           >
             Retry
           </button>
@@ -106,7 +107,7 @@ useHead({
       <Card shadow="md">
         <div>
           <p class="text-sm font-medium text-gray-600">API Endpoint</p>
-          <p class="mt-2 break-all text-sm font-mono text-gray-900">
+          <p class="mt-2 break-all font-mono text-sm text-gray-900">
             {{ useRuntimeConfig().public.apiBase }}
           </p>
         </div>
@@ -115,7 +116,7 @@ useHead({
             :href="`${useRuntimeConfig().public.apiBase}/docs`"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-sm font-medium text-primary-600 hover:text-primary-700"
+            class="text-primary-600 hover:text-primary-700 text-sm font-medium"
           >
             View API Documentation →
           </a>
@@ -128,19 +129,19 @@ useHead({
           <p class="text-sm font-medium text-gray-600">Tech Stack</p>
           <ul class="mt-3 space-y-2 text-sm text-gray-700">
             <li class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-primary-600" />
+              <span class="bg-primary-600 h-1.5 w-1.5 rounded-full" />
               Nuxt 4.1 + Vue 3.5
             </li>
             <li class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-primary-600" />
+              <span class="bg-primary-600 h-1.5 w-1.5 rounded-full" />
               TypeScript 5.7
             </li>
             <li class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-primary-600" />
+              <span class="bg-primary-600 h-1.5 w-1.5 rounded-full" />
               Tailwind v4
             </li>
             <li class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-primary-600" />
+              <span class="bg-primary-600 h-1.5 w-1.5 rounded-full" />
               Turborepo
             </li>
           </ul>

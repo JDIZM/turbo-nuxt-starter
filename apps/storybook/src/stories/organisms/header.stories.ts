@@ -61,9 +61,7 @@ export const LoggedOut: Story = {
 export const MinimalNav: Story = {
   args: {
     logo: "Simple",
-    navigationItems: [
-      { label: "Home", href: "/", active: true }
-    ],
+    navigationItems: [{ label: "Home", href: "/", active: true }],
     user: null
   }
 }

@@ -100,15 +100,23 @@ useHead({
           <p>To start developing with this template:</p>
           <ol class="ml-4 list-decimal space-y-2">
             <li>Clone the repository</li>
-            <li>Run <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">pnpm install</code></li>
-            <li>Start Supabase: <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">supabase start</code></li>
-            <li>Run dev servers: <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">pnpm dev</code></li>
+            <li>
+              Run <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">pnpm install</code>
+            </li>
+            <li>
+              Start Supabase:
+              <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">supabase start</code>
+            </li>
+            <li>
+              Run dev servers:
+              <code class="rounded bg-gray-100 px-2 py-1 font-mono text-sm">pnpm dev</code>
+            </li>
           </ol>
           <p class="mt-4">
             Check out the
             <a
               href="/docs"
-              class="font-medium text-primary-600 hover:text-primary-700 transition-colors"
+              class="text-primary-600 hover:text-primary-700 font-medium transition-colors"
             >
               documentation
             </a>

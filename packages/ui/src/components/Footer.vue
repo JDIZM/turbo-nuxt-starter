@@ -24,7 +24,7 @@ export interface FooterProps {
   }>
 }
 
-const props = withDefaults(defineProps<FooterProps>(), {
+withDefaults(defineProps<FooterProps>(), {
   sections: () => [],
   copyright: `© ${new Date().getFullYear()} All rights reserved.`,
   socialLinks: () => []
@@ -50,7 +50,7 @@ const socialIcons = {
             <li v-for="link in section.links" :key="link.href">
               <a
                 :href="link.href"
-                class="text-base text-gray-600 hover:text-gray-900 transition-colors"
+                class="text-base text-gray-600 transition-colors hover:text-gray-900"
               >
                 {{ link.label }}
               </a>
@@ -68,7 +68,7 @@ const socialIcons = {
               v-for="social in socialLinks"
               :key="social.href"
               :href="social.href"
-              class="text-gray-400 hover:text-gray-500 transition-colors"
+              class="text-gray-400 transition-colors hover:text-gray-500"
               target="_blank"
               rel="noopener noreferrer"
             >

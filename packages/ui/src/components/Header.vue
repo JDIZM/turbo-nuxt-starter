@@ -29,7 +29,7 @@ export interface HeaderProps {
   showMobileMenu?: boolean
 }
 
-const props = withDefaults(defineProps<HeaderProps>(), {
+withDefaults(defineProps<HeaderProps>(), {
   logo: "App",
   navigationItems: () => [],
   user: null,
@@ -56,7 +56,7 @@ const toggleMobileMenu = () => {
       <div class="flex h-16 items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center">
-          <a href="/" class="text-xl font-bold text-primary-600 hover:text-primary-700">
+          <a href="/" class="text-primary-600 hover:text-primary-700 text-xl font-bold">
             {{ logo }}
           </a>
         </div>
@@ -94,7 +94,7 @@ const toggleMobileMenu = () => {
         <div v-if="showMobileMenu" class="flex md:hidden">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="focus:ring-primary-500 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset"
             @click="toggleMobileMenu"
           >
             <span class="sr-only">Open main menu</span>
@@ -114,13 +114,7 @@ const toggleMobileMenu = () => {
               />
             </svg>
             <!-- Close icon -->
-            <svg
-              v-else
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            <svg v-else class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -154,15 +148,11 @@ const toggleMobileMenu = () => {
         <div v-if="user" class="space-y-3">
           <div class="text-sm font-medium text-gray-900">{{ user.name }}</div>
           <div v-if="user.email" class="text-sm text-gray-500">{{ user.email }}</div>
-          <Button variant="outline" size="sm" full-width @click="emit('logout')">
-            Logout
-          </Button>
+          <Button variant="outline" size="sm" full-width @click="emit('logout')"> Logout </Button>
         </div>
         <div v-else class="space-y-2">
           <Button variant="outline" size="sm" full-width @click="emit('login')"> Login </Button>
-          <Button variant="primary" size="sm" full-width @click="emit('login')">
-            Sign Up
-          </Button>
+          <Button variant="primary" size="sm" full-width @click="emit('login')"> Sign Up </Button>
         </div>
       </div>
     </div>
