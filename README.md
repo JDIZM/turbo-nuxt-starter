@@ -161,7 +161,6 @@ This monorepo uses a **single root `.env` file** for all shared configuration.
    ```
 
 3. **(Optional) Add app-specific configuration:**
-
    - **API**: `apps/api/.env` - OpenAPI config, Sentry DSN
    - **Nuxt**: `apps/nuxt/.env` - Generate secret with `openssl rand -base64 32`
    - **Nitro**: `apps/nitro/.env` - Port overrides
@@ -188,6 +187,7 @@ This monorepo uses a **single root `.env` file** for all shared configuration.
 ```
 
 **Benefits:**
+
 - ✅ **DRY** - No duplicated env var definitions
 - ✅ **Single setup** - Copy one file, configure once
 - ✅ **Clear separation** - Obvious which vars are app-specific
