@@ -83,7 +83,7 @@ PostgreSQL + Drizzle ORM setup with migrations, seeds, and type-safe queries. Su
 
 ### Prerequisites
 
-- **Node.js 22+ (LTS) - [Download](https://nodejs.org/)
+- \*\*Node.js 22+ (LTS) - [Download](https://nodejs.org/)
 - **Corepack** - Package manager version manager (included with Node.js 16+)
 - **Docker** (for database) - [Get Docker](https://docs.docker.com/get-docker/)
 
