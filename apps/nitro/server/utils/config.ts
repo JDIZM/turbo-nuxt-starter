@@ -38,7 +38,7 @@ const getSupabaseKey = (): string => {
 const configSchema = z.object({
   env: z.enum(["development", "production", "test"]).default("development"),
   corsOrigin: z.string().default("http://localhost:3001"),
-  supabaseUrl: z.string().url(),
+  supabaseUrl: z.url(),
   supabaseAnonKey: z.string().min(1, "SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY required"),
   supabasePublishableKey: z.string().optional(),
   supabaseSecretKey: z.string().optional(),

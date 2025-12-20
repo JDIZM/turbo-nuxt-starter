@@ -12,7 +12,16 @@
     "test:unit": "turbo run test:unit",
     "typecheck": "turbo run typecheck",
     "dev:api": "turbo run dev --filter=api",
-    "dev:web": "turbo run dev --filter=nuxt"
+    "dev:web": "turbo run dev --filter=nuxt",
+    "setup": "./scripts/dev-setup.sh",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up --build",
+    "docker:dev:detach": "docker compose -f docker-compose.dev.yml up --build -d",
+    "docker:db": "docker compose -f docker-compose.db.yml up -d",
+    "docker:down": "docker compose -f docker-compose.dev.yml down && docker compose -f docker-compose.db.yml down",
+    "docker:logs": "docker compose -f docker-compose.dev.yml logs -f",
+    "docker:reset": "docker compose -f docker-compose.dev.yml down -v && docker compose -f docker-compose.db.yml down -v",
+    "docker:prod": "docker compose up --build",
+    "docker:prod:detach": "docker compose up --build -d"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
@@ -22,6 +31,6 @@
   },
   "packageManager": "pnpm@10.17.1",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }

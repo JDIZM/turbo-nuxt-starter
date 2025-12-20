@@ -28,12 +28,15 @@ A production-ready **Turborepo monorepo starter** template for building modern f
 
 ### Production-Ready Infrastructure
 
-- **Docker Support** - Multi-stage builds with BuildKit caching
+- **Docker Support** - Multi-stage builds with BuildKit caching and turbo prune
+- **GCP Cloud Run** - Terraform infrastructure with Workload Identity Federation
+- **CI/CD Pipelines** - GitHub Actions with automated deployments
 - **Corepack** - Automatic package manager version management
 - **Security** - Lifecycle script protection, minimum release age, rate limiting
 - **Structured Logging** - Pino logger for request tracking and debugging
 - **API Documentation** - Auto-generated OpenAPI/Swagger documentation
-- **Database Tools** - Drizzle Kit migrations, PostgreSQL + pgAdmin containers
+- **Database Tools** - Drizzle Kit migrations with type-safe schema management
+- **Renovate** - Automated dependency updates with smart grouping
 
 ### Developer Experience
 
@@ -74,7 +77,7 @@ Includes **Docus** (powered by Nuxt 4 + Nuxt Content) for beautiful, searchable 
 
 ### 🗄️ Database-Ready
 
-PostgreSQL + Drizzle ORM setup with migrations, seeds, and type-safe queries. Docker Compose configuration includes pgAdmin for database management.
+PostgreSQL + Drizzle ORM setup with migrations, seeds, and type-safe queries. Supabase Studio provides database management UI.
 
 ## 🚀 Quick Start
 
@@ -136,34 +139,59 @@ supabase start
 
 ### Configure Environment
 
-After `supabase start`, copy the credentials to **each app's `.env` file** (`apps/api/.env`, `apps/nitro/.env`):
+This monorepo uses a **single root `.env` file** for all shared configuration.
 
-```bash
-# Supabase Local Development
-SUPABASE_URL=http://localhost:54321
+1. **Copy the example file:**
 
-# Option 1: New key system (2025+) - Recommended
-# Displayed in `supabase start` output
-SUPABASE_PUBLISHABLE_KEY=sb_publishable_*
-# SUPABASE_SECRET_KEY=sb_secret_*  # Only needed for admin operations
+   ```bash
+   cp .env.example .env
+   ```
 
-# Option 2: Legacy JWT keys - Still supported
-# Get all credentials with: supabase status -o env
-# SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIs...
+2. **Fill in Supabase credentials** from `supabase start` output:
 
-# JWT Secret for token verification (required for both key systems)
-# Get from: supabase status -o env | grep JWT_SECRET
-SUPABASE_AUTH_JWT_SECRET=<your-jwt-secret>
+   ```bash
+   # Get credentials
+   supabase status -o env
 
-# Database (Supabase local uses port 54322, not 5432)
-DATABASE_URL=postgresql://postgres:<password>@localhost:54322/postgres
-POSTGRES_PORT=54322
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=<your-password>
-POSTGRES_DB=postgres
+   # Copy these to root .env:
+   # - DATABASE_URL (replace <YOUR_SUPABASE_PASSWORD>)
+   # - SUPABASE_PUBLISHABLE_KEY
+   # - SUPABASE_SECRET_KEY
+   # - SUPABASE_JWT_SECRET
+   ```
+
+3. **(Optional) Add app-specific configuration:**
+   - **API**: `apps/api/.env` - OpenAPI config, Sentry DSN
+   - **Nuxt**: `apps/nuxt/.env` - Generate secret with `openssl rand -base64 32`
+   - **Nitro**: `apps/nitro/.env` - Port overrides
+
+#### Environment Variable Inheritance
+
+```
+┌─────────────────────────────────────┐
+│  Root .env (Single Source of Truth) │
+│  • DATABASE_URL                      │
+│  • SUPABASE_* (all keys)             │
+│  • CORS_ORIGIN                       │
+│  • All application ports             │
+│  • LOG_LEVEL                         │
+└─────────────┬───────────────────────┘
+              │ Inherited by all apps ↓
+    ┌─────────┴─────────┬──────────────┬──────────────┐
+    │                   │              │              │
+┌───▼──────┐    ┌──────▼───┐   ┌─────▼────┐   ┌────▼─────┐
+│ apps/api │    │apps/nuxt │   │apps/nitro│   │apps/docus│
+│ .env     │    │ .env     │   │ .env     │   │          │
+│ (OpenAPI)│    │ (Secrets)│   │  (Port)  │   │  (none)  │
+└──────────┘    └──────────┘   └──────────┘   └──────────┘
 ```
 
-**Note:** The root `.env.example` contains only monorepo-level configuration (ports, NODE_ENV). App-specific configuration like Supabase keys should be in each app's `.env` file. See `apps/api/.env.example` and `apps/nitro/.env.example` for templates.
+**Benefits:**
+
+- ✅ **DRY** - No duplicated env var definitions
+- ✅ **Single setup** - Copy one file, configure once
+- ✅ **Clear separation** - Obvious which vars are app-specific
+- ✅ **Docker-friendly** - `docker-compose` reads root `.env` automatically
 
 **About Supabase Keys:**
 
@@ -900,6 +928,59 @@ This is required because `better-sqlite3` is a native Node.js addon that must be
 - CPU architecture (arm64, x64)
 
 The rebuild command will compile the module correctly for your environment.
+
+## Deployment
+
+This monorepo includes complete infrastructure for deploying to **GCP Cloud Run**.
+
+### Quick Deployment
+
+```bash
+# 1. Configure Terraform
+cd infra/terraform
+cp terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars with your GCP project ID
+
+# 2. Apply infrastructure
+terraform init
+terraform apply
+
+# 3. Push images
+gcloud auth configure-docker europe-west1-docker.pkg.dev
+docker build -f apps/api/Dockerfile -t europe-west1-docker.pkg.dev/PROJECT/turbo-repo/api:latest .
+docker push europe-west1-docker.pkg.dev/PROJECT/turbo-repo/api:latest
+```
+
+### What's Included
+
+| Component                      | Description                                           |
+| ------------------------------ | ----------------------------------------------------- |
+| `infra/terraform/`             | GCP Cloud Run, Artifact Registry, Secret Manager, IAM |
+| `.github/workflows/ci.yml`     | Lint, typecheck, test, build on PRs                   |
+| `.github/workflows/deploy.yml` | Build Docker images, deploy to Cloud Run              |
+| `renovate.json`                | Automated dependency updates                          |
+| `docker-compose.dev.yml`       | Local development with hot reload                     |
+
+### CI/CD Workflows
+
+- **ci.yml** - Runs on all PRs: lint, typecheck, test, build
+- **deploy.yml** - Runs on main: build images, deploy to Cloud Run
+
+### GitHub Secrets Required
+
+| Secret                           | Description             |
+| -------------------------------- | ----------------------- |
+| `GCP_PROJECT_ID`                 | Your GCP project ID     |
+| `GCP_REGION`                     | e.g., `europe-west1`    |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | From `terraform output` |
+| `GCP_SERVICE_ACCOUNT`            | From `terraform output` |
+
+### Documentation
+
+Full deployment documentation is available at:
+
+- **Docus Site**: Run `pnpm --filter docus dev` and visit http://localhost:3003/deployment
+- **Infrastructure README**: `infra/README.md`
 
 ## Security Features (pnpm 10)
 

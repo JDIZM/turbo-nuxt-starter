@@ -1,9 +1,10 @@
 import eslint from "@eslint/js"
+import { defineConfig } from "eslint/config"
 import tseslint from "typescript-eslint"
 import prettier from "eslint-config-prettier"
 import globals from "globals"
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ["dist/", "node_modules/", ".*.js", ".output/", ".nitro/"]
   },

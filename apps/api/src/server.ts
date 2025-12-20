@@ -2,7 +2,6 @@ import express from "express"
 import cors from "cors"
 import helmet from "helmet"
 import cookieParser from "cookie-parser"
-import dotenv from "dotenv"
 import { randomUUID } from "node:crypto"
 import { router } from "./routes/index.ts"
 import { setupSwagger } from "./docs/swagger.ts"
@@ -14,7 +13,7 @@ import { logger } from "logger"
 import { pinoHttp } from "pino-http"
 import { config } from "./config.ts"
 
-dotenv.config()
+// Environment variables are loaded in config.ts
 
 const app = express()
 const port = config.port

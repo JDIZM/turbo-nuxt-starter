@@ -1,0 +1,105 @@
+# Docker Compose for local development
+# Start with: docker compose -f docker-compose.dev.yml up
+# Or use: pnpm docker:dev
+#
+# NOTE: This assumes Supabase is running locally (supabase start)
+# The API connects to Supabase's PostgreSQL on host.docker.internal:54322
+#
+# REQUIRED: Set Supabase keys before starting:
+#   export SUPABASE_PUBLISHABLE_KEY=$(supabase status -o json | jq -r '.ANON_KEY // .PUBLISHABLE_KEY')
+# Or create a .env file with the keys from `supabase status`
+
+services:
+  # Express API Server (Development with hot reload)
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile.dev
+      target: dev
+    container_name: turbo-api-dev
+    ports:
+      - "${API_PORT:-3002}:3002"
+    environment:
+      - NODE_ENV=development
+      - API_PORT=${API_PORT:-3002}
+      - SUPABASE_URL=${SUPABASE_URL:-http://host.docker.internal:54321}
+      - SUPABASE_PUBLISHABLE_KEY=${SUPABASE_PUBLISHABLE_KEY:-}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY:-}
+      - SUPABASE_AUTH_JWT_SECRET=${SUPABASE_AUTH_JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3001,http://localhost:3000}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
+    volumes:
+      - ./apps/api/src:/app/apps/api/src:ro
+      - ./packages/helpers/src:/app/packages/helpers/src:ro
+      - ./packages/logger/src:/app/packages/logger/src:ro
+      - ./packages/api-types/src:/app/packages/api-types/src:ro
+      - ./packages/db-schema/src:/app/packages/db-schema/src:ro
+    networks:
+      - dev-network
+
+  # Nuxt Frontend (Development with HMR)
+  nuxt:
+    build:
+      context: .
+      dockerfile: apps/nuxt/Dockerfile.dev
+      target: dev
+    container_name: turbo-nuxt-dev
+    ports:
+      - "${NUXT_PORT:-3001}:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=${NUXT_PORT:-3001}
+      - NUXT_PUBLIC_API_BASE=http://localhost:${API_PORT:-3002}
+    volumes:
+      - ./apps/nuxt:/app/apps/nuxt:ro
+      - ./packages/ui/src:/app/packages/ui/src:ro
+      - /app/apps/nuxt/node_modules
+      - /app/apps/nuxt/.nuxt
+    depends_on:
+      - api
+    networks:
+      - dev-network
+
+  # Docus Documentation Site (Development with HMR)
+  docus:
+    build:
+      context: .
+      dockerfile: apps/docus/Dockerfile.dev
+      target: dev
+    container_name: turbo-docus-dev
+    ports:
+      - "${DOCUS_PORT:-3003}:3003"
+    environment:
+      - NODE_ENV=development
+      - PORT=${DOCUS_PORT:-3003}
+    volumes:
+      - ./apps/docus:/app/apps/docus:ro
+      - /app/apps/docus/node_modules
+      - /app/apps/docus/.nuxt
+    networks:
+      - dev-network
+
+  # Storybook Component Library (Development)
+  storybook:
+    build:
+      context: .
+      dockerfile: apps/storybook/Dockerfile.dev
+      target: dev
+    container_name: turbo-storybook-dev
+    ports:
+      - "${STORYBOOK_PORT:-6006}:6006"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/storybook:/app/apps/storybook:ro
+      - ./packages/ui/src:/app/packages/ui/src:ro
+      - ./packages/tailwind-config:/app/packages/tailwind-config:ro
+      - /app/apps/storybook/node_modules
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge

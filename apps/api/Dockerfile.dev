@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1
+# Development Dockerfile for Express API with hot reload
+# Uses turbo prune for efficient monorepo builds
+
+FROM node:24-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+RUN apk add --no-cache libc6-compat && corepack enable
+
+# Prune stage - create minimal monorepo subset
+FROM base AS pruner
+
+WORKDIR /app
+COPY . .
+RUN pnpx turbo prune api --docker
+
+# Development stage
+FROM base AS dev
+
+WORKDIR /app
+
+# Copy pruned package files
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Install dependencies
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Copy pruned source files
+COPY --from=pruner /app/out/full/ .
+
+EXPOSE 3002
+
+# Run in development mode with hot reload using tsx watch
+CMD ["pnpm", "--filter=api", "dev"]

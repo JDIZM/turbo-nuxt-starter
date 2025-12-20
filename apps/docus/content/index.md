@@ -1,29 +1,28 @@
 ---
 seo:
-  title: Write beautiful docs with Markdown
-  description: Ship fast, flexible, and SEO-optimized documentation with beautiful
-    design out of the box. Docus brings together the best of the Nuxt ecosystem.
-    Powered by Nuxt UI.
+  title: Turbo Nuxt Starter - Production-Ready Monorepo
+  description: A production-ready monorepo starter with Nuxt 4, Express API, TypeScript,
+    Drizzle ORM, and GCP Cloud Run deployment. Built with Turborepo and pnpm workspaces.
 ---
 
 ::u-page-hero
 #title
-Write beautiful docs with Markdown
+Turbo Nuxt Starter
 
 #description
-Ship fast, flexible, and SEO-optimized documentation with beautiful design out of the box.
+A production-ready monorepo starter with Nuxt 4, Express API, TypeScript, and GCP Cloud Run deployment.
 
-Docus brings the best of the Nuxt ecosystem into one CLI.
+Built with Turborepo, pnpm workspaces, and modern tooling for scalable full-stack applications.
 
 #links
 :::u-button
 ---
 color: neutral
 size: xl
-to: /getting-started/installation
+to: /getting-started/introduction
 trailing-icon: i-lucide-arrow-right
 ---
-Get started
+Get Started
 :::
 
 :::u-button
@@ -31,7 +30,7 @@ Get started
 color: neutral
 icon: simple-icons-github
 size: xl
-to: https://github.com/nuxt-content/docus
+to: https://github.com/JDIZM/turbo-nuxt-starter
 variant: outline
 ---
 Star on GitHub
@@ -40,84 +39,100 @@ Star on GitHub
 
 ::u-page-section
 #title
-Shipped with many features
+Everything you need for production
 
 #features
 :::u-page-feature
 ---
 icon: i-simple-icons-nuxt
-target: \_blank
-to: https://nuxt.com
 ---
 #title
-Built with [Nuxt 4]{.text-primary}
+[Nuxt 4]{.text-primary} + Vue 3
 
 #description
-Optimized by the most famous Vue framework. Docus gives you everything you need to build fast, performant, and SEO-friendly websites.
+Server-side rendering, auto-imports, and the latest Vue 3 features with full TypeScript support.
 :::
 
 :::u-page-feature
 ---
-icon: i-simple-icons-nuxt
-target: \_blank
-to: https://ui.nuxt.com/
+icon: i-lucide-server
 ---
 #title
-Powered by [Nuxt UI]{.text-primary}
+[Express API]{.text-primary} with OpenAPI
 
 #description
-Beautiful out of the box, minimal by design but highly customizable. Docus leverages Nuxt UI to give you the best docs writing experience with zero boilerplate, just focus on your content.
+Production-ready REST API with Swagger documentation, JWT authentication, rate limiting, and Zod validation.
 :::
 
 :::u-page-feature
 ---
-icon: i-simple-icons-nuxt
-target: \_blank
-to: https://content.nuxt.com
+icon: i-simple-icons-turborepo
 ---
 #title
-Enhanced Markdown syntax by [Nuxt Content]{.text-primary}
+[Turborepo]{.text-primary} Build System
 
 #description
-The only thing you need to take care about is writing your content. Write your pages in Markdown and extend with MDC syntax to embed Nuxt UI or custom Vue components. Structure, routing, and rendering are handled for you.
+Incremental builds, remote caching, and parallel task execution for blazing fast development.
 :::
 
 :::u-page-feature
 ---
-icon: i-simple-icons-nuxt
-target: \_blank
-to: https://nuxt.com/docs/guide/directory-structure/app-config
+icon: i-simple-icons-docker
 ---
 #title
-Customize with [Nuxt App Config]{.text-primary}
+[Docker]{.text-primary} Ready
 
 #description
-Update colors, social links, header logos and component styles globally using the `app.config.ts`, no direct code modifications required.
+Multi-stage Docker builds with turbo prune, health checks, and non-root user security.
 :::
 
 :::u-page-feature
 ---
-icon: i-simple-icons-nuxt
-target: \_blank
-to: https://content.nuxt.com/studio
+icon: i-simple-icons-googlecloud
 ---
 #title
-Collaborate on [Nuxt Studio]{.text-primary}
+[GCP Cloud Run]{.text-primary} Deployment
 
 #description
-Write and manage your content visually, with zero Markdown knowledge required. Let your non technical colleagues collaborate on the documentation and integrate Vue components without code skills.
+Terraform infrastructure, Workload Identity Federation, and GitHub Actions CI/CD.
 :::
 
 :::u-page-feature
 ---
-icon: i-simple-icons-nuxt
-target: \_blank
-to: https://ui.nuxt.com/components/content-search
+icon: i-simple-icons-drizzle
 ---
 #title
-Built-in navigation and [full-text search]{.text-primary}
+[Drizzle ORM]{.text-primary} + PostgreSQL
 
 #description
-Only focus on ordering your content, Docus handles the search modal and auto-generates the side navigation for you.
+Type-safe database queries with schema migrations, Supabase integration, and seed scripts.
 :::
+::
+
+::u-page-section
+#title
+Monorepo Architecture
+
+#description
+Organized as a pnpm workspace with shared packages and multiple applications.
+
+#default
+```
+turbo-nuxt-starter/
+├── apps/
+│   ├── api/        # Express REST API
+│   ├── nuxt/       # Nuxt 4 frontend
+│   ├── nitro/      # Nitro server
+│   ├── docus/      # Documentation site
+│   ├── storybook/  # Component library
+│   └── vite/       # Vue 3 SPA
+├── packages/
+│   ├── api-types/  # Zod schemas + OpenAPI
+│   ├── db-schema/  # Drizzle ORM schema
+│   ├── helpers/    # Shared utilities
+│   ├── logger/     # Pino logger
+│   └── ui/         # Vue components
+└── infra/
+    └── terraform/  # GCP infrastructure
+```
 ::
