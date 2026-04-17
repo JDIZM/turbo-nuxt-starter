@@ -6,7 +6,7 @@ import { z } from "zod"
 export const SignupRequestSchema = z.object({
   email: z.email(),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  fullName: z.string().min(1, "Full name is required")
+  fullName: z.string().min(1, "Full name is required"),
 })
 
 /**
@@ -14,5 +14,5 @@ export const SignupRequestSchema = z.object({
  */
 export const LoginRequestSchema = z.object({
   email: z.email(),
-  password: z.string().min(1, "Password is required")
+  password: z.string().min(1, "Password is required"),
 })

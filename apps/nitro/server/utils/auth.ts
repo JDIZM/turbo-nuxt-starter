@@ -44,7 +44,7 @@ export async function verifyToken(event: H3Event): Promise<{
 
     return {
       userId,
-      email
+      email,
     }
   } catch (_err) {
     throw HttpErrors.Unauthorized("Invalid or expired token")

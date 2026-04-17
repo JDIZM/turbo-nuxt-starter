@@ -21,8 +21,8 @@ router.get(
         health: "/health",
         api: "/api",
         auth: "/api/auth",
-        me: "/api/me (requires authentication)"
-      }
+        me: "/api/me (requires authentication)",
+      },
     })
     res.status(response.code).json(response)
   })
@@ -38,7 +38,7 @@ router.post(
     // Client-side should clear the JWT token
     // This endpoint validates the user is authenticated before logout
     const response = apiResponse.success(HttpStatusCode.OK, {
-      message: "Logged out successfully"
+      message: "Logged out successfully",
     })
     res.status(response.code).json(response)
   })
@@ -115,7 +115,7 @@ router.delete(
     await deleteAccount(userId)
 
     const response = apiResponse.success(HttpStatusCode.OK, {
-      message: "Account deleted successfully"
+      message: "Account deleted successfully",
     })
     res.status(response.code).json(response)
   })

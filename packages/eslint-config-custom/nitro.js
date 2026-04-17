@@ -20,8 +20,8 @@ export default defineConfig(
       ".nitro/",
       ".netlify/",
       ".vercel/",
-      "nitro.config.ts"
-    ]
+      "nitro.config.ts",
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -30,10 +30,10 @@ export default defineConfig(
     files: ["**/*.ts", "**/*.js"],
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
       },
       ecmaVersion: 2020,
-      sourceType: "module"
+      sourceType: "module",
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
@@ -41,12 +41,12 @@ export default defineConfig(
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_"
-        }
+          caughtErrorsIgnorePattern: "^_",
+        },
       ],
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "no-undef": "off"
-    }
+      "no-undef": "off",
+    },
   }
 )

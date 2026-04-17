@@ -35,7 +35,7 @@ export function useApi<T>(endpoint: string, options: UseFetchOptions<ApiResponse
         token.value = null
         navigateTo("/login")
       }
-    }
+    },
   })
 }
 
@@ -57,7 +57,7 @@ export function useApiPost<T>(
   return useApi<T>(endpoint, {
     method: "POST",
     body,
-    ...options
+    ...options,
   })
 }
 
@@ -72,7 +72,7 @@ export function useServerApi<T>(endpoint: string, options: UseFetchOptions<ApiRe
     ...options,
     headers: {
       ...(options.headers as Record<string, string>),
-      "X-API-Secret": config.apiSecret || ""
-    }
+      "X-API-Secret": config.apiSecret || "",
+    },
   })
 }

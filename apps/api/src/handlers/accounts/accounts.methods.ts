@@ -6,7 +6,7 @@ import {
   insertAccountSchema,
   updateAccountSchema,
   type NewAccount,
-  type Account
+  type Account,
 } from "db-schema"
 import { HttpErrors } from "helpers"
 

@@ -30,9 +30,9 @@ useHead({
     {
       name: "description",
       content:
-        "Production-ready Nuxt 4 + Turborepo starter with TypeScript, Tailwind, and API integration"
-    }
-  ]
+        "Production-ready Nuxt 4 + Turborepo starter with TypeScript, Tailwind, and API integration",
+    },
+  ],
 })
 </script>
 
@@ -65,7 +65,7 @@ useHead({
             :class="{
               'bg-green-100': statusColor === 'success',
               'bg-red-100': statusColor === 'danger',
-              'bg-yellow-100': statusColor === 'warning'
+              'bg-yellow-100': statusColor === 'warning',
             }"
           >
             <svg
@@ -73,7 +73,7 @@ useHead({
               :class="{
                 'text-green-600': statusColor === 'success',
                 'text-red-600': statusColor === 'danger',
-                'text-yellow-600': statusColor === 'warning'
+                'text-yellow-600': statusColor === 'warning',
               }"
               fill="none"
               viewBox="0 0 24 24"

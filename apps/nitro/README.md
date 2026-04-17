@@ -171,8 +171,8 @@ defineRouteMeta({
     },
     responses: {
       /* responses */
-    }
-  }
+    },
+  },
 })
 ```
 

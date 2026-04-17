@@ -4,15 +4,15 @@ import prettier from "eslint-config-prettier"
 export default createConfigForNuxt({
   features: {
     typescript: true,
-    stylistic: false
+    stylistic: false,
   },
   dirs: {
-    src: ["./src"]
-  }
+    src: ["./src"],
+  },
 }).append(prettier, {
   ignores: ["node_modules/", "dist/", ".nuxt/", ".output/"],
   rules: {
     "vue/multi-word-component-names": "off",
-    "vue/no-multiple-template-root": "off"
-  }
+    "vue/no-multiple-template-root": "off",
+  },
 })

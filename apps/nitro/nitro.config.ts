@@ -11,14 +11,14 @@ export default defineNitroConfig({
   compatibilityDate: "2025-12-17",
   srcDir: "server",
   experimental: {
-    openAPI: true // Enables /_swagger, /_scalar, and /_openapi.json endpoints
+    openAPI: true, // Enables /_swagger, /_scalar, and /_openapi.json endpoints
   },
   openAPI: {
     meta: {
       title: "Turbo Nuxt Starter - Nitro API",
       description:
         "A production-ready Nitro server with JWT authentication and database integration",
-      version: "1.0.0"
-    }
-  }
+      version: "1.0.0",
+    },
+  },
 })

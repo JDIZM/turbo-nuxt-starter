@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   disabled: false,
   loading: false,
   fullWidth: false,
-  type: "button"
+  type: "button",
 })
 
 const emit = defineEmits<{
@@ -51,7 +51,7 @@ const variantClasses = computed(() => {
       "bg-secondary-600 text-white hover:bg-secondary-700 focus-visible:ring-secondary-600",
     outline: "border border-gray-300 bg-transparent hover:bg-gray-50 focus-visible:ring-gray-500",
     ghost: "bg-transparent hover:bg-gray-100 focus-visible:ring-gray-500",
-    danger: "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600"
+    danger: "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600",
   }
   return variants[props.variant]
 })
@@ -60,7 +60,7 @@ const sizeClasses = computed(() => {
   const sizes = {
     sm: "h-8 px-3 text-sm",
     md: "h-10 px-4 text-base",
-    lg: "h-12 px-6 text-lg"
+    lg: "h-12 px-6 text-lg",
   }
   return sizes[props.size]
 })

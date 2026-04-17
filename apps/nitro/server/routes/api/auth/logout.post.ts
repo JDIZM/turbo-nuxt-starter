@@ -23,12 +23,12 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 200 },
                 data: { type: "null" },
-                message: { type: "string", example: "Logged out successfully" }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                message: { type: "string", example: "Logged out successfully" },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

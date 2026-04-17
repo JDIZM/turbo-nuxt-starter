@@ -13,7 +13,7 @@ import { createDbAccount } from "../src/handlers/accounts/accounts.methods.ts"
 const testUsers = [
   { email: "alice@example.com", password: "password123", fullName: "Alice Johnson" },
   { email: "bob@example.com", password: "password123", fullName: "Bob Smith" },
-  { email: "charlie@example.com", password: "password123", fullName: "Charlie Davis" }
+  { email: "charlie@example.com", password: "password123", fullName: "Charlie Davis" },
 ]
 
 async function seed() {
@@ -42,7 +42,7 @@ async function seed() {
       const accountId = await createDbAccount({
         uuid: authUser.id,
         email: user.email,
-        fullName: user.fullName
+        fullName: user.fullName,
       })
 
       console.log(`   ✅ Database account created: ${accountId}`)

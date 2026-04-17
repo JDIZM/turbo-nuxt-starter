@@ -16,7 +16,7 @@ const props = withDefaults(
         'gradient',
         conic ? 'glowConic' : undefined,
         small ? 'gradientSmall' : 'gradientLarge',
-        props.class
+        props.class,
       ]
         .filter(Boolean)
         .join(' ')

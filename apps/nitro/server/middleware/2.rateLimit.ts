@@ -26,7 +26,7 @@ export default defineEventHandler((event) => {
   if (!entry || now > entry.resetTime) {
     entry = {
       count: 0,
-      resetTime: now + WINDOW_MS
+      resetTime: now + WINDOW_MS,
     }
     store.set(ip, entry)
   }
@@ -43,7 +43,7 @@ export default defineEventHandler((event) => {
   setResponseHeaders(event, {
     "X-RateLimit-Limit": String(MAX_REQUESTS),
     "X-RateLimit-Remaining": String(Math.max(0, MAX_REQUESTS - entry.count)),
-    "X-RateLimit-Reset": new Date(entry.resetTime).toISOString()
+    "X-RateLimit-Reset": new Date(entry.resetTime).toISOString(),
   })
 
   // Cleanup expired entries periodically (every 100 requests)

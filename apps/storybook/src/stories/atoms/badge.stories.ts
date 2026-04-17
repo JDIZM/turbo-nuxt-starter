@@ -8,9 +8,9 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger", "info"]
-    }
-  }
+      options: ["default", "primary", "secondary", "success", "warning", "danger", "info"],
+    },
+  },
 } satisfies Meta<typeof Badge>
 
 export default meta
@@ -22,58 +22,58 @@ export const Default: Story = {
     setup() {
       return { args }
     },
-    template: '<Badge v-bind="args">Default</Badge>'
-  })
+    template: '<Badge v-bind="args">Default</Badge>',
+  }),
 }
 
 export const Primary: Story = {
   args: {
-    variant: "primary"
+    variant: "primary",
   },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args }
     },
-    template: '<Badge v-bind="args">Primary</Badge>'
-  })
+    template: '<Badge v-bind="args">Primary</Badge>',
+  }),
 }
 
 export const Success: Story = {
   args: {
-    variant: "success"
+    variant: "success",
   },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args }
     },
-    template: '<Badge v-bind="args">Success</Badge>'
-  })
+    template: '<Badge v-bind="args">Success</Badge>',
+  }),
 }
 
 export const Warning: Story = {
   args: {
-    variant: "warning"
+    variant: "warning",
   },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args }
     },
-    template: '<Badge v-bind="args">Warning</Badge>'
-  })
+    template: '<Badge v-bind="args">Warning</Badge>',
+  }),
 }
 
 export const Danger: Story = {
   args: {
-    variant: "danger"
+    variant: "danger",
   },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args }
     },
-    template: '<Badge v-bind="args">Danger</Badge>'
-  })
+    template: '<Badge v-bind="args">Danger</Badge>',
+  }),
 }

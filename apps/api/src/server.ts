@@ -28,7 +28,7 @@ app.use(cookieParser())
 app.use(
   cors({
     origin: config.corsOrigins,
-    credentials: true
+    credentials: true,
   })
 )
 
@@ -44,7 +44,7 @@ app.use(
   pinoHttp({
     logger,
     autoLogging: {
-      ignore: (req: Request) => req.url === "/health"
+      ignore: (req: Request) => req.url === "/health",
     },
     genReqId: (req: Request) => req.headers["x-request-id"] || randomUUID(),
     customLogLevel: (_req: Request, res: Response, err?: Error) => {
@@ -54,7 +54,7 @@ app.use(
         return "warn"
       }
       return "info"
-    }
+    },
   })
 )
 
@@ -69,7 +69,7 @@ app.get("/health", (req, res) => {
   const response = apiResponse.success(200, {
     status: "ok",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || "development"
+    environment: process.env.NODE_ENV || "development",
   })
   res.status(response.code).json(response)
 })

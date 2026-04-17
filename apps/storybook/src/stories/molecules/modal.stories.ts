@@ -7,8 +7,8 @@ const meta = {
   component: Modal,
   tags: ["autodocs"],
   argTypes: {
-    size: { control: "select", options: ["sm", "md", "lg", "xl"] }
-  }
+    size: { control: "select", options: ["sm", "md", "lg", "xl"] },
+  },
 } satisfies Meta<typeof Modal>
 
 export default meta
@@ -32,13 +32,13 @@ export const Default: Story = {
           </template>
         </Modal>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const Large: Story = {
   args: {
-    size: "lg"
+    size: "lg",
   },
   render: (args) => ({
     components: { Modal, Button },
@@ -54,6 +54,6 @@ export const Large: Story = {
           <p class="text-gray-600">This is a larger modal with more space for content.</p>
         </Modal>
       </div>
-    `
-  })
+    `,
+  }),
 }

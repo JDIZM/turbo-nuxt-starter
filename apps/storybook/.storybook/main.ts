@@ -15,16 +15,16 @@ const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@chromatic-com/storybook"),
-    getAbsolutePath("@storybook/addon-themes")
+    getAbsolutePath("@storybook/addon-themes"),
   ],
   framework: {
     name: getAbsolutePath("@storybook/vue3-vite"),
-    options: {}
+    options: {},
   },
   async viteFinal(config) {
     config.plugins = config.plugins || []
     config.plugins.push(tailwindcss())
     return config
-  }
+  },
 }
 export default config

@@ -18,7 +18,7 @@ export function createDbConnection(connectionString?: string) {
       "postgresql://starter:starter_password@localhost:5432/starter_db",
     max: 10,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
+    connectionTimeoutMillis: 2000,
   })
 
   return drizzle(pool, { schema })

@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   padding: "md",
   hoverable: false,
   bordered: true,
-  shadow: "sm"
+  shadow: "sm",
 })
 
 const baseClasses = "rounded-lg bg-white transition-shadow"
@@ -34,7 +34,7 @@ const paddingClasses = computed(() => {
     none: "",
     sm: "p-4",
     md: "p-6",
-    lg: "p-8"
+    lg: "p-8",
   }
   return paddings[props.padding]
 })
@@ -45,7 +45,7 @@ const shadowClasses = computed(() => {
     sm: "shadow-sm",
     md: "shadow-md",
     lg: "shadow-lg",
-    xl: "shadow-xl"
+    xl: "shadow-xl",
   }
   return shadows[props.shadow]
 })
@@ -60,7 +60,7 @@ const cardClasses = computed(() =>
     paddingClasses.value,
     shadowClasses.value,
     hoverClasses.value,
-    borderClasses.value
+    borderClasses.value,
   ].join(" ")
 )
 </script>

@@ -10,7 +10,7 @@ export default defineConfig({
   outDir: "dist",
   outExtension({ format }) {
     return {
-      js: `.${format}.js`
+      js: `.${format}.js`,
     }
-  }
+  },
 })

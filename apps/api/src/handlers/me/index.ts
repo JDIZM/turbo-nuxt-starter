@@ -20,7 +20,7 @@ export const getMe = asyncHandler(async (req: Request, res: Response): Promise<v
 
   const db = getDb()
   const account = await db.query.accounts.findFirst({
-    where: eq(accounts.uuid, req.accountId)
+    where: eq(accounts.uuid, req.accountId),
   })
 
   // Expected error - handle explicitly, don't throw (avoids Sentry alert)

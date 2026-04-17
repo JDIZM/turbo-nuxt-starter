@@ -6,9 +6,9 @@ useHead({
   meta: [
     {
       name: "description",
-      content: "Learn about the Turbo Nuxt Starter - a production-ready monorepo template"
-    }
-  ]
+      content: "Learn about the Turbo Nuxt Starter - a production-ready monorepo template",
+    },
+  ],
 })
 </script>
 

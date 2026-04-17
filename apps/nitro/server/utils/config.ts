@@ -42,7 +42,7 @@ const configSchema = z.object({
   supabaseAnonKey: z.string().min(1, "SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY required"),
   supabasePublishableKey: z.string().optional(),
   supabaseSecretKey: z.string().optional(),
-  jwtSecret: z.string().min(32, "JWT secret must be at least 32 characters")
+  jwtSecret: z.string().min(32, "JWT secret must be at least 32 characters"),
 })
 
 /**
@@ -57,7 +57,7 @@ const parseConfig = () => {
     supabaseAnonKey: getSupabaseKey(),
     supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
-    jwtSecret: getJwtSecret()
+    jwtSecret: getJwtSecret(),
   }
 
   const result = configSchema.safeParse(rawConfig)

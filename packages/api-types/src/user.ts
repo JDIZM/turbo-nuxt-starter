@@ -17,7 +17,7 @@ export const UserSchema = z.object({
     .nullable()
     .openapi({ description: "User avatar URL", example: "https://example.com/avatar.jpg" }),
   createdAt: z.date().openapi({ description: "Account creation timestamp" }),
-  updatedAt: z.date().openapi({ description: "Last update timestamp" })
+  updatedAt: z.date().openapi({ description: "Last update timestamp" }),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -37,7 +37,7 @@ export const CreateUserSchema = z.object({
     .string()
     .url()
     .optional()
-    .openapi({ description: "User avatar URL", example: "https://example.com/avatar.jpg" })
+    .openapi({ description: "User avatar URL", example: "https://example.com/avatar.jpg" }),
 })
 
 export type CreateUser = z.infer<typeof CreateUserSchema>
@@ -57,7 +57,7 @@ export const UpdateUserSchema = z.object({
     .url()
     .nullable()
     .optional()
-    .openapi({ description: "User avatar URL", example: "https://example.com/avatar.jpg" })
+    .openapi({ description: "User avatar URL", example: "https://example.com/avatar.jpg" }),
 })
 
 export type UpdateUser = z.infer<typeof UpdateUserSchema>
@@ -88,7 +88,7 @@ export const UserListQuerySchema = z.object({
     .optional()
     .default("10")
     .transform((val) => parseInt(val, 10))
-    .openapi({ description: "Items per page", example: "10" })
+    .openapi({ description: "Items per page", example: "10" }),
 })
 
 export type UserListQuery = z.infer<typeof UserListQuerySchema>

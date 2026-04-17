@@ -24,7 +24,7 @@ export interface ModalProps {
 const props = withDefaults(defineProps<ModalProps>(), {
   open: false,
   size: "md",
-  showClose: true
+  showClose: true,
 })
 
 const emit = defineEmits<{
@@ -38,7 +38,7 @@ const sizeClasses = computed(() => {
     md: "max-w-md",
     lg: "max-w-lg",
     xl: "max-w-xl",
-    full: "max-w-full mx-4"
+    full: "max-w-full mx-4",
   }
   return sizes[props.size]
 })
@@ -78,7 +78,7 @@ const closeModal = () => {
             <DialogPanel
               :class="[
                 'w-full transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all',
-                sizeClasses
+                sizeClasses,
               ]"
             >
               <div v-if="title || showClose" class="mb-4 flex items-center justify-between">

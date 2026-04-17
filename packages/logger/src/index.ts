@@ -25,8 +25,8 @@ function getPrettyTransport() {
       colorize: true,
       translateTime: "yyyy-mm-dd HH:MM:ss Z",
       ignore: "pid,hostname",
-      singleLine: false
-    }
+      singleLine: false,
+    },
   }
 }
 
@@ -38,7 +38,7 @@ export function createLogger(config: LoggerConfig = {}): Logger {
     level = "info",
     pretty = process.env.NODE_ENV !== "production",
     name,
-    redact = []
+    redact = [],
   } = config
 
   const options: LoggerOptions = {
@@ -46,14 +46,14 @@ export function createLogger(config: LoggerConfig = {}): Logger {
     name,
     redact: {
       paths: ["password", "token", "accessToken", "refreshToken", "authorization", ...redact],
-      censor: "[REDACTED]"
+      censor: "[REDACTED]",
     },
     serializers: {
       req: pino.stdSerializers.req,
       res: pino.stdSerializers.res,
-      err: pino.stdSerializers.err
+      err: pino.stdSerializers.err,
     },
-    timestamp: pino.stdTimeFunctions.isoTime
+    timestamp: pino.stdTimeFunctions.isoTime,
   }
 
   if (pretty) {
@@ -69,7 +69,7 @@ export function createLogger(config: LoggerConfig = {}): Logger {
 export const logger = createLogger({
   name: "app",
   level: (process.env.LOG_LEVEL as LogLevel) || "info",
-  pretty: process.env.NODE_ENV !== "production"
+  pretty: process.env.NODE_ENV !== "production",
 })
 
 /**

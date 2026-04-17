@@ -71,11 +71,11 @@ const config: Config = {
   content: [
     "./components/**/*.{vue,js,ts}",
     "./pages/**/*.{vue,js,ts}",
-    "./node_modules/ui/**/*.{vue,js,ts}" // Include UI package
+    "./node_modules/ui/**/*.{vue,js,ts}", // Include UI package
   ],
   theme: {
-    extend: {}
-  }
+    extend: {},
+  },
 }
 
 export default config

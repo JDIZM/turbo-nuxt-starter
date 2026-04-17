@@ -6,10 +6,10 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: "Typography styles showcasing Poppins (sans) and Inter (serif) fonts"
-      }
-    }
-  }
+        component: "Typography styles showcasing Poppins (sans) and Inter (serif) fonts",
+      },
+    },
+  },
 } satisfies Meta
 
 export default meta
@@ -26,8 +26,8 @@ export const Headings: Story = {
         <h5 class="text-xl font-medium font-sans text-gray-900 dark:text-white">Heading 5 - Poppins Medium</h5>
         <h6 class="text-lg font-medium font-sans text-gray-900 dark:text-white">Heading 6 - Poppins Medium</h6>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const BodyText: Story = {
@@ -47,8 +47,8 @@ export const BodyText: Story = {
           Extra small body text using Poppins regular. The quick brown fox jumps over the lazy dog.
         </p>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const FontWeights: Story = {
@@ -63,8 +63,8 @@ export const FontWeights: Story = {
         <p class="text-xl font-extrabold font-sans text-gray-900 dark:text-white">Extrabold (800) - Poppins</p>
         <p class="text-xl font-black font-sans text-gray-900 dark:text-white">Black (900) - Poppins</p>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const InterSerifFont: Story = {
@@ -80,8 +80,8 @@ export const InterSerifFont: Story = {
           Medium weight Inter serif text for emphasis.
         </p>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const ColoredText: Story = {
@@ -94,8 +94,8 @@ export const ColoredText: Story = {
         <h3 class="text-2xl font-bold text-red-600 font-sans">Red 600 Text</h3>
         <h3 class="text-2xl font-bold text-green-600 font-sans">Green 600 Text</h3>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const TextAlignment: Story = {
@@ -110,8 +110,8 @@ export const TextAlignment: Story = {
           Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 export const DisplayText: Story = {
@@ -131,6 +131,6 @@ export const DisplayText: Story = {
           Display Small - Semibold Primary
         </p>
       </div>
-    `
-  })
+    `,
+  }),
 }

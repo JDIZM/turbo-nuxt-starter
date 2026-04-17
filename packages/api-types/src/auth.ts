@@ -9,7 +9,7 @@ extendZodWithOpenApi(z)
  */
 export const LoginSchema = z.object({
   email: z.email().openapi({ description: "User email address", example: "user@example.com" }),
-  password: z.string().min(1).openapi({ description: "User password", example: "password123" })
+  password: z.string().min(1).openapi({ description: "User password", example: "password123" }),
 })
 
 export type Login = z.infer<typeof LoginSchema>
@@ -24,7 +24,7 @@ export const RegisterSchema = z.object({
     .string()
     .min(8)
     .max(100)
-    .openapi({ description: "User password (min 8 characters)", example: "securePassword123" })
+    .openapi({ description: "User password (min 8 characters)", example: "securePassword123" }),
 })
 
 export type Register = z.infer<typeof RegisterSchema>
@@ -36,7 +36,7 @@ export const AuthTokenSchema = z.object({
   accessToken: z.string().openapi({ description: "JWT access token" }),
   refreshToken: z.string().optional().openapi({ description: "JWT refresh token" }),
   expiresIn: z.number().openapi({ description: "Token expiration time in seconds", example: 3600 }),
-  tokenType: z.string().default("Bearer").openapi({ description: "Token type", example: "Bearer" })
+  tokenType: z.string().default("Bearer").openapi({ description: "Token type", example: "Bearer" }),
 })
 
 export type AuthToken = z.infer<typeof AuthTokenSchema>
@@ -49,8 +49,8 @@ export const AuthResponseSchema = z.object({
   user: z.object({
     id: z.uuid(),
     email: z.email(),
-    name: z.string()
-  })
+    name: z.string(),
+  }),
 })
 
 export type AuthResponse = z.infer<typeof AuthResponseSchema>
@@ -61,7 +61,7 @@ export type AuthResponse = z.infer<typeof AuthResponseSchema>
 export const RefreshTokenSchema = z.object({
   refreshToken: z
     .string()
-    .openapi({ description: "Refresh token to exchange for new access token" })
+    .openapi({ description: "Refresh token to exchange for new access token" }),
 })
 
 export type RefreshToken = z.infer<typeof RefreshTokenSchema>
@@ -73,7 +73,7 @@ export const JWTPayloadSchema = z.object({
   sub: z.uuid().openapi({ description: "User ID (subject)" }),
   email: z.email().openapi({ description: "User email" }),
   iat: z.number().openapi({ description: "Issued at timestamp" }),
-  exp: z.number().openapi({ description: "Expiration timestamp" })
+  exp: z.number().openapi({ description: "Expiration timestamp" }),
 })
 
 export type JWTPayload = z.infer<typeof JWTPayloadSchema>
