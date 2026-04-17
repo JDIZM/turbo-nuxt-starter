@@ -41,3 +41,6 @@ yarn-error.log*
 # supabase
 supabase/.branches
 supabase/.temp
+
+# claude code (per-machine settings, MCP output, agent scratch)
+.claude/
