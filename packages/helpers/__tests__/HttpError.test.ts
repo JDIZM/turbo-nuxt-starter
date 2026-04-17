@@ -64,7 +64,7 @@ describe("HttpError", () => {
       expect(response).toEqual({
         code: 401,
         error: ErrorCode.UNAUTHORIZED,
-        message: "Unauthorized access"
+        message: "Unauthorized access",
       })
     })
   })

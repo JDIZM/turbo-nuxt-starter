@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
       type: "request",
       method,
       url: url.pathname,
-      ip: getRequestIP(event)
+      ip: getRequestIP(event),
     })
 
     // Wait for response (this doesn't block the request)
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
         method,
         url: url.pathname,
         statusCode,
-        duration: `${duration}ms`
+        duration: `${duration}ms`,
       })
     })
   } catch (error) {
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
       type: "error",
       method,
       url: url.pathname,
-      error: error instanceof Error ? error.message : "Unknown error"
+      error: error instanceof Error ? error.message : "Unknown error",
     })
   }
 })

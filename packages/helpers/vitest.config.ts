@@ -8,7 +8,7 @@ export default defineConfig({
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       include: ["src/**/*.ts"],
-      exclude: ["src/index.ts", "**/__tests__/**"]
-    }
-  }
+      exclude: ["src/index.ts", "**/__tests__/**"],
+    },
+  },
 })

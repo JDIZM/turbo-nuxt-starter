@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     // Create auth user in Supabase
     const { data, error } = await supabase.auth.signUp({
       email,
-      password
+      password,
     })
 
     if (error) {
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     await createDbAccount({
       uuid: data.user.id,
       email: data.user.email!,
-      fullName: name
+      fullName: name,
     })
 
     return apiResponse.success(
@@ -41,9 +41,9 @@ export default defineEventHandler(async (event) => {
       {
         user: {
           id: data.user.id,
-          email: data.user.email
+          email: data.user.email,
         },
-        session: data.session
+        session: data.session,
       },
       "Account created successfully"
     )
@@ -80,11 +80,11 @@ defineRouteMeta({
             properties: {
               email: { type: "string", example: "user@example.com" },
               name: { type: "string", example: "John Doe" },
-              password: { type: "string", example: "SecurePass123!" }
-            }
-          }
-        }
-      }
+              password: { type: "string", example: "SecurePass123!" },
+            },
+          },
+        },
+      },
     },
     responses: {
       201: {
@@ -102,17 +102,17 @@ defineRouteMeta({
                       type: "object",
                       properties: {
                         id: { type: "string" },
-                        email: { type: "string" }
-                      }
+                        email: { type: "string" },
+                      },
                     },
-                    session: { type: "object" }
-                  }
+                    session: { type: "object" },
+                  },
                 },
-                message: { type: "string", example: "Account created successfully" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "Account created successfully" },
+              },
+            },
+          },
+        },
       },
       400: {
         description: "Validation error or email already exists",
@@ -123,12 +123,12 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 400 },
                 error: { type: "string", example: "BAD_REQUEST" },
-                message: { type: "string", example: "Validation failed" }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                message: { type: "string", example: "Validation failed" },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

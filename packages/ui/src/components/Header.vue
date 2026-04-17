@@ -33,7 +33,7 @@ withDefaults(defineProps<HeaderProps>(), {
   logo: "App",
   navigationItems: () => [],
   user: null,
-  showMobileMenu: true
+  showMobileMenu: true,
 })
 
 const emit = defineEmits<{
@@ -71,7 +71,7 @@ const toggleMobileMenu = () => {
               'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium transition-colors',
               item.active
                 ? 'border-primary-600 text-gray-900'
-                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
             ]"
           >
             {{ item.label }}
@@ -138,7 +138,7 @@ const toggleMobileMenu = () => {
             'block rounded-md px-3 py-2 text-base font-medium',
             item.active
               ? 'bg-primary-50 text-primary-700'
-              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
           ]"
         >
           {{ item.label }}

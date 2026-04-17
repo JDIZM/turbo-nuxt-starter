@@ -18,7 +18,7 @@ export interface AlertProps {
 
 const props = withDefaults(defineProps<AlertProps>(), {
   variant: "info",
-  dismissible: false
+  dismissible: false,
 })
 
 const emit = defineEmits<{
@@ -32,7 +32,7 @@ const variantClasses = computed(() => {
     info: "border-blue-200 bg-blue-50 text-blue-800",
     success: "border-green-200 bg-green-50 text-green-800",
     warning: "border-yellow-200 bg-yellow-50 text-yellow-800",
-    danger: "border-red-200 bg-red-50 text-red-800"
+    danger: "border-red-200 bg-red-50 text-red-800",
   }
   return variants[props.variant]
 })
@@ -42,7 +42,7 @@ const iconClasses = computed(() => {
     info: "text-blue-400",
     success: "text-green-400",
     warning: "text-yellow-400",
-    danger: "text-red-400"
+    danger: "text-red-400",
   }
   return icons[props.variant]
 })
@@ -53,7 +53,7 @@ const iconPaths = computed(() => {
     success: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
     warning:
       "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
-    danger: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+    danger: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
   }
   return paths[props.variant]
 })

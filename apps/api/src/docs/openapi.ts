@@ -5,7 +5,7 @@ import {
   SuccessResponseSchema,
   LoginSchema,
   AuthResponseSchema,
-  UserSchema
+  UserSchema,
 } from "api-types"
 
 const registry = new OpenAPIRegistry()
@@ -21,14 +21,14 @@ registry.register("ErrorResponse", ErrorResponseSchema)
 const SignupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  fullName: z.string().min(1)
+  fullName: z.string().min(1),
 })
 
 // Security scheme for JWT Bearer token
 registry.registerComponent("securitySchemes", "bearerAuth", {
   type: "http",
   scheme: "bearer",
-  bearerFormat: "JWT"
+  bearerFormat: "JWT",
 })
 
 // Root endpoint
@@ -51,14 +51,14 @@ registry.registerPath({
                 health: z.string(),
                 api: z.string(),
                 auth: z.string(),
-                me: z.string()
-              })
+                me: z.string(),
+              }),
             })
-          )
-        }
-      }
-    }
-  }
+          ),
+        },
+      },
+    },
+  },
 })
 
 // Signup
@@ -72,10 +72,10 @@ registry.registerPath({
     body: {
       content: {
         "application/json": {
-          schema: SignupSchema
-        }
-      }
-    }
+          schema: SignupSchema,
+        },
+      },
+    },
   },
   responses: {
     200: {
@@ -85,29 +85,29 @@ registry.registerPath({
           schema: SuccessResponseSchema(
             z.object({
               accountId: z.string(),
-              message: z.string()
+              message: z.string(),
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     400: {
       description: "Invalid request data",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     401: {
       description: "Unable to sign up",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Login
@@ -121,10 +121,10 @@ registry.registerPath({
     body: {
       content: {
         "application/json": {
-          schema: LoginSchema
-        }
-      }
-    }
+          schema: LoginSchema,
+        },
+      },
+    },
   },
   responses: {
     200: {
@@ -135,35 +135,35 @@ registry.registerPath({
             z.object({
               user: z.object({
                 id: z.string(),
-                email: z.string()
+                email: z.string(),
               }),
               session: z.object({
                 access_token: z.string(),
-                expires_in: z.number()
+                expires_in: z.number(),
               }),
-              message: z.string()
+              message: z.string(),
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     400: {
       description: "Invalid request data",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     401: {
       description: "Invalid credentials",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Logout
@@ -181,21 +181,21 @@ registry.registerPath({
         "application/json": {
           schema: SuccessResponseSchema(
             z.object({
-              message: z.string()
+              message: z.string(),
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     401: {
       description: "Unauthorized - missing or invalid token",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Get current user (protected)
@@ -211,19 +211,19 @@ registry.registerPath({
       description: "User information retrieved successfully",
       content: {
         "application/json": {
-          schema: SuccessResponseSchema(UserSchema)
-        }
-      }
+          schema: SuccessResponseSchema(UserSchema),
+        },
+      },
     },
     401: {
       description: "Unauthorized - missing or invalid token",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // List all users
@@ -241,21 +241,21 @@ registry.registerPath({
         "application/json": {
           schema: SuccessResponseSchema(
             z.object({
-              users: z.array(UserSchema)
+              users: z.array(UserSchema),
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     401: {
       description: "Unauthorized",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Get user by ID
@@ -268,8 +268,8 @@ registry.registerPath({
   tags: ["Users"],
   request: {
     params: z.object({
-      id: z.string().uuid()
-    })
+      id: z.string().uuid(),
+    }),
   },
   responses: {
     200: {
@@ -278,29 +278,29 @@ registry.registerPath({
         "application/json": {
           schema: SuccessResponseSchema(
             z.object({
-              user: UserSchema
+              user: UserSchema,
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     401: {
       description: "Unauthorized - missing or invalid token",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     404: {
       description: "User not found",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Update user by ID
@@ -313,18 +313,18 @@ registry.registerPath({
   tags: ["Users"],
   request: {
     params: z.object({
-      id: z.string().uuid()
+      id: z.string().uuid(),
     }),
     body: {
       content: {
         "application/json": {
           schema: z.object({
             email: z.string().email().optional(),
-            fullName: z.string().min(1).optional()
-          })
-        }
-      }
-    }
+            fullName: z.string().min(1).optional(),
+          }),
+        },
+      },
+    },
   },
   responses: {
     200: {
@@ -333,45 +333,45 @@ registry.registerPath({
         "application/json": {
           schema: SuccessResponseSchema(
             z.object({
-              user: UserSchema
+              user: UserSchema,
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     400: {
       description: "Invalid request data",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     401: {
       description: "Unauthorized - missing or invalid token",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     403: {
       description: "Forbidden - can only update own account",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     404: {
       description: "User not found",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 // Delete user by ID
@@ -384,8 +384,8 @@ registry.registerPath({
   tags: ["Users"],
   request: {
     params: z.object({
-      id: z.string().uuid()
-    })
+      id: z.string().uuid(),
+    }),
   },
   responses: {
     200: {
@@ -394,37 +394,37 @@ registry.registerPath({
         "application/json": {
           schema: SuccessResponseSchema(
             z.object({
-              message: z.string()
+              message: z.string(),
             })
-          )
-        }
-      }
+          ),
+        },
+      },
     },
     401: {
       description: "Unauthorized - missing or invalid token",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     403: {
       description: "Forbidden - can only delete own account",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
+          schema: ErrorResponseSchema,
+        },
+      },
     },
     404: {
       description: "User not found",
       content: {
         "application/json": {
-          schema: ErrorResponseSchema
-        }
-      }
-    }
-  }
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
 })
 
 export function generateOpenAPIDocument(): ReturnType<OpenApiGeneratorV3["generateDocument"]> {
@@ -452,20 +452,20 @@ This API uses JWT Bearer token authentication:
 - Request logging and monitoring`,
       contact: {
         name: "API Support",
-        email: "support@example.com"
-      }
+        email: "support@example.com",
+      },
     },
     servers: [
       {
         url: process.env.API_URL || "http://localhost:3002",
         description:
-          process.env.NODE_ENV === "production" ? "Production server" : "Development server"
-      }
+          process.env.NODE_ENV === "production" ? "Production server" : "Development server",
+      },
     ],
     tags: [
       { name: "General", description: "General API information" },
       { name: "Authentication", description: "User authentication endpoints" },
-      { name: "Users", description: "User management operations" }
-    ]
+      { name: "Users", description: "User management operations" },
+    ],
   })
 }

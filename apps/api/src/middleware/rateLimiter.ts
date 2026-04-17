@@ -20,7 +20,7 @@ export const createRateLimiter = (options: {
           ip: req.ip,
           userAgent: req.get("User-Agent"),
           path: req.path,
-          method: req.method
+          method: req.method,
         },
         "Rate limit exceeded"
       )
@@ -28,7 +28,7 @@ export const createRateLimiter = (options: {
       const response = apiResponse.error(new Error(options.message))
 
       res.status(response.code).json(response)
-    }
+    },
   })
 }
 
@@ -36,12 +36,12 @@ export const createRateLimiter = (options: {
 export const standardRateLimit = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // 100 requests per 15 minutes
-  message: "Too many requests from this IP, please try again later."
+  message: "Too many requests from this IP, please try again later.",
 })
 
 // Stricter rate limit for authentication operations
 export const authRateLimit = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // 5 requests per 15 minutes for auth operations
-  message: "Too many authentication attempts, please try again later."
+  message: "Too many authentication attempts, please try again later.",
 })

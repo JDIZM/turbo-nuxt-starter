@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     "/api/auth/signup",
     "/_swagger",
     "/_scalar",
-    "/_openapi.json"
+    "/_openapi.json",
   ]
 
   if (publicRoutes.some((route) => path.startsWith(route))) {

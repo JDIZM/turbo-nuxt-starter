@@ -7,6 +7,6 @@ export default [
   {
     rules: {
       // Add any custom base rules here
-    }
-  }
+    },
+  },
 ]

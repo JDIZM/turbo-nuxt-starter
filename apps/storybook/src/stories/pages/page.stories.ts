@@ -9,12 +9,12 @@ const meta = {
     setup() {
       return { args }
     },
-    template: '<my-page v-bind="args" />'
+    template: '<my-page v-bind="args" />',
   }),
   parameters: {
-    layout: "fullscreen"
+    layout: "fullscreen",
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 } satisfies Meta<typeof MyPage>
 
 export default meta
@@ -22,6 +22,6 @@ type Story = StoryObj<typeof meta>
 
 export const TurborepoDemo: Story = {
   args: {
-    appName: "Storybook"
-  }
+    appName: "Storybook",
+  },
 }

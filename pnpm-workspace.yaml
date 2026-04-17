@@ -2,8 +2,18 @@ packages:
   - "apps/*"
   - "packages/*"
 
+# Supply-chain hardening (pnpm 10+). Docs: https://pnpm.io/settings
+
+# Allowlist for packages permitted to run install lifecycle scripts. Adding an
+# entry is a security decision — review the source on npm before appending.
 onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
 
+# Block packages published in the last 24h so the ecosystem has time to yank
+# malicious releases before they land in the lockfile.
 minimumReleaseAge: 1440
+
+# Warn (don't error) when node_modules drifts from the lockfile before running
+# scripts. Pinned so a future config change can't silently disable the check.
+verifyDepsBeforeRun: warn

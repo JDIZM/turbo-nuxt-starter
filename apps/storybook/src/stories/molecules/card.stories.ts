@@ -4,7 +4,7 @@ import { Card } from "ui"
 const meta = {
   title: "Molecules/Card",
   component: Card,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 } satisfies Meta<typeof Card>
 
 export default meta
@@ -21,13 +21,13 @@ export const Default: Story = {
         <h3 class="text-lg font-semibold mb-2">Card Title</h3>
         <p class="text-gray-600">This is a card component with some content inside.</p>
       </Card>
-    `
-  })
+    `,
+  }),
 }
 
 export const LargePadding: Story = {
   args: {
-    padding: "lg"
+    padding: "lg",
   },
   render: (args) => ({
     components: { Card },
@@ -39,13 +39,13 @@ export const LargePadding: Story = {
         <h3 class="text-lg font-semibold mb-2">Large Padding Card</h3>
         <p class="text-gray-600">This card has large padding (p-8) applied.</p>
       </Card>
-    `
-  })
+    `,
+  }),
 }
 
 export const SmallPadding: Story = {
   args: {
-    padding: "sm"
+    padding: "sm",
   },
   render: (args) => ({
     components: { Card },
@@ -57,13 +57,13 @@ export const SmallPadding: Story = {
         <h3 class="text-lg font-semibold mb-2">Small Padding Card</h3>
         <p class="text-gray-600">This card has small padding (p-4) applied.</p>
       </Card>
-    `
-  })
+    `,
+  }),
 }
 
 export const NoPadding: Story = {
   args: {
-    padding: "none"
+    padding: "none",
   },
   render: (args) => ({
     components: { Card },
@@ -77,6 +77,6 @@ export const NoPadding: Story = {
           <p class="text-gray-600">This card has no default padding. Content is manually padded.</p>
         </div>
       </Card>
-    `
-  })
+    `,
+  }),
 }

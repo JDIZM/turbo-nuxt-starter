@@ -49,9 +49,9 @@ defineRouteMeta({
         description: "User UUID",
         schema: {
           type: "string",
-          example: "123e4567-e89b-12d3-a456-426614174000"
-        }
-      }
+          example: "123e4567-e89b-12d3-a456-426614174000",
+        },
+      },
     ],
     responses: {
       200: {
@@ -63,11 +63,11 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 200 },
                 data: { type: "null" },
-                message: { type: "string", example: "User deleted successfully" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "User deleted successfully" },
+              },
+            },
+          },
+        },
       },
       403: {
         description: "Forbidden - can only delete own account",
@@ -78,11 +78,11 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 403 },
                 error: { type: "string", example: "FORBIDDEN" },
-                message: { type: "string", example: "You can only delete your own account" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "You can only delete your own account" },
+              },
+            },
+          },
+        },
       },
       404: {
         description: "User not found",
@@ -95,13 +95,13 @@ defineRouteMeta({
                 error: { type: "string", example: "NOT_FOUND" },
                 message: {
                   type: "string",
-                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

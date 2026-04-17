@@ -14,7 +14,7 @@ import type { z } from "zod"
 export async function signUpWithSupabase(email: string, password: string): Promise<User | Error> {
   const { data, error } = await supabase.auth.signUp({
     email,
-    password
+    password,
   })
 
   if (error || !data?.user) {
@@ -49,12 +49,12 @@ export const signup = asyncHandler(async (req: Request, res: Response): Promise<
   const dbAccountId = await createDbAccount({
     uuid: user.id, // Use Supabase Auth UUID
     email,
-    fullName
+    fullName,
   })
 
   const response = apiResponse.success(HttpStatusCode.CREATED, {
     accountId: dbAccountId,
-    message: "Signup successful"
+    message: "Signup successful",
   })
 
   res.status(response.code).json(response)
@@ -72,7 +72,7 @@ export const login = asyncHandler(async (req: Request, res: Response): Promise<v
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
-    password
+    password,
   })
 
   if (error) {
@@ -87,7 +87,7 @@ export const login = asyncHandler(async (req: Request, res: Response): Promise<v
   const response = apiResponse.success(HttpStatusCode.OK, {
     user: data.user,
     session: data.session,
-    message: "Sign in successful"
+    message: "Sign in successful",
   })
 
   res.status(response.code).json(response)

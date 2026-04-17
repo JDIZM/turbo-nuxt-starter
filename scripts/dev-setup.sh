@@ -33,8 +33,8 @@ echo "✅ Docker is running"
 
 # Check Node version
 NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
-if [ "$NODE_VERSION" -lt 20 ]; then
-    echo "❌ Node.js version 20+ is required. Current version: $(node -v)"
+if [ "$NODE_VERSION" -lt 22 ]; then
+    echo "❌ Node.js version 22+ is required. Current version: $(node -v)"
     exit 1
 fi
 echo "✅ Node.js version $(node -v) meets requirements"

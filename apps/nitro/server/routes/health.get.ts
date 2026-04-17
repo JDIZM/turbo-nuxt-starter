@@ -5,7 +5,7 @@ export default defineEventHandler((_event) => {
     status: "healthy",
     timestamp: new Date().toISOString(),
     environment: config.env,
-    uptime: process.uptime()
+    uptime: process.uptime(),
   }
 })
 
@@ -19,10 +19,10 @@ defineRouteMeta({
           bearerAuth: {
             type: "http",
             scheme: "bearer",
-            description: "Enter your JWT token from the login endpoint"
-          }
-        }
-      }
+            description: "Enter your JWT token from the login endpoint",
+          },
+        },
+      },
     },
     // Route-specific metadata
     tags: ["Health"],
@@ -39,12 +39,12 @@ defineRouteMeta({
                 status: { type: "string", example: "healthy" },
                 timestamp: { type: "string" },
                 environment: { type: "string", example: "development" },
-                uptime: { type: "number", example: 123.45 }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                uptime: { type: "number", example: 123.45 },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

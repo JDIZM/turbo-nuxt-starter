@@ -7,8 +7,8 @@ vi.mock("logger", () => ({
   logger: {
     info: vi.fn(),
     warn: vi.fn(),
-    error: vi.fn()
-  }
+    error: vi.fn(),
+  },
 }))
 
 import { logger } from "logger"
@@ -25,7 +25,7 @@ describe("apiResponse", () => {
       expect(result).toEqual({
         code: 200,
         data: { user: "test" },
-        message: "User created"
+        message: "User created",
       })
     })
 
@@ -46,7 +46,7 @@ describe("apiResponse", () => {
 
       expect(logger.info).toHaveBeenCalledWith({
         code: 200,
-        msg: "Success message"
+        msg: "Success message",
       })
     })
   })
@@ -60,7 +60,7 @@ describe("apiResponse", () => {
         expect(result).toEqual({
           code: HttpStatusCode.NOT_FOUND,
           error: ErrorCode.NOT_FOUND,
-          message: "User not found"
+          message: "User not found",
         })
       })
 
@@ -71,7 +71,7 @@ describe("apiResponse", () => {
         expect(logger.warn).toHaveBeenCalledWith({
           code: HttpStatusCode.BAD_REQUEST,
           error: ErrorCode.BAD_REQUEST,
-          msg: "Invalid input"
+          msg: "Invalid input",
         })
       })
 
@@ -82,7 +82,7 @@ describe("apiResponse", () => {
         expect(logger.error).toHaveBeenCalledWith({
           code: HttpStatusCode.INTERNAL_SERVER_ERROR,
           error: ErrorCode.INTERNAL_SERVER_ERROR,
-          msg: "Server error"
+          msg: "Server error",
         })
       })
 
@@ -135,7 +135,7 @@ describe("apiResponse", () => {
         expect(result).toEqual({
           code: HttpStatusCode.INTERNAL_SERVER_ERROR,
           error: ErrorCode.INTERNAL_SERVER_ERROR,
-          message: "Something went wrong"
+          message: "Something went wrong",
         })
       })
 
@@ -146,7 +146,7 @@ describe("apiResponse", () => {
         expect(result).toEqual({
           code: HttpStatusCode.BAD_REQUEST,
           error: ErrorCode.BAD_REQUEST,
-          message: "Bad request"
+          message: "Bad request",
         })
       })
 
@@ -157,7 +157,7 @@ describe("apiResponse", () => {
         expect(logger.error).toHaveBeenCalledWith({
           code: HttpStatusCode.INTERNAL_SERVER_ERROR,
           error: ErrorCode.INTERNAL_SERVER_ERROR,
-          msg: "Something went wrong"
+          msg: "Something went wrong",
         })
       })
 
@@ -168,7 +168,7 @@ describe("apiResponse", () => {
         expect(logger.warn).toHaveBeenCalledWith({
           code: HttpStatusCode.BAD_REQUEST,
           error: ErrorCode.BAD_REQUEST,
-          msg: "Bad request"
+          msg: "Bad request",
         })
       })
     })

@@ -11,7 +11,7 @@ export const HttpStatusCode = {
   CONFLICT: 409,
   UNPROCESSABLE_ENTITY: 422,
   TOO_MANY_REQUESTS: 429,
-  INTERNAL_SERVER_ERROR: 500
+  INTERNAL_SERVER_ERROR: 500,
 } as const
 
 export type HttpStatusCode = (typeof HttpStatusCode)[keyof typeof HttpStatusCode]
@@ -51,7 +51,7 @@ export const ErrorCode = {
   DATABASE_ERROR: "DATABASE_ERROR",
 
   // Unknown
-  UNKNOWN_ERROR: "UNKNOWN_ERROR"
+  UNKNOWN_ERROR: "UNKNOWN_ERROR",
 } as const
 
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode]
@@ -97,7 +97,7 @@ export class HttpError extends Error {
     return {
       code: this.code,
       error: this.error,
-      message: this.message
+      message: this.message,
     }
   }
 }
@@ -152,5 +152,5 @@ export const HttpErrors = {
   InternalError: (message = "Internal server error") =>
     new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, message, ErrorCode.INTERNAL_SERVER_ERROR),
   DatabaseError: (message = "Database operation failed") =>
-    new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, message, ErrorCode.DATABASE_ERROR)
+    new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, message, ErrorCode.DATABASE_ERROR),
 } as const

@@ -50,9 +50,9 @@ defineRouteMeta({
         description: "User UUID",
         schema: {
           type: "string",
-          example: "123e4567-e89b-12d3-a456-426614174000"
-        }
-      }
+          example: "123e4567-e89b-12d3-a456-426614174000",
+        },
+      },
     ],
     requestBody: {
       content: {
@@ -61,11 +61,11 @@ defineRouteMeta({
             type: "object",
             properties: {
               email: { type: "string", format: "email", example: "updated@example.com" },
-              fullName: { type: "string", example: "John Updated" }
-            }
-          }
-        }
-      }
+              fullName: { type: "string", example: "John Updated" },
+            },
+          },
+        },
+      },
     },
     responses: {
       200: {
@@ -82,14 +82,14 @@ defineRouteMeta({
                     uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
                     email: { type: "string", example: "updated@example.com" },
                     fullName: { type: "string", example: "John Updated" },
-                    createdAt: { type: "string", format: "date-time" }
-                  }
+                    createdAt: { type: "string", format: "date-time" },
+                  },
                 },
-                message: { type: "string", example: "User updated successfully" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "User updated successfully" },
+              },
+            },
+          },
+        },
       },
       403: {
         description: "Forbidden - can only update own account",
@@ -100,11 +100,11 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 403 },
                 error: { type: "string", example: "FORBIDDEN" },
-                message: { type: "string", example: "You can only update your own account" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "You can only update your own account" },
+              },
+            },
+          },
+        },
       },
       404: {
         description: "User not found",
@@ -117,13 +117,13 @@ defineRouteMeta({
                 error: { type: "string", example: "NOT_FOUND" },
                 message: {
                   type: "string",
-                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                  example: "Account with UUID 123e4567-e89b-12d3-a456-426614174000 not found",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

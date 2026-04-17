@@ -8,7 +8,7 @@ import globals from "globals"
 
 export default defineConfig(
   {
-    ignores: ["dist/", "node_modules/", ".nuxt/", ".output/", "storybook-static/"]
+    ignores: ["dist/", "node_modules/", ".nuxt/", ".output/", "storybook-static/"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -16,42 +16,42 @@ export default defineConfig(
   {
     files: ["**/*.vue"],
     plugins: {
-      vue: pluginVue
+      vue: pluginVue,
     },
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
       },
       ecmaVersion: 2020,
       sourceType: "module",
       parser: vueParser,
       parserOptions: {
-        parser: "@typescript-eslint/parser"
-      }
+        parser: "@typescript-eslint/parser",
+      },
     },
     rules: {
       ...pluginVue.configs["vue3-recommended"].rules,
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "vue/multi-word-component-names": "off"
-    }
+      "vue/multi-word-component-names": "off",
+    },
   },
   {
     files: ["**/*.ts", "**/*.js"],
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
       },
       ecmaVersion: 2020,
-      sourceType: "module"
+      sourceType: "module",
     },
     rules: {
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
-    }
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+    },
   }
 )

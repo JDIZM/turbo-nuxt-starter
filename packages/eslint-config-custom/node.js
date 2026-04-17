@@ -6,7 +6,7 @@ import globals from "globals"
 
 export default defineConfig(
   {
-    ignores: ["dist/", "node_modules/", ".*.js", ".output/", ".nitro/"]
+    ignores: ["dist/", "node_modules/", ".*.js", ".output/", ".nitro/"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -15,10 +15,10 @@ export default defineConfig(
     files: ["**/*.ts", "**/*.js"],
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
       },
       ecmaVersion: 2020,
-      sourceType: "module"
+      sourceType: "module",
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
@@ -26,11 +26,11 @@ export default defineConfig(
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_"
-        }
+          caughtErrorsIgnorePattern: "^_",
+        },
       ],
       "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
-    }
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+    },
   }
 )

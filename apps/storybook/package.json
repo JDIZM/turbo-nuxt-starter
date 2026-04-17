@@ -19,10 +19,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
     "@rushstack/eslint-patch": "^1.7.2",
-    "@storybook/addon-essentials": "^9.0.0-alpha.12",
     "@storybook/addon-links": "^9.1.10",
-    "@storybook/blocks": "^9.0.0-alpha.17",
-    "@storybook/test": "^9.0.0-alpha.2",
     "@storybook/vue3": "^9.1.10",
     "@storybook/vue3-vite": "^9.1.10",
     "@tailwindcss/vite": "^4.1.14",

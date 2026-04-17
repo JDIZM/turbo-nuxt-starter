@@ -5,7 +5,7 @@ import {
   type RequestLike,
   type Request,
   type Response,
-  type NextFunction
+  type NextFunction,
 } from "../src/request"
 
 describe("Request Helpers", () => {
@@ -13,9 +13,9 @@ describe("Request Helpers", () => {
     it("should extract IP from x-forwarded-for header", () => {
       const req = {
         headers: {
-          "x-forwarded-for": "192.168.1.1, 10.0.0.1"
+          "x-forwarded-for": "192.168.1.1, 10.0.0.1",
         },
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("192.168.1.1")
@@ -24,9 +24,9 @@ describe("Request Helpers", () => {
     it("should extract IP from x-real-ip header", () => {
       const req = {
         headers: {
-          "x-real-ip": "192.168.1.2"
+          "x-real-ip": "192.168.1.2",
         },
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("192.168.1.2")
@@ -35,7 +35,7 @@ describe("Request Helpers", () => {
     it("should fall back to req.ip if no proxy headers", () => {
       const req = {
         headers: {},
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("127.0.0.1")
@@ -43,7 +43,7 @@ describe("Request Helpers", () => {
 
     it("should return empty string if no IP found", () => {
       const req = {
-        headers: {}
+        headers: {},
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("")
@@ -53,9 +53,9 @@ describe("Request Helpers", () => {
       const req = {
         headers: {
           "x-forwarded-for": "192.168.1.1",
-          "x-real-ip": "192.168.1.2"
+          "x-real-ip": "192.168.1.2",
         },
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("192.168.1.2")
@@ -64,9 +64,9 @@ describe("Request Helpers", () => {
     it("should handle x-forwarded-for with single IP", () => {
       const req = {
         headers: {
-          "x-forwarded-for": "192.168.1.1"
+          "x-forwarded-for": "192.168.1.1",
         },
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("192.168.1.1")
@@ -79,7 +79,7 @@ describe("Request Helpers", () => {
       const mockJson = vi.fn()
       const mockRes = {
         status: mockStatus,
-        json: mockJson
+        json: mockJson,
       }
 
       const asyncFn = vi.fn(async (_req: Request, res: Response, _next: NextFunction) => {
@@ -156,9 +156,9 @@ describe("Request Helpers", () => {
       // Import Express types dynamically to test compatibility
       const mockExpressReq = {
         headers: {
-          "x-forwarded-for": "203.0.113.45"
+          "x-forwarded-for": "203.0.113.45",
         },
-        ip: "::1"
+        ip: "::1",
       } as RequestLike
 
       const ip = getIpFromRequest(mockExpressReq)
@@ -168,9 +168,9 @@ describe("Request Helpers", () => {
     it("should work with cloudflare cf-connecting-ip header", () => {
       const req = {
         headers: {
-          "cf-connecting-ip": "198.51.100.22"
+          "cf-connecting-ip": "198.51.100.22",
         },
-        ip: "127.0.0.1"
+        ip: "127.0.0.1",
       } as RequestLike
 
       expect(getIpFromRequest(req)).toBe("198.51.100.22")

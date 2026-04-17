@@ -57,14 +57,14 @@ defineRouteMeta({
                     uuid: { type: "string", example: "123e4567-e89b-12d3-a456-426614174000" },
                     email: { type: "string", example: "user@example.com" },
                     fullName: { type: "string", example: "John Doe" },
-                    createdAt: { type: "string", format: "date-time" }
-                  }
+                    createdAt: { type: "string", format: "date-time" },
+                  },
                 },
-                message: { type: "string", example: "User retrieved successfully" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "User retrieved successfully" },
+              },
+            },
+          },
+        },
       },
       401: {
         description: "Unauthorized - missing or invalid token",
@@ -75,12 +75,12 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 401 },
                 error: { type: "string", example: "UNAUTHORIZED" },
-                message: { type: "string", example: "Authentication required" }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                message: { type: "string", example: "Authentication required" },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

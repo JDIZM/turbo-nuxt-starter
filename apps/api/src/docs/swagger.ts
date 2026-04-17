@@ -25,8 +25,8 @@ export const setupSwagger = (app: Application): void => {
       `,
         customSiteTitle: "Turbo Nuxt Starter API Documentation",
         swaggerOptions: {
-          persistAuthorization: true // Keep authorization token between page refreshes
-        }
+          persistAuthorization: true, // Keep authorization token between page refreshes
+        },
       })
     )
 

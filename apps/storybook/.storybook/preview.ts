@@ -9,24 +9,24 @@ const prefersDark =
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      disable: true
+      disable: true,
     },
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i
-      }
-    }
+        date: /Date$/i,
+      },
+    },
   },
   decorators: [
     withThemeByClassName({
       themes: {
         light: "",
-        dark: "dark"
+        dark: "dark",
       },
-      defaultTheme: prefersDark ? "dark" : "light"
-    })
-  ]
+      defaultTheme: prefersDark ? "dark" : "light",
+    }),
+  ],
 }
 
 export default preview

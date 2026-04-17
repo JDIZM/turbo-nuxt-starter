@@ -3,7 +3,7 @@ import { Header, Footer } from "ui"
 
 const navigationItems = [
   { label: "Dashboard", href: "/", active: true },
-  { label: "About", href: "/about", active: false }
+  { label: "About", href: "/about", active: false },
 ]
 
 const footerSections = [
@@ -12,37 +12,37 @@ const footerSections = [
     links: [
       { label: "Features", href: "#features" },
       { label: "Pricing", href: "#pricing" },
-      { label: "Documentation", href: "/docs" }
-    ]
+      { label: "Documentation", href: "/docs" },
+    ],
   },
   {
     title: "Company",
     links: [
       { label: "About", href: "/about" },
       { label: "Blog", href: "#blog" },
-      { label: "Careers", href: "#careers" }
-    ]
+      { label: "Careers", href: "#careers" },
+    ],
   },
   {
     title: "Resources",
     links: [
       { label: "Help Center", href: "#help" },
       { label: "API Reference", href: "http://localhost:3002/docs" },
-      { label: "Status", href: "#status" }
-    ]
+      { label: "Status", href: "#status" },
+    ],
   },
   {
     title: "Legal",
     links: [
       { label: "Privacy", href: "#privacy" },
-      { label: "Terms", href: "#terms" }
-    ]
-  }
+      { label: "Terms", href: "#terms" },
+    ],
+  },
 ]
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com", icon: "github" as const },
-  { label: "Twitter", href: "https://twitter.com", icon: "twitter" as const }
+  { label: "Twitter", href: "https://twitter.com", icon: "twitter" as const },
 ]
 
 const handleLogin = () => {

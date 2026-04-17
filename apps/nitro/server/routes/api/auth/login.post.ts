@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     // Sign in with Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     })
 
     if (error) {
@@ -33,9 +33,9 @@ export default defineEventHandler(async (event) => {
       {
         user: {
           id: data.user.id,
-          email: data.user.email
+          email: data.user.email,
         },
-        session: data.session
+        session: data.session,
       },
       "Login successful"
     )
@@ -71,11 +71,11 @@ defineRouteMeta({
             required: ["email", "password"],
             properties: {
               email: { type: "string", example: "user@example.com" },
-              password: { type: "string", example: "SecurePass123!" }
-            }
-          }
-        }
-      }
+              password: { type: "string", example: "SecurePass123!" },
+            },
+          },
+        },
+      },
     },
     responses: {
       200: {
@@ -93,23 +93,23 @@ defineRouteMeta({
                       type: "object",
                       properties: {
                         id: { type: "string" },
-                        email: { type: "string" }
-                      }
+                        email: { type: "string" },
+                      },
                     },
                     session: {
                       type: "object",
                       properties: {
                         access_token: { type: "string" },
-                        refresh_token: { type: "string" }
-                      }
-                    }
-                  }
+                        refresh_token: { type: "string" },
+                      },
+                    },
+                  },
                 },
-                message: { type: "string", example: "Login successful" }
-              }
-            }
-          }
-        }
+                message: { type: "string", example: "Login successful" },
+              },
+            },
+          },
+        },
       },
       401: {
         description: "Invalid credentials",
@@ -120,12 +120,12 @@ defineRouteMeta({
               properties: {
                 code: { type: "number", example: 401 },
                 error: { type: "string", example: "UNAUTHORIZED" },
-                message: { type: "string", example: "Invalid email or password" }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                message: { type: "string", example: "Invalid email or password" },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 })

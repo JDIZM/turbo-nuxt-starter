@@ -11,7 +11,7 @@ export const accounts = pgTable("accounts", {
   uuid: uuid("uuid").primaryKey(),
   email: text("email").unique().notNull(),
   fullName: text("full_name").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 })
 
 /**
@@ -19,7 +19,7 @@ export const accounts = pgTable("accounts", {
  */
 export const insertAccountSchema = createInsertSchema(accounts, {
   email: z.email(),
-  fullName: z.string().min(1).max(255)
+  fullName: z.string().min(1).max(255),
 })
 
 export const selectAccountSchema = createSelectSchema(accounts)

@@ -36,7 +36,7 @@ export const apiResponse = {
     logger[logLevel]({
       code: httpError.code,
       error: httpError.error,
-      msg: httpError.message
+      msg: httpError.message,
     })
     return httpError.toResponse()
   },
@@ -49,7 +49,7 @@ export const apiResponse = {
     return {
       code,
       data,
-      message
+      message,
     }
-  }
+  },
 } as const

@@ -2,7 +2,7 @@
 export { HttpError, HttpErrors, HttpStatusCode, ErrorCode } from "./HttpError.ts"
 export type {
   ErrorCode as ErrorCodeType,
-  HttpStatusCode as HttpStatusCodeType
+  HttpStatusCode as HttpStatusCodeType,
 } from "./HttpError.ts"
 
 // Export response helper
@@ -15,7 +15,7 @@ export {
   type RequestLike,
   type Request,
   type Response,
-  type NextFunction
+  type NextFunction,
 } from "./request.ts"
 
 // Export string utilities
